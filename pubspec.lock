@@ -608,6 +608,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.0.5"
+  glassy:
+    dependency: "direct main"
+    description:
+      name: glassy
+      sha256: "4f6abc6525de013f7f6cf6c6fb0a6c6250a1f012cc0adbda01e7eb9ef0b82885"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.6"
   glob:
     dependency: transitive
     description:

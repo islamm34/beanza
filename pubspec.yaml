@@ -93,6 +93,7 @@ dependencies:
 
   # Device Information
   device_info_plus: ^9.1.1
+  glassy: ^0.0.6
 
 dev_dependencies:
   flutter_test:
