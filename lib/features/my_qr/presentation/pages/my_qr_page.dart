@@ -1,95 +1,245 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:get/get.dart';
+import 'package:glassy/glassy_card.dart';
+import 'package:glassy/glassy_config.dart';
+import 'package:qr_flutter/qr_flutter.dart';
+
+import '../../../../app/controllers/profile_controller.dart';
+import '../../../../app/theme/app_colors.dart';
+import '../../../../core/widgets/common/app_app_bar.dart';
 
 class MyQrPage extends StatelessWidget {
   const MyQrPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final profileController = Get.find<ProfileController>();
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    const qrData = 'BREWORA-LOYALTY-PASS-USER-89412';
+
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Theme.of(context).colorScheme.surface,
-        title: Text(
-          'My QR Code',
-          style: Theme.of(context).textTheme.titleLarge?.copyWith(
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+      appBar: const AppAppBar(
+        title: 'Brewora Loyalty Pass',
+        centerTitle: true,
       ),
-      body: Center(
+      body: SafeArea(
         child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(24.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Your Caffeine Loyalty QR Code',
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
-                  textAlign: TextAlign.center,
+          physics: const BouncingScrollPhysics(),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+          child: Column(
+            children: [
+              // User Loyalty Header Card
+              GlassyCard(
+                config: GlassyConfig(
+                  radius: 24,
+                  backgroundColor: isDark ? AppColors.darkCardBg : Colors.white,
+                  backgroundOpacity: isDark ? 0.65 : 0.75,
+                  borderColor: isDark ? Colors.white : AppColors.espressoDark,
+                  borderOpacity: isDark ? 0.15 : 0.10,
                 ),
-                const SizedBox(height: 16),
-                Text(
-                  'Show this QR code to earn points and get rewards',
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                child: Padding(
+                  padding: const EdgeInsets.all(24),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                            width: 52,
+                            height: 52,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: AppColors.caramel.withValues(alpha: 0.20),
+                              border: Border.all(color: AppColors.caramel, width: 2),
+                            ),
+                            child: const Icon(
+                              Icons.person_rounded,
+                              color: AppColors.caramel,
+                              size: 28,
+                            ),
+                          ),
+                          const SizedBox(width: 14),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Obx(
+                                  () => Text(
+                                    profileController.user.value.name,
+                                    style: const TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 2),
+                                Obx(
+                                  () => Text(
+                                    '${profileController.user.value.rewardPoints} Rewards Points Available',
+                                    style: const TextStyle(
+                                      color: AppColors.caramel,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 13,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      const Divider(height: 32, thickness: 1),
+
+                      // QR Code Presentation
+                      const Text(
+                        'Scan at any Brewora Barista to earn & redeem points',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 13, color: AppColors.textMuted),
+                      ),
+                      const SizedBox(height: 20),
+
+                      Container(
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(20),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withValues(alpha: 0.08),
+                              blurRadius: 16,
+                              offset: const Offset(0, 4),
+                            ),
+                          ],
+                        ),
+                        child: QrImageView(
+                          data: qrData,
+                          version: QrVersions.auto,
+                          size: 200.0,
+                          eyeStyle: const QrEyeStyle(
+                            eyeShape: QrEyeShape.square,
+                            color: AppColors.espressoDark,
+                          ),
+                          dataModuleStyle: const QrDataModuleStyle(
+                            dataModuleShape: QrDataModuleShape.square,
+                            color: AppColors.espressoDark,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+
+                      // User Code ID
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 8,
+                        ),
+                        decoration: BoxDecoration(
+                          color: isDark
+                              ? Colors.white.withValues(alpha: 0.10)
+                              : AppColors.lightSecondaryBg,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Text(
+                              'ID: ',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.textMuted,
+                              ),
+                            ),
+                            const Text(
+                              'CAFF-89412-PASS',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 1.0,
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            GestureDetector(
+                              onTap: () {
+                                Clipboard.setData(
+                                  const ClipboardData(text: 'CAFF-89412-PASS'),
+                                );
+                                Get.snackbar(
+                                  'Copied! 📋',
+                                  'Pass ID copied to clipboard.',
+                                  snackPosition: SnackPosition.BOTTOM,
+                                  backgroundColor: AppColors.espressoDark,
+                                  colorText: Colors.white,
+                                  margin: const EdgeInsets.all(16),
+                                  duration: const Duration(seconds: 2),
+                                );
+                              },
+                              child: const Icon(
+                                Icons.copy_rounded,
+                                size: 16,
+                                color: AppColors.caramel,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
-                  textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 32),
-                Container(
-                  width: 280,
-                  height: 280,
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Theme.of(context).colorScheme.outline,
-                      width: 2,
+              ),
+              const SizedBox(height: 20),
+
+              // Quick Actions Row
+              Row(
+                children: [
+                  Expanded(
+                    child: OutlinedButton.icon(
+                      onPressed: () {
+                        Get.snackbar(
+                          'Loyalty Pass Shared ☕',
+                          'Your QR code pass is ready to share.',
+                          snackPosition: SnackPosition.BOTTOM,
+                          backgroundColor: AppColors.caramel,
+                          colorText: AppColors.espressoDark,
+                          margin: const EdgeInsets.all(16),
+                        );
+                      },
+                      style: OutlinedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(14),
+                        ),
+                      ),
+                      icon: const Icon(Icons.share_rounded, size: 18),
+                      label: const Text('Share Pass'),
                     ),
-                    borderRadius: BorderRadius.circular(12),
-                    color: Colors.white,
                   ),
-                  child: Center(
-                    child: Icon(
-                      Icons.qr_code_2,
-                      size: 240,
-                      color: Colors.black,
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: ElevatedButton.icon(
+                      onPressed: () {
+                        Get.snackbar(
+                          'Pass Updated 🔄',
+                          'Loyalty security token refreshed.',
+                          snackPosition: SnackPosition.BOTTOM,
+                          backgroundColor: AppColors.espressoDark,
+                          colorText: Colors.white,
+                          margin: const EdgeInsets.all(16),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.espressoDark,
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(14),
+                        ),
+                      ),
+                      icon: const Icon(Icons.refresh_rounded, size: 18),
+                      label: const Text('Refresh Token'),
                     ),
                   ),
-                ),
-                const SizedBox(height: 24),
-                Text(
-                  'ID: CAFF123456789',
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 32),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ElevatedButton.icon(
-                      onPressed: () {},
-                      icon: const Icon(Icons.share),
-                      label: const Text('Share'),
-                    ),
-                    const SizedBox(width: 16),
-                    ElevatedButton.icon(
-                      onPressed: () {},
-                      icon: const Icon(Icons.download),
-                      label: const Text('Save'),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 16),
-                TextButton(
-                  onPressed: () {},
-                  child: const Text('Regenerate QR Code'),
-                ),
-              ],
-            ),
+                ],
+              ),
+            ],
           ),
         ),
       ),

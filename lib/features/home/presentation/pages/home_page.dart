@@ -5,6 +5,8 @@ import '../../../../app/controllers/product_details_controller.dart';
 import '../../../../app/controllers/products_controller.dart';
 import '../../../../app/controllers/profile_controller.dart';
 import '../../../../app/theme/app_colors.dart';
+import '../../../../core/widgets/buttons/cart_badge_icon_button.dart';
+import '../../../../core/widgets/table/table_session_banner.dart';
 import '../../../../core/widgets/cards/product_card.dart';
 import '../../../../core/widgets/inputs/search_field.dart';
 import '../../../products/presentation/pages/products_page.dart';
@@ -90,24 +92,43 @@ class HomePage extends StatelessWidget {
                         ),
                       ],
                     ),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: isDark
-                            ? AppColors.darkCardBg
-                            : AppColors.lightSecondaryBg,
-                        shape: BoxShape.circle,
-                      ),
-                      child: IconButton(
-                        icon: const Icon(Icons.notifications_none_rounded),
-                        color: AppColors.getTextColor(
-                          Theme.of(context).brightness,
+                    Row(
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            color: isDark
+                                ? AppColors.darkCardBg
+                                : AppColors.lightSecondaryBg,
+                            shape: BoxShape.circle,
+                          ),
+                          child: const CartBadgeIconButton(),
                         ),
-                        onPressed: () => Get.toNamed('/notifications'),
-                      ),
+                        const SizedBox(width: 8),
+                        Container(
+                          decoration: BoxDecoration(
+                            color: isDark
+                                ? AppColors.darkCardBg
+                                : AppColors.lightSecondaryBg,
+                            shape: BoxShape.circle,
+                          ),
+                          child: IconButton(
+                            icon: const Icon(Icons.notifications_none_rounded),
+                            color: AppColors.getTextColor(
+                              Theme.of(context).brightness,
+                            ),
+                            onPressed: () => Get.toNamed('/notifications'),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
               ),
+            ),
+
+            // Table Session Banner
+            const SliverToBoxAdapter(
+              child: TableSessionBanner(),
             ),
 
             // Search Bar

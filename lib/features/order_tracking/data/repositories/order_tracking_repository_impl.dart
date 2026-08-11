@@ -1,6 +1,5 @@
-import 'package:beanza/features/order_tracking/domain/repositories/order_tracking_repository.dart';
-
 import '../../domain/entities/order_tracking_entity.dart';
+import '../../domain/repositories/order_tracking_repository.dart';
 import '../datasources/order_tracking_remote_data_source.dart';
 
 class OrderTrackingRepositoryImpl implements OrderTrackingRepository {

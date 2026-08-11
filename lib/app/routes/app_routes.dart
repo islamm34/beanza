@@ -1,11 +1,15 @@
 abstract class Routes {
   static const INITIAL = '/';
+  static const SPLASH = '/splash';
+  static const ONBOARDING = '/onboarding';
+  static const AUTH = '/auth';
   static const HOME = '/home';
   static const EXPLORE = '/explore';
   static const PRODUCTS = '/products';
   static const PRODUCT_DETAILS = '/product-details';
   static const CART = '/cart';
   static const CHECKOUT = '/checkout';
+  static const ORDER_CONFIRMATION = '/order-confirmation';
   static const ORDERS = '/orders';
   static const ORDER_TRACKING = '/order-tracking';
   static const SCANNER = '/scanner';
@@ -17,5 +21,10 @@ abstract class Routes {
   static const WALLET = '/wallet';
   static const NOTIFICATIONS = '/notifications';
   static const PROFILE = '/profile';
+  static const MY_QR = '/my-qr';
+  static const ADDRESSES = '/addresses';
+  static const PAYMENT_METHODS = '/payment-methods';
   static const SETTINGS = '/settings';
+  static const NAME_ENTRY = '/name-entry';
+  static const TABLE_OVERVIEW = '/table-overview';
 }

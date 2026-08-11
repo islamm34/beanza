@@ -7,6 +7,8 @@ class CartItem {
   final MilkOption selectedMilk;
   final List<Extra> selectedExtras;
   int quantity;
+  final String participantId;
+  final String participantName;
 
   CartItem({
     required this.id,
@@ -15,6 +17,8 @@ class CartItem {
     required this.selectedMilk,
     this.selectedExtras = const [],
     this.quantity = 1,
+    this.participantId = 'current_user',
+    this.participantName = 'You',
   });
 
   double get unitPrice {

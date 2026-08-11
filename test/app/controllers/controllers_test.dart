@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
 import 'package:beanza/app/controllers/cart_controller.dart';
+import 'package:beanza/app/controllers/table_session_controller.dart';
 import 'package:beanza/app/controllers/favorites_controller.dart';
 import 'package:beanza/app/controllers/orders_controller.dart';
 import 'package:beanza/app/controllers/product_details_controller.dart';
@@ -150,6 +151,77 @@ void main() {
 
       expect(ordersController.orders.length, 1);
       expect(ordersController.orders.first.id, order.id);
+    });
+  });
+
+  group('GetX TableSessionController', () {
+    late TableSessionController tableController;
+
+    setUp(() {
+      Get.reset();
+      Get.put(CartController());
+      tableController = Get.put(TableSessionController());
+    });
+
+    test('joins table session with participant name', () {
+      expect(tableController.hasActiveSession, isFalse);
+
+      tableController.joinTableSession(
+        tableId: '12',
+        tableNumber: '12',
+        participantName: 'Ahmed',
+      );
+
+      expect(tableController.hasActiveSession, isTrue);
+      expect(tableController.tableNumber, '12');
+      expect(tableController.currentParticipant.value?.displayName, 'Ahmed');
+      expect(tableController.participantCount, 3);
+    });
+
+    test('adds item to table order and computes subtotals correctly', () {
+      tableController.joinTableSession(
+        tableId: '12',
+        tableNumber: '12',
+        participantName: 'Ahmed',
+      );
+
+      final product = LocalProductCatalog.products.first;
+      tableController.addItemToTableOrder(
+        product: product,
+        size: product.sizes.first,
+        milk: product.milkOptions.first,
+        quantity: 2,
+      );
+
+      expect(tableController.totalItemCount, 4);
+      expect(tableController.subtotal, greaterThan(0));
+    });
+
+    test('handles participant done status and table readiness state machine', () {
+      tableController.joinTableSession(
+        tableId: '12',
+        tableNumber: '12',
+        participantName: 'Ahmed',
+      );
+
+      final meId = tableController.currentParticipant.value!.participantId;
+      expect(tableController.allParticipantsDone, isFalse);
+
+      final product = LocalProductCatalog.products.first;
+      tableController.addItemToTableOrder(
+        product: product,
+        size: product.sizes.first,
+        milk: product.milkOptions.first,
+        quantity: 1,
+      );
+
+      tableController.markParticipantDone(meId);
+
+      expect(tableController.allParticipantsDone, isTrue);
+      expect(tableController.readinessMessage, contains('Everyone is ready'));
+
+      tableController.markParticipantEditing(meId);
+      expect(tableController.allParticipantsDone, isFalse);
     });
   });
 }

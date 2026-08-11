@@ -5,6 +5,7 @@ import '../../../../app/theme/app_colors.dart';
 import '../../../../core/widgets/cards/cafe_card.dart';
 import '../../../../core/widgets/common/app_app_bar.dart';
 import '../../../../core/widgets/inputs/search_field.dart';
+import '../../../../core/widgets/table/table_session_banner.dart';
 
 class ExplorePage extends StatelessWidget {
   const ExplorePage({Key? key}) : super(key: key);
@@ -24,6 +25,7 @@ class ExplorePage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            const TableSessionBanner(),
             // Search Input
             SearchField(
               hintText: 'Search coffee shops or items...',

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../app/theme/app_colors.dart';
+import '../buttons/cart_badge_icon_button.dart';
 
 class AppAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String? title;
@@ -12,6 +13,7 @@ class AppAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Color? backgroundColor;
   final Color? titleColor;
   final TextStyle? titleStyle;
+  final bool showCartAction;
 
   const AppAppBar({
     Key? key,
@@ -25,6 +27,7 @@ class AppAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.backgroundColor,
     this.titleColor,
     this.titleStyle,
+    this.showCartAction = true,
   }) : super(key: key);
 
   @override
@@ -37,6 +40,11 @@ class AppAppBar extends StatelessWidget implements PreferredSizeWidget {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final bgColor = backgroundColor ??
         (isDark ? AppColors.darkCardBg : AppColors.lightCardBg);
+
+    final mergedActions = <Widget>[
+      if (actions != null) ...actions!,
+      if (showCartAction) const CartBadgeIconButton(),
+    ];
 
     return AppBar(
       title: title != null
@@ -53,7 +61,7 @@ class AppAppBar extends StatelessWidget implements PreferredSizeWidget {
       centerTitle: centerTitle,
       backgroundColor: bgColor,
       elevation: elevation,
-      actions: actions,
+      actions: mergedActions.isNotEmpty ? mergedActions : null,
       leading: leading ??
           (Navigator.of(context).canPop()
               ? IconButton(

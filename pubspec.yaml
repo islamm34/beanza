@@ -19,7 +19,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ^3.11.5
+  sdk: '>=3.0.0 <4.0.0'
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -135,6 +135,8 @@ flutter:
     - assets/images/placeholders/
     - assets/icons/
     - assets/logos/
+    - assets/logos/brewora_splash_logo.png
+    - assets/logos/brewora_logo.png
     - assets/animations/
 
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -162,3 +164,16 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+
+flutter_native_splash:
+  color: "#2C1810"
+  image: assets/logos/brewora_splash_logo.png
+  android: true
+  ios: true
+  fullscreen: true
+
+  android_12:
+    color: "#2C1810"
+    image: assets/logos/brewora_splash_logo.png
+    icon_background_color: "#2C1810"
+
