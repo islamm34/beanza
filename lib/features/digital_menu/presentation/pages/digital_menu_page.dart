@@ -8,6 +8,7 @@ import '../../../../app/controllers/favorites_controller.dart';
 import '../../../../app/controllers/products_controller.dart';
 import '../../../../app/theme/app_colors.dart';
 import '../../../../core/widgets/common/app_app_bar.dart';
+import '../../../../core/widgets/common/empty_state.dart';
 import '../../../../core/widgets/inputs/search_field.dart';
 
 class DigitalMenuPage extends StatefulWidget {
@@ -42,6 +43,7 @@ class _DigitalMenuPageState extends State<DigitalMenuPage> {
               child: SearchField(
                 hintText: 'Search digital menu...',
                 onChanged: (val) => productsController.setSearchQuery(val),
+                onClear: () => productsController.setSearchQuery(''),
               ),
             ),
 
@@ -74,9 +76,8 @@ class _DigitalMenuPageState extends State<DigitalMenuPage> {
                               ? AppColors.espressoDark
                               : AppColors.getTextColor(
                                   Theme.of(context).brightness),
-                          fontWeight: isSelected
-                              ? FontWeight.bold
-                              : FontWeight.normal,
+                          fontWeight:
+                              isSelected ? FontWeight.bold : FontWeight.normal,
                         ),
                         onSelected: (_) =>
                             productsController.setCategory(category),
@@ -95,8 +96,15 @@ class _DigitalMenuPageState extends State<DigitalMenuPage> {
                 final products = productsController.filteredProducts;
 
                 if (products.isEmpty) {
-                  return const Center(
-                    child: Text('No menu items match your search.'),
+                  return EmptyState(
+                    icon: Icons.search_off_rounded,
+                    title: 'No coffee found',
+                    description:
+                        'Try searching for another coffee or choose a different category.',
+                    actionLabel: 'Reset Filters',
+                    onAction: () {
+                      productsController.resetFilters();
+                    },
                   );
                 }
 
@@ -113,13 +121,11 @@ class _DigitalMenuPageState extends State<DigitalMenuPage> {
                       child: GlassyCard(
                         config: GlassyConfig(
                           radius: 18,
-                          backgroundColor: isDark
-                              ? AppColors.darkCardBg
-                              : Colors.white,
+                          backgroundColor:
+                              isDark ? AppColors.darkCardBg : Colors.white,
                           backgroundOpacity: isDark ? 0.60 : 0.70,
-                          borderColor: isDark
-                              ? Colors.white
-                              : AppColors.espressoDark,
+                          borderColor:
+                              isDark ? Colors.white : AppColors.espressoDark,
                           borderOpacity: isDark ? 0.15 : 0.08,
                         ),
                         child: Padding(

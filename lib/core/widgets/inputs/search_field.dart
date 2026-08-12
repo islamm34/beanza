@@ -5,7 +5,6 @@ import '../../../app/theme/app_radius.dart';
 import '../../../app/theme/app_shadows.dart';
 import '../../../app/theme/app_spacing.dart';
 
-
 class SearchField extends StatefulWidget {
   final TextEditingController? controller;
   final String? hintText;
@@ -35,10 +34,16 @@ class _SearchFieldState extends State<SearchField> {
   void initState() {
     super.initState();
     _controller = widget.controller ?? TextEditingController();
+    _controller.addListener(_onTextChanged);
+  }
+
+  void _onTextChanged() {
+    setState(() {});
   }
 
   @override
   void dispose() {
+    _controller.removeListener(_onTextChanged);
     if (widget.controller == null) {
       _controller.dispose();
     }
@@ -51,7 +56,7 @@ class _SearchFieldState extends State<SearchField> {
     final bgColor = isDark ? AppColors.darkCardBg : AppColors.cream;
 
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         boxShadow: AppShadows.cardShadow,
       ),
       child: TextField(
@@ -82,13 +87,15 @@ class _SearchFieldState extends State<SearchField> {
             ),
           ),
           prefixIcon: const Padding(
-            padding: EdgeInsets.only(left: AppSpacing.base, right: AppSpacing.sm),
+            padding:
+                EdgeInsets.only(left: AppSpacing.base, right: AppSpacing.sm),
             child: Icon(
               Icons.search,
               color: AppColors.coffeeBrown,
             ),
           ),
-          prefixIconConstraints: const BoxConstraints(minHeight: 20, minWidth: 20),
+          prefixIconConstraints:
+              const BoxConstraints(minHeight: 20, minWidth: 20),
           suffixIcon: _controller.text.isNotEmpty
               ? Row(
                   mainAxisSize: MainAxisSize.min,
@@ -96,11 +103,12 @@ class _SearchFieldState extends State<SearchField> {
                     GestureDetector(
                       onTap: () {
                         _controller.clear();
+                        widget.onChanged?.call('');
                         widget.onClear?.call();
-                        setState(() {});
                       },
                       child: const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: AppSpacing.base),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: AppSpacing.base),
                         child: Icon(
                           Icons.close,
                           color: AppColors.textMuted,

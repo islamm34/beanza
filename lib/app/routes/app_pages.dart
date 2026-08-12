@@ -49,7 +49,7 @@ class AppPages {
     ),
     GetPage(
       name: Routes.HOME,
-      page: () => const HomePage(),
+      page: () => const AppRouter(),
     ),
     GetPage(
       name: Routes.EXPLORE,

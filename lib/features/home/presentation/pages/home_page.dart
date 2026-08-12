@@ -8,6 +8,7 @@ import '../../../../app/theme/app_colors.dart';
 import '../../../../core/widgets/buttons/cart_badge_icon_button.dart';
 import '../../../../core/widgets/table/table_session_banner.dart';
 import '../../../../core/widgets/cards/product_card.dart';
+import '../../../../core/widgets/common/empty_state.dart';
 import '../../../../core/widgets/inputs/search_field.dart';
 import '../../../products/presentation/pages/products_page.dart';
 
@@ -138,6 +139,7 @@ class HomePage extends StatelessWidget {
                 child: SearchField(
                   hintText: 'Search your favorite coffee...',
                   onChanged: (val) => productsController.setSearchQuery(val),
+                  onClear: () => productsController.setSearchQuery(''),
                 ),
               ),
             ),
@@ -244,7 +246,8 @@ class HomePage extends StatelessWidget {
 
                           return Obx(() {
                             final isSelected =
-                                productsController.selectedCategory.value == cat;
+                                productsController.selectedCategory.value ==
+                                    cat;
 
                             return GestureDetector(
                               onTap: () => productsController.setCategory(cat),
@@ -267,8 +270,10 @@ class HomePage extends StatelessWidget {
                                           color: isSelected
                                               ? AppColors.caramel
                                               : (isDark
-                                                  ? Colors.white.withValues(alpha: 0.12)
-                                                  : Colors.black.withValues(alpha: 0.08)),
+                                                  ? Colors.white
+                                                      .withValues(alpha: 0.12)
+                                                  : Colors.black
+                                                      .withValues(alpha: 0.08)),
                                           width: isSelected ? 2.0 : 1.0,
                                         ),
                                         boxShadow: isSelected
@@ -289,8 +294,8 @@ class HomePage extends StatelessWidget {
                                                 imagePath,
                                                 fit: BoxFit.cover,
                                                 alignment: Alignment.center,
-                                                errorBuilder:
-                                                    (context, error, stackTrace) {
+                                                errorBuilder: (context, error,
+                                                    stackTrace) {
                                                   return _buildFallbackIconContainer(
                                                     context,
                                                     catIcon,
@@ -353,19 +358,19 @@ class HomePage extends StatelessWidget {
             ),
             SliverToBoxAdapter(
               child: SizedBox(
-                height: 265,
+                height: 280,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  clipBehavior: Clip.none,
+                  padding: const EdgeInsets.fromLTRB(16, 8, 16, 12),
                   itemCount: productsController.popularProducts.length,
                   itemBuilder: (context, index) {
                     final product = productsController.popularProducts[index];
                     return Obx(() {
-                      final isFav =
-                          favoritesController.isFavorite(product.id);
+                      final isFav = favoritesController.isFavorite(product.id);
                       return Container(
                         width: 175,
-                        margin: const EdgeInsets.only(right: 12),
+                        margin: const EdgeInsets.only(right: 14),
                         child: ProductCard(
                           imageUrl: product.image,
                           name: product.name,
@@ -374,6 +379,7 @@ class HomePage extends StatelessWidget {
                           rating: product.rating,
                           reviewCount: product.reviewsCount,
                           isFavorite: isFav,
+                          showSubtleShadow: true,
                           onFavoritePressed: () =>
                               favoritesController.toggleFavorite(product.id),
                           onTap: () {
@@ -408,18 +414,25 @@ class HomePage extends StatelessWidget {
             Obx(() {
               final products = productsController.filteredProducts;
               if (products.isEmpty) {
-                return const SliverToBoxAdapter(
+                return SliverToBoxAdapter(
                   child: Padding(
-                    padding: EdgeInsets.all(32),
-                    child: Center(
-                      child: Text('No coffee items match your search.'),
+                    padding: const EdgeInsets.symmetric(vertical: 24),
+                    child: EmptyState(
+                      icon: Icons.search_off_rounded,
+                      title: 'No coffee found',
+                      description:
+                          'Try searching for another coffee or choose a different category.',
+                      actionLabel: 'Reset Filters',
+                      onAction: () {
+                        productsController.resetFilters();
+                      },
                     ),
                   ),
                 );
               }
 
               return SliverPadding(
-                padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
+                padding: const EdgeInsets.fromLTRB(16, 8, 16, 110),
                 sliver: SliverGrid(
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
@@ -441,6 +454,7 @@ class HomePage extends StatelessWidget {
                           rating: product.rating,
                           reviewCount: product.reviewsCount,
                           isFavorite: isFav,
+                          showSubtleShadow: true,
                           onFavoritePressed: () =>
                               favoritesController.toggleFavorite(product.id),
                           onTap: () {

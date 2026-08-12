@@ -20,7 +20,8 @@ class LocalProductCatalog {
     Product(
       id: 'prod_2',
       name: 'Double Espresso',
-      description: 'Two shots of rich, dark-roast espresso for double the bold flavor.',
+      description:
+          'Two shots of rich, dark-roast espresso for double the bold flavor.',
       category: 'Hot Coffee',
       image: 'assets/images/coffee/double_espresso.jpg',
       basePrice: 4.25,
@@ -33,7 +34,8 @@ class LocalProductCatalog {
     Product(
       id: 'prod_3',
       name: 'Americano',
-      description: 'Espresso shots topped with hot water create a light layer of crema.',
+      description:
+          'Espresso shots topped with hot water create a light layer of crema.',
       category: 'Hot Coffee',
       image: 'assets/images/coffee/americano.jpg',
       basePrice: 4.00,
@@ -46,7 +48,8 @@ class LocalProductCatalog {
     Product(
       id: 'prod_4',
       name: 'Cappuccino',
-      description: 'Dark, rich espresso under a smoothed and stretched layer of thick foam.',
+      description:
+          'Dark, rich espresso under a smoothed and stretched layer of thick foam.',
       category: 'Hot Coffee',
       image: 'assets/images/coffee/cappuccino.jpg',
       basePrice: 5.25,
@@ -60,7 +63,8 @@ class LocalProductCatalog {
     Product(
       id: 'prod_5',
       name: 'Caffè Latte',
-      description: 'Rich, full-bodied espresso in steamed milk with a light layer of foam.',
+      description:
+          'Rich, full-bodied espresso in steamed milk with a light layer of foam.',
       category: 'Hot Coffee',
       image: 'assets/images/coffee/latte.jpg',
       basePrice: 5.50,
@@ -74,7 +78,8 @@ class LocalProductCatalog {
     Product(
       id: 'prod_6',
       name: 'Flat White',
-      description: 'Smooth ristretto shots of espresso with sweet steamed milk.',
+      description:
+          'Smooth ristretto shots of espresso with sweet steamed milk.',
       category: 'Hot Coffee',
       image: 'assets/images/coffee/flat_white.jpg',
       basePrice: 5.00,
@@ -87,7 +92,8 @@ class LocalProductCatalog {
     Product(
       id: 'prod_7',
       name: 'Cortado',
-      description: 'Equal parts double espresso and warm steamed milk to reduce acidity.',
+      description:
+          'Equal parts double espresso and warm steamed milk to reduce acidity.',
       category: 'Hot Coffee',
       image: 'assets/images/coffee/cortado.jpg',
       basePrice: 4.75,
@@ -100,7 +106,8 @@ class LocalProductCatalog {
     Product(
       id: 'prod_8',
       name: 'Macchiato',
-      description: 'Espresso marked with a small dollop of velvety steamed milk foam.',
+      description:
+          'Espresso marked with a small dollop of velvety steamed milk foam.',
       category: 'Hot Coffee',
       image: 'assets/images/coffee/macchiato.jpg',
       basePrice: 4.50,
@@ -142,7 +149,8 @@ class LocalProductCatalog {
     Product(
       id: 'prod_11',
       name: 'Iced Latte',
-      description: 'Full-bodied espresso combined with milk and poured over ice.',
+      description:
+          'Full-bodied espresso combined with milk and poured over ice.',
       category: 'Iced Coffee',
       image: 'assets/images/coffee/iced_latte.jpg',
       basePrice: 5.75,
@@ -156,7 +164,8 @@ class LocalProductCatalog {
     Product(
       id: 'prod_12',
       name: 'Iced Mocha',
-      description: 'Espresso combined with bittersweet mocha sauce, milk and ice.',
+      description:
+          'Espresso combined with bittersweet mocha sauce, milk and ice.',
       category: 'Iced Coffee',
       image: 'assets/images/coffee/iced_mocha.jpg',
       basePrice: 6.00,
@@ -169,7 +178,8 @@ class LocalProductCatalog {
     Product(
       id: 'prod_13',
       name: 'Cold Brew',
-      description: 'Slow-steeped in cool water for 20 hours for an ultra-smooth finish.',
+      description:
+          'Slow-steeped in cool water for 20 hours for an ultra-smooth finish.',
       category: 'Iced Coffee',
       image: 'assets/images/coffee/cold_brew.jpg',
       basePrice: 5.25,
@@ -184,7 +194,8 @@ class LocalProductCatalog {
     Product(
       id: 'prod_14',
       name: 'Iced Macchiato',
-      description: 'Espresso poured over iced milk and finished with caramel drizzle.',
+      description:
+          'Espresso poured over iced milk and finished with caramel drizzle.',
       category: 'Iced Coffee',
       image: 'assets/images/coffee/iced_macchiato.jpg',
       basePrice: 6.25,
@@ -208,12 +219,18 @@ class LocalProductCatalog {
       calories: 250,
       caffeine: 150,
       isPopular: true,
-      ingredients: ['Espresso', 'Caramel Syrup', 'Steamed Milk', 'Caramel Drizzle'],
+      ingredients: [
+        'Espresso',
+        'Caramel Syrup',
+        'Steamed Milk',
+        'Caramel Drizzle'
+      ],
     ),
     Product(
       id: 'prod_16',
       name: 'Vanilla Latte',
-      description: 'Signature espresso blended with creamy milk and rich vanilla.',
+      description:
+          'Signature espresso blended with creamy milk and rich vanilla.',
       category: 'Specialty',
       image: 'assets/images/coffee/vanilla_latte.jpg',
       basePrice: 6.00,
@@ -226,7 +243,8 @@ class LocalProductCatalog {
     Product(
       id: 'prod_17',
       name: 'Spanish Latte',
-      description: 'Espresso mixed with textured condensed milk for sweet richness.',
+      description:
+          'Espresso mixed with textured condensed milk for sweet richness.',
       category: 'Specialty',
       image: 'assets/images/coffee/spanish_latte.jpg',
       basePrice: 6.50,
@@ -241,7 +259,8 @@ class LocalProductCatalog {
     Product(
       id: 'prod_18',
       name: 'Pistachio Latte',
-      description: 'Espresso combined with sweet pistachio sauce and steamed milk.',
+      description:
+          'Espresso combined with sweet pistachio sauce and steamed milk.',
       category: 'Specialty',
       image: 'assets/images/coffee/pistachio_latte.jpg',
       basePrice: 6.75,
@@ -255,7 +274,8 @@ class LocalProductCatalog {
     Product(
       id: 'prod_19',
       name: 'Hazelnut Mocha',
-      description: 'Espresso with rich chocolate sauce, hazelnut syrup and milk.',
+      description:
+          'Espresso with rich chocolate sauce, hazelnut syrup and milk.',
       category: 'Specialty',
       image: 'assets/images/coffee/hazelnut_mocha.jpg',
       basePrice: 6.50,
@@ -263,12 +283,18 @@ class LocalProductCatalog {
       reviewsCount: 175,
       calories: 340,
       caffeine: 175,
-      ingredients: ['Espresso', 'Chocolate Sauce', 'Hazelnut Syrup', 'Steamed Milk'],
+      ingredients: [
+        'Espresso',
+        'Chocolate Sauce',
+        'Hazelnut Syrup',
+        'Steamed Milk'
+      ],
     ),
     Product(
       id: 'prod_20',
       name: 'Salted Caramel Macchiato',
-      description: 'Espresso with vanilla syrup, steamed milk, and salted caramel.',
+      description:
+          'Espresso with vanilla syrup, steamed milk, and salted caramel.',
       category: 'Specialty',
       image: 'assets/images/coffee/salted_caramel.jpg',
       basePrice: 6.50,
@@ -277,14 +303,20 @@ class LocalProductCatalog {
       calories: 270,
       caffeine: 150,
       isPopular: true,
-      ingredients: ['Espresso', 'Vanilla Syrup', 'Steamed Milk', 'Salted Caramel'],
+      ingredients: [
+        'Espresso',
+        'Vanilla Syrup',
+        'Steamed Milk',
+        'Salted Caramel'
+      ],
     ),
 
     // Non-Coffee
     Product(
       id: 'prod_21',
       name: 'Matcha Latte',
-      description: 'Smooth Japanese ceremonial green tea matcha whisked with steamed milk.',
+      description:
+          'Smooth Japanese ceremonial green tea matcha whisked with steamed milk.',
       category: 'Non-Coffee',
       image: 'assets/images/coffee/matcha_latte.jpg',
       basePrice: 5.75,
@@ -298,7 +330,8 @@ class LocalProductCatalog {
     Product(
       id: 'prod_22',
       name: 'Hot Chocolate',
-      description: 'Steamed milk with dark chocolate mocha sauce and whipped cream.',
+      description:
+          'Steamed milk with dark chocolate mocha sauce and whipped cream.',
       category: 'Non-Coffee',
       image: 'assets/images/coffee/hot_chocolate.jpg',
       basePrice: 4.75,
@@ -311,7 +344,8 @@ class LocalProductCatalog {
     Product(
       id: 'prod_23',
       name: 'Chai Latte',
-      description: 'Black tea infused with cinnamon, clove, and warm spices in milk.',
+      description:
+          'Black tea infused with cinnamon, clove, and warm spices in milk.',
       category: 'Non-Coffee',
       image: 'assets/images/coffee/chai_latte.jpg',
       basePrice: 5.25,
@@ -329,5 +363,9 @@ class LocalProductCatalog {
         'Iced Coffee',
         'Specialty',
         'Non-Coffee',
+        'Espresso',
+        'Latte',
+        'Cappuccino',
+        'Americano',
       ];
 }
