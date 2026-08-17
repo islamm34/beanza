@@ -12,7 +12,7 @@ class AssetPaths {
 
   // Splash
   static const String splashBackground = '$imagesPath/splash_background.png';
-  static const String splashLogo = '$logosPath/splash_logo.png';
+  static const String splashLogo = 'assets/branding/brewora_splash_logo.svg';
 
   // Onboarding
   static const String onboarding1 = '$imagesPath/onboarding/onboarding_1.png';

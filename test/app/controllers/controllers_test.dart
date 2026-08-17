@@ -1,10 +1,15 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
 import 'package:beanza/app/controllers/cart_controller.dart';
+import 'package:beanza/app/controllers/table_session_controller.dart';
+import 'package:beanza/app/controllers/explore_controller.dart';
 import 'package:beanza/app/controllers/favorites_controller.dart';
 import 'package:beanza/app/controllers/orders_controller.dart';
 import 'package:beanza/app/controllers/product_details_controller.dart';
 import 'package:beanza/app/controllers/products_controller.dart';
+import 'package:beanza/app/router/app_router.dart';
+import 'package:beanza/app/routes/app_pages.dart';
+import 'package:beanza/app/routes/app_routes.dart';
 import 'package:beanza/core/data/local_product_catalog.dart';
 
 void main() {
@@ -87,7 +92,14 @@ void main() {
       productsController = Get.put(ProductsController());
     });
 
-    test('filters products by category', () {
+    test('All category + empty search returns all products', () {
+      productsController.setCategory('All');
+      productsController.setSearchQuery('');
+      expect(productsController.filteredProducts.length,
+          LocalProductCatalog.products.length);
+    });
+
+    test('filters products by specific category', () {
       productsController.setCategory('Hot Coffee');
       expect(
         productsController.filteredProducts
@@ -96,14 +108,41 @@ void main() {
       );
     });
 
-    test('filters products by search query', () {
-      productsController.setSearchQuery('Espresso');
+    test(
+        'filters products by search query with case-insensitivity and trimming',
+        () {
+      productsController.setCategory('All');
+      productsController.setSearchQuery('   LATTE   ');
+      expect(productsController.filteredProducts, isNotEmpty);
       expect(
-        productsController.filteredProducts.any(
-          (p) => p.name.toLowerCase().contains('espresso'),
+        productsController.filteredProducts.every(
+          (p) =>
+              p.name.toLowerCase().contains('latte') ||
+              p.category.toLowerCase().contains('latte'),
         ),
         isTrue,
       );
+    });
+
+    test('combines search and category filtering simultaneously', () {
+      productsController.setCategory('Hot Coffee');
+      productsController.setSearchQuery('Espresso');
+
+      final results = productsController.filteredProducts;
+      expect(results, isNotEmpty);
+      expect(results.every((p) => p.category == 'Hot Coffee'), isTrue);
+      expect(results.any((p) => p.name == 'Espresso'), isTrue);
+    });
+
+    test('resets filters correctly', () {
+      productsController.setCategory('Iced Coffee');
+      productsController.setSearchQuery('mocha');
+      productsController.resetFilters();
+
+      expect(productsController.selectedCategory.value, 'All');
+      expect(productsController.searchQuery.value, '');
+      expect(productsController.filteredProducts.length,
+          LocalProductCatalog.products.length);
     });
   });
 
@@ -150,6 +189,145 @@ void main() {
 
       expect(ordersController.orders.length, 1);
       expect(ordersController.orders.first.id, order.id);
+    });
+  });
+
+  group('GetX TableSessionController', () {
+    late TableSessionController tableController;
+
+    setUp(() {
+      Get.reset();
+      Get.put(CartController());
+      tableController = Get.put(TableSessionController());
+    });
+
+    test('joins table session with participant name', () {
+      expect(tableController.hasActiveSession, isFalse);
+
+      tableController.joinTableSession(
+        tableId: '12',
+        tableNumber: '12',
+        participantName: 'Ahmed',
+      );
+
+      expect(tableController.hasActiveSession, isTrue);
+      expect(tableController.tableNumber, '12');
+      expect(tableController.currentParticipant.value?.displayName, 'Ahmed');
+      expect(tableController.participantCount, 3);
+    });
+
+    test('adds item to table order and computes subtotals correctly', () {
+      tableController.joinTableSession(
+        tableId: '12',
+        tableNumber: '12',
+        participantName: 'Ahmed',
+      );
+
+      final product = LocalProductCatalog.products.first;
+      tableController.addItemToTableOrder(
+        product: product,
+        size: product.sizes.first,
+        milk: product.milkOptions.first,
+        quantity: 2,
+      );
+
+      expect(tableController.totalItemCount, 4);
+      expect(tableController.subtotal, greaterThan(0));
+    });
+
+    test('handles participant done status and table readiness state machine',
+        () {
+      tableController.joinTableSession(
+        tableId: '12',
+        tableNumber: '12',
+        participantName: 'Ahmed',
+      );
+
+      final meId = tableController.currentParticipant.value!.participantId;
+      expect(tableController.allParticipantsDone, isFalse);
+
+      final product = LocalProductCatalog.products.first;
+      tableController.addItemToTableOrder(
+        product: product,
+        size: product.sizes.first,
+        milk: product.milkOptions.first,
+        quantity: 1,
+      );
+
+      tableController.markParticipantDone(meId);
+
+      expect(tableController.allParticipantsDone, isTrue);
+      expect(tableController.readinessMessage, contains('Everyone is ready'));
+
+      tableController.markParticipantEditing(meId);
+      expect(tableController.allParticipantsDone, isFalse);
+    });
+
+    test('Routes.HOME points to AppRouter main navigation shell', () {
+      final homeRoute =
+          AppPages.routes.firstWhere((r) => r.name == Routes.HOME);
+      final pageWidget = homeRoute.page();
+      expect(pageWidget, isA<AppRouter>());
+    });
+  });
+
+  group('GetX ExploreController', () {
+    late ExploreController exploreController;
+
+    setUp(() {
+      Get.reset();
+      exploreController = Get.put(ExploreController());
+    });
+
+    test('loads products and filters by category', () {
+      exploreController.setCategory('Hot Coffee');
+      expect(
+        exploreController.filteredProducts
+            .every((p) => p.category == 'Hot Coffee'),
+        isTrue,
+      );
+    });
+
+    test('filters by search query', () {
+      exploreController.setSearchQuery('Latte');
+      expect(
+        exploreController.filteredProducts.any(
+          (p) => p.name.toLowerCase().contains('latte'),
+        ),
+        isTrue,
+      );
+    });
+
+    test('applies advanced filters and sorting options', () {
+      exploreController.applyAdvancedFilters(
+        maxPriceVal: 5.0,
+        minRatingVal: 4.8,
+        hotVal: true,
+        icedVal: false,
+      );
+      exploreController.setSort(ExploreSortOption.priceHighToLow);
+
+      final results = exploreController.filteredProducts;
+      expect(
+          results.every((p) => p.basePrice <= 5.0 && p.rating >= 4.8), isTrue);
+    });
+
+    test('resets all explore filters correctly', () {
+      exploreController.setCategory('Iced Coffee');
+      exploreController.setSearchQuery('Cold');
+      exploreController.applyAdvancedFilters(
+        maxPriceVal: 6.0,
+        minRatingVal: 4.5,
+        hotVal: false,
+        icedVal: true,
+      );
+      exploreController.resetAll();
+
+      expect(exploreController.selectedCategory.value, 'All');
+      expect(exploreController.searchQuery.value, '');
+      expect(exploreController.activeFilterCount, 0);
+      expect(exploreController.filteredProducts.length,
+          LocalProductCatalog.products.length);
     });
   });
 }

@@ -1,5 +1,4 @@
-import 'package:beanza/features/my_qr/domain/entities/my_qr_entity.dart';
-
+import '../../domain/entities/my_qr_entity.dart';
 import '../../domain/repositories/my_qr_repository.dart';
 import '../datasources/my_qr_remote_data_source.dart';
 

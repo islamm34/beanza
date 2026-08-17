@@ -4,6 +4,7 @@ import '../../../../app/controllers/cart_controller.dart';
 import '../../../../app/controllers/orders_controller.dart';
 import '../../../../app/theme/app_colors.dart';
 import '../../../order_tracking/presentation/pages/order_tracking_page.dart';
+import 'order_confirmation_page.dart';
 
 class CheckoutPage extends StatefulWidget {
   const CheckoutPage({Key? key}) : super(key: key);
@@ -232,7 +233,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                   if (cartController.cartItems.isEmpty) return;
 
                   final newOrder = ordersController.placeOrder(
-                    items: cartController.cartItems,
+                    items: List.from(cartController.cartItems),
                     subtotal: cartController.subtotal,
                     tax: cartController.tax,
                     deliveryFee: _isDelivery ? cartController.deliveryFee : 0.0,
@@ -240,8 +241,13 @@ class _CheckoutPageState extends State<CheckoutPage> {
                     deliveryAddress: _selectedAddress,
                   );
 
+                  cartController.clearCart();
+
                   Get.off(
-                    () => OrderTrackingPage(orderId: newOrder.id),
+                    () => OrderConfirmationPage(
+                      orderId: newOrder.id,
+                      totalAmount: newOrder.total,
+                    ),
                   );
                 },
                 style: ElevatedButton.styleFrom(

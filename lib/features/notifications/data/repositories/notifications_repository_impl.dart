@@ -1,6 +1,5 @@
-import 'package:beanza/features/notifications/domain/repositories/notifications_repository.dart';
-
 import '../../domain/entities/notifications_entity.dart';
+import '../../domain/repositories/notifications_repository.dart';
 import '../datasources/notifications_remote_data_source.dart';
 
 class NotificationsRepositoryImpl implements NotificationsRepository {

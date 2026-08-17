@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import '../../core/services/notification_service.dart';
 import '../controllers/cart_controller.dart';
+import '../controllers/table_session_controller.dart';
 import '../controllers/favorites_controller.dart';
 import '../controllers/notifications_controller.dart';
 import '../controllers/orders_controller.dart';
@@ -18,6 +19,7 @@ class InitialBinding extends Bindings {
         permanent: true);
 
     Get.lazyPut<CartController>(() => CartController(), fenix: true);
+    Get.put<TableSessionController>(TableSessionController(), permanent: true);
     Get.lazyPut<FavoritesController>(() => FavoritesController(), fenix: true);
     Get.lazyPut<ProductsController>(() => ProductsController(), fenix: true);
     Get.lazyPut<ProductDetailsController>(

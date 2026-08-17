@@ -1,6 +1,10 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../core/models/product_model.dart';
+import '../routes/app_routes.dart';
+import '../theme/app_colors.dart';
 import 'cart_controller.dart';
+import 'table_session_controller.dart';
 
 class ProductDetailsController extends GetxController {
   late Product product;
@@ -56,19 +60,56 @@ class ProductDetailsController extends GetxController {
   double get totalPrice => unitPrice * quantity.value;
 
   void addToCart() {
-    final cartController = Get.find<CartController>();
-    cartController.addToCart(
-      product: product,
-      size: selectedSize.value,
-      milk: selectedMilk.value,
-      extras: selectedExtras.toList(),
-      quantity: quantity.value,
-    );
+    if (Get.isRegistered<TableSessionController>()) {
+      final tableCtrl = Get.find<TableSessionController>();
+      if (tableCtrl.hasActiveSession) {
+        tableCtrl.addItemToTableOrder(
+          product: product,
+          size: selectedSize.value,
+          milk: selectedMilk.value,
+          extras: selectedExtras.toList(),
+          quantity: quantity.value,
+        );
+      } else {
+        final cartController = Get.find<CartController>();
+        cartController.addToCart(
+          product: product,
+          size: selectedSize.value,
+          milk: selectedMilk.value,
+          extras: selectedExtras.toList(),
+          quantity: quantity.value,
+        );
+      }
+    } else {
+      final cartController = Get.find<CartController>();
+      cartController.addToCart(
+        product: product,
+        size: selectedSize.value,
+        milk: selectedMilk.value,
+        extras: selectedExtras.toList(),
+        quantity: quantity.value,
+      );
+    }
+
     Get.snackbar(
-      'Added to Cart',
-      '${quantity.value}x ${product.name} added to your cart!',
+      'Added to Table Order ☕',
+      '${quantity.value}x ${product.name} added to table order!',
       snackPosition: SnackPosition.BOTTOM,
-      duration: const Duration(seconds: 2),
+      backgroundColor: AppColors.espressoDark,
+      colorText: Colors.white,
+      margin: const EdgeInsets.all(16),
+      borderRadius: 12,
+      duration: const Duration(seconds: 3),
+      mainButton: TextButton(
+        onPressed: () => Get.toNamed(Routes.CART),
+        child: const Text(
+          'View Order',
+          style: TextStyle(
+            color: AppColors.caramel,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
     );
   }
 }

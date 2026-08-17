@@ -5,7 +5,10 @@ import '../../../../app/controllers/product_details_controller.dart';
 import '../../../../app/controllers/products_controller.dart';
 import '../../../../app/controllers/profile_controller.dart';
 import '../../../../app/theme/app_colors.dart';
+import '../../../../core/widgets/buttons/cart_badge_icon_button.dart';
+import '../../../../core/widgets/table/table_session_banner.dart';
 import '../../../../core/widgets/cards/product_card.dart';
+import '../../../../core/widgets/common/empty_state.dart';
 import '../../../../core/widgets/inputs/search_field.dart';
 import '../../../products/presentation/pages/products_page.dart';
 
@@ -90,24 +93,43 @@ class HomePage extends StatelessWidget {
                         ),
                       ],
                     ),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: isDark
-                            ? AppColors.darkCardBg
-                            : AppColors.lightSecondaryBg,
-                        shape: BoxShape.circle,
-                      ),
-                      child: IconButton(
-                        icon: const Icon(Icons.notifications_none_rounded),
-                        color: AppColors.getTextColor(
-                          Theme.of(context).brightness,
+                    Row(
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            color: isDark
+                                ? AppColors.darkCardBg
+                                : AppColors.lightSecondaryBg,
+                            shape: BoxShape.circle,
+                          ),
+                          child: const CartBadgeIconButton(),
                         ),
-                        onPressed: () => Get.toNamed('/notifications'),
-                      ),
+                        const SizedBox(width: 8),
+                        Container(
+                          decoration: BoxDecoration(
+                            color: isDark
+                                ? AppColors.darkCardBg
+                                : AppColors.lightSecondaryBg,
+                            shape: BoxShape.circle,
+                          ),
+                          child: IconButton(
+                            icon: const Icon(Icons.notifications_none_rounded),
+                            color: AppColors.getTextColor(
+                              Theme.of(context).brightness,
+                            ),
+                            onPressed: () => Get.toNamed('/notifications'),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
               ),
+            ),
+
+            // Table Session Banner
+            const SliverToBoxAdapter(
+              child: TableSessionBanner(),
             ),
 
             // Search Bar
@@ -117,6 +139,7 @@ class HomePage extends StatelessWidget {
                 child: SearchField(
                   hintText: 'Search your favorite coffee...',
                   onChanged: (val) => productsController.setSearchQuery(val),
+                  onClear: () => productsController.setSearchQuery(''),
                 ),
               ),
             ),
@@ -196,7 +219,7 @@ class HomePage extends StatelessWidget {
               ),
             ),
 
-            // Category Chips Selector
+            // Category Selector with Uniform Image Cards
             SliverPadding(
               padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
               sliver: SliverToBoxAdapter(
@@ -211,36 +234,105 @@ class HomePage extends StatelessWidget {
                     ),
                     const SizedBox(height: 12),
                     SizedBox(
-                      height: 40,
+                      height: 96,
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
+                        physics: const BouncingScrollPhysics(),
                         itemCount: productsController.categories.length,
                         itemBuilder: (context, index) {
                           final cat = productsController.categories[index];
+                          final imagePath = _getCategoryImage(cat);
+                          final catIcon = _getCategoryIcon(cat);
+
                           return Obx(() {
                             final isSelected =
-                                productsController.selectedCategory.value == cat;
-                            return Padding(
-                              padding: const EdgeInsets.only(right: 8),
-                              child: ChoiceChip(
-                                label: Text(cat),
-                                selected: isSelected,
-                                selectedColor: AppColors.caramel,
-                                backgroundColor: isDark
-                                    ? AppColors.darkCardBg
-                                    : AppColors.lightSecondaryBg,
-                                labelStyle: TextStyle(
-                                  color: isSelected
-                                      ? AppColors.espressoDark
-                                      : AppColors.getTextColor(
-                                          Theme.of(context).brightness,
+                                productsController.selectedCategory.value ==
+                                    cat;
+
+                            return GestureDetector(
+                              onTap: () => productsController.setCategory(cat),
+                              behavior: HitTestBehavior.opaque,
+                              child: AnimatedContainer(
+                                duration: const Duration(milliseconds: 200),
+                                margin: const EdgeInsets.only(right: 12),
+                                width: 72,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    // Fixed 56x56 uniform image container
+                                    Container(
+                                      width: 56,
+                                      height: 56,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(16),
+                                        border: Border.all(
+                                          color: isSelected
+                                              ? AppColors.caramel
+                                              : (isDark
+                                                  ? Colors.white
+                                                      .withValues(alpha: 0.12)
+                                                  : Colors.black
+                                                      .withValues(alpha: 0.08)),
+                                          width: isSelected ? 2.0 : 1.0,
                                         ),
-                                  fontWeight: isSelected
-                                      ? FontWeight.bold
-                                      : FontWeight.normal,
+                                        boxShadow: isSelected
+                                            ? [
+                                                BoxShadow(
+                                                  color: AppColors.caramel
+                                                      .withValues(alpha: 0.30),
+                                                  blurRadius: 10,
+                                                  offset: const Offset(0, 4),
+                                                ),
+                                              ]
+                                            : null,
+                                      ),
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(14),
+                                        child: imagePath != null
+                                            ? Image.asset(
+                                                imagePath,
+                                                fit: BoxFit.cover,
+                                                alignment: Alignment.center,
+                                                errorBuilder: (context, error,
+                                                    stackTrace) {
+                                                  return _buildFallbackIconContainer(
+                                                    context,
+                                                    catIcon,
+                                                    isSelected,
+                                                    isDark,
+                                                  );
+                                                },
+                                              )
+                                            : _buildFallbackIconContainer(
+                                                context,
+                                                catIcon,
+                                                isSelected,
+                                                isDark,
+                                              ),
+                                      ),
+                                    ),
+                                    const SizedBox(height: 6),
+                                    Text(
+                                      cat,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: isSelected
+                                            ? FontWeight.bold
+                                            : FontWeight.w500,
+                                        color: isSelected
+                                            ? (isDark
+                                                ? AppColors.caramel
+                                                : AppColors.espressoDark)
+                                            : AppColors.getTextColor(
+                                                Theme.of(context).brightness),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                onSelected: (_) =>
-                                    productsController.setCategory(cat),
                               ),
                             );
                           });
@@ -266,19 +358,19 @@ class HomePage extends StatelessWidget {
             ),
             SliverToBoxAdapter(
               child: SizedBox(
-                height: 265,
+                height: 280,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  clipBehavior: Clip.none,
+                  padding: const EdgeInsets.fromLTRB(16, 8, 16, 12),
                   itemCount: productsController.popularProducts.length,
                   itemBuilder: (context, index) {
                     final product = productsController.popularProducts[index];
                     return Obx(() {
-                      final isFav =
-                          favoritesController.isFavorite(product.id);
+                      final isFav = favoritesController.isFavorite(product.id);
                       return Container(
                         width: 175,
-                        margin: const EdgeInsets.only(right: 12),
+                        margin: const EdgeInsets.only(right: 14),
                         child: ProductCard(
                           imageUrl: product.image,
                           name: product.name,
@@ -287,6 +379,7 @@ class HomePage extends StatelessWidget {
                           rating: product.rating,
                           reviewCount: product.reviewsCount,
                           isFavorite: isFav,
+                          showSubtleShadow: true,
                           onFavoritePressed: () =>
                               favoritesController.toggleFavorite(product.id),
                           onTap: () {
@@ -321,18 +414,25 @@ class HomePage extends StatelessWidget {
             Obx(() {
               final products = productsController.filteredProducts;
               if (products.isEmpty) {
-                return const SliverToBoxAdapter(
+                return SliverToBoxAdapter(
                   child: Padding(
-                    padding: EdgeInsets.all(32),
-                    child: Center(
-                      child: Text('No coffee items match your search.'),
+                    padding: const EdgeInsets.symmetric(vertical: 24),
+                    child: EmptyState(
+                      icon: Icons.search_off_rounded,
+                      title: 'No coffee found',
+                      description:
+                          'Try searching for another coffee or choose a different category.',
+                      actionLabel: 'Reset Filters',
+                      onAction: () {
+                        productsController.resetFilters();
+                      },
                     ),
                   ),
                 );
               }
 
               return SliverPadding(
-                padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
+                padding: const EdgeInsets.fromLTRB(16, 8, 16, 110),
                 sliver: SliverGrid(
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
@@ -354,6 +454,7 @@ class HomePage extends StatelessWidget {
                           rating: product.rating,
                           reviewCount: product.reviewsCount,
                           isFavorite: isFav,
+                          showSubtleShadow: true,
                           onFavoritePressed: () =>
                               favoritesController.toggleFavorite(product.id),
                           onTap: () {
@@ -372,6 +473,62 @@ class HomePage extends StatelessWidget {
               );
             }),
           ],
+        ),
+      ),
+    );
+  }
+
+  String? _getCategoryImage(String category) {
+    switch (category) {
+      case 'Hot Coffee':
+        return 'assets/images/coffee/cappuccino.jpg';
+      case 'Iced Coffee':
+        return 'assets/images/coffee/iced_latte.jpg';
+      case 'Specialty':
+        return 'assets/images/coffee/caramel_latte.jpg';
+      case 'Non-Coffee':
+        return 'assets/images/coffee/matcha_latte.jpg';
+      default:
+        return null;
+    }
+  }
+
+  IconData _getCategoryIcon(String category) {
+    switch (category) {
+      case 'All':
+        return Icons.coffee_rounded;
+      case 'Hot Coffee':
+        return Icons.local_cafe_rounded;
+      case 'Iced Coffee':
+        return Icons.ac_unit_rounded;
+      case 'Specialty':
+        return Icons.star_rounded;
+      case 'Non-Coffee':
+        return Icons.eco_rounded;
+      default:
+        return Icons.coffee_rounded;
+    }
+  }
+
+  Widget _buildFallbackIconContainer(
+    BuildContext context,
+    IconData icon,
+    bool isSelected,
+    bool isDark,
+  ) {
+    return Container(
+      decoration: BoxDecoration(
+        color: isSelected
+            ? AppColors.caramel.withValues(alpha: 0.20)
+            : (isDark ? AppColors.darkCardBg : AppColors.lightSecondaryBg),
+      ),
+      child: Center(
+        child: Icon(
+          icon,
+          size: 24,
+          color: isSelected
+              ? (isDark ? AppColors.caramel : AppColors.espressoDark)
+              : AppColors.getTextMutedColor(Theme.of(context).brightness),
         ),
       ),
     );

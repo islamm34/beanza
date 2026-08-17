@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:permission_handler/permission_handler.dart';
-import '../../domain/entities/scan_result_entity.dart';
+
+import '../../../../app/routes/app_routes.dart';
 import '../widgets/permission_denied_view.dart';
 import '../widgets/scan_controls.dart';
 import '../widgets/scan_frame.dart';
 import '../widgets/scanner_overlay.dart';
-import 'scan_result_page.dart';
 
 class ScannerPage extends StatefulWidget {
   const ScannerPage({Key? key}) : super(key: key);
@@ -15,18 +16,19 @@ class ScannerPage extends StatefulWidget {
   State<ScannerPage> createState() => _ScannerPageState();
 }
 
-class _ScannerPageState extends State<ScannerPage>
-    with WidgetsBindingObserver {
+class _ScannerPageState extends State<ScannerPage> with WidgetsBindingObserver {
   late final MobileScannerController _controller;
   bool _isProcessing = false;
   bool _hasPermission = false;
   bool _isLoadingPermission = true;
+  bool _isStartingCamera = false;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     _controller = MobileScannerController(
+      autoStart: false,
       detectionSpeed: DetectionSpeed.normal,
       facing: CameraFacing.back,
       torchEnabled: false,
@@ -52,21 +54,45 @@ class _ScannerPageState extends State<ScannerPage>
     setState(() => _isLoadingPermission = true);
     final status = await Permission.camera.status;
     if (status.isGranted) {
-      setState(() {
-        _hasPermission = true;
-        _isLoadingPermission = false;
-      });
-      _controller.start();
+      if (mounted) {
+        setState(() {
+          _hasPermission = true;
+          _isLoadingPermission = false;
+        });
+        _safeStartCamera();
+      }
     } else {
       final requestedStatus = await Permission.camera.request();
-      setState(() {
-        _hasPermission = requestedStatus.isGranted;
-        _isLoadingPermission = false;
-      });
-      if (requestedStatus.isGranted) {
-        _controller.start();
+      if (mounted) {
+        setState(() {
+          _hasPermission = requestedStatus.isGranted;
+          _isLoadingPermission = false;
+        });
+        if (requestedStatus.isGranted) {
+          _safeStartCamera();
+        }
       }
     }
+  }
+
+  Future<void> _safeStartCamera() async {
+    if (!_hasPermission || _isProcessing || _isStartingCamera || !mounted)
+      return;
+    _isStartingCamera = true;
+    try {
+      if (!_controller.isStarting) {
+        await _controller.start();
+      }
+    } catch (_) {
+    } finally {
+      _isStartingCamera = false;
+    }
+  }
+
+  Future<void> _safeStopCamera() async {
+    try {
+      await _controller.stop();
+    } catch (_) {}
   }
 
   @override
@@ -75,14 +101,14 @@ class _ScannerPageState extends State<ScannerPage>
     switch (state) {
       case AppLifecycleState.resumed:
         if (!_isProcessing) {
-          _controller.start();
+          _safeStartCamera();
         }
         break;
       case AppLifecycleState.inactive:
       case AppLifecycleState.paused:
       case AppLifecycleState.detached:
       case AppLifecycleState.hidden:
-        _controller.stop();
+        _safeStopCamera();
         break;
     }
   }
@@ -107,41 +133,79 @@ class _ScannerPageState extends State<ScannerPage>
     }
 
     _isProcessing = true;
-    try {
-      await _controller.stop();
-    } catch (_) {}
+    await _safeStopCamera();
 
-    final scanResult = ScanResultEntity(
-      rawValue: rawValue,
-      barcodeFormat: barcode.format.name,
-      scanType: ScanResultEntity.classifyType(barcode.format.name, rawValue),
-      timestamp: DateTime.now(),
-    );
+    final tableNum = _extractTableNumber(rawValue);
 
     if (!mounted) return;
 
-    final shouldScanAgain = await Navigator.push<bool>(
-      context,
-      MaterialPageRoute(
-        builder: (context) => ScanResultPage(scanResult: scanResult),
-      ),
+    Get.offNamed(
+      Routes.NAME_ENTRY,
+      arguments: {
+        'tableId': tableNum,
+        'tableNumber': tableNum,
+      },
     );
-
-    if (shouldScanAgain == true && mounted) {
-      _resetScanner();
-    } else {
-      setState(() => _isProcessing = false);
-    }
   }
 
-  void _resetScanner() {
-    setState(() => _isProcessing = false);
-    if (_hasPermission) {
-      _controller.start();
+  String _extractTableNumber(String raw) {
+    final clean = raw.trim();
+    if (clean.contains('table/')) {
+      return clean.split('table/').last.split('?').first;
     }
+    final digitsOnly = clean.replaceAll(RegExp(r'[^0-9]'), '');
+    return digitsOnly.isNotEmpty ? digitsOnly : '12';
+  }
+
+  void _showManualTableDialog() {
+    final textController = TextEditingController(text: '12');
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          title: const Text('Enter Table Number'),
+          content: TextField(
+            controller: textController,
+            keyboardType: TextInputType.number,
+            autofocus: true,
+            decoration: InputDecoration(
+              labelText: 'Table Number',
+              hintText: 'e.g. 12',
+              border:
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Cancel'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                final tableNum = textController.text.trim().isEmpty
+                    ? '12'
+                    : textController.text.trim();
+                Navigator.pop(context);
+                Get.offNamed(
+                  Routes.NAME_ENTRY,
+                  arguments: {
+                    'tableId': tableNum,
+                    'tableNumber': tableNum,
+                  },
+                );
+              },
+              child: const Text('Continue'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   void _showInvalidCodeSnackBar() {
+    if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: const Text(
@@ -209,7 +273,7 @@ class _ScannerPageState extends State<ScannerPage>
                       ),
                       const SizedBox(height: 16),
                       ElevatedButton(
-                        onPressed: () => _controller.start(),
+                        onPressed: _safeStartCamera,
                         child: const Text('Retry'),
                       ),
                     ],
@@ -265,7 +329,14 @@ class _ScannerPageState extends State<ScannerPage>
                         ],
                       ),
                     ),
-                    const SizedBox(width: 48), // Balance spacing
+                    IconButton(
+                      icon: const Icon(
+                        Icons.edit_note_rounded,
+                        color: Colors.white,
+                      ),
+                      tooltip: 'Enter Table Number Manually',
+                      onPressed: _showManualTableDialog,
+                    ),
                   ],
                 ),
               ),

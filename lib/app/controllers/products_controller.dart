@@ -16,14 +16,27 @@ class ProductsController extends GetxController {
 
   List<Product> get filteredProducts {
     return allProducts.where((product) {
-      final matchesCategory = selectedCategory.value == 'All' ||
-          product.category == selectedCategory.value;
+      final cat = selectedCategory.value.trim().toLowerCase();
+      final matchesCategory = cat == 'all' ||
+          product.category.toLowerCase() == cat ||
+          (cat == 'espresso' &&
+              product.name.toLowerCase().contains('espresso')) ||
+          (cat == 'latte' && product.name.toLowerCase().contains('latte')) ||
+          (cat == 'cappuccino' &&
+              product.name.toLowerCase().contains('cappuccino')) ||
+          (cat == 'americano' &&
+              product.name.toLowerCase().contains('americano')) ||
+          (cat == 'cold coffee' &&
+              (product.category.toLowerCase().contains('iced') ||
+                  product.name.toLowerCase().contains('iced') ||
+                  product.name.toLowerCase().contains('cold')));
 
-      final query = searchQuery.value.toLowerCase().trim();
+      final query = searchQuery.value.trim().toLowerCase();
       final matchesQuery = query.isEmpty ||
           product.name.toLowerCase().contains(query) ||
           product.description.toLowerCase().contains(query) ||
-          product.category.toLowerCase().contains(query);
+          product.category.toLowerCase().contains(query) ||
+          product.ingredients.any((ing) => ing.toLowerCase().contains(query));
 
       return matchesCategory && matchesQuery;
     }).toList();
@@ -35,5 +48,10 @@ class ProductsController extends GetxController {
 
   void setSearchQuery(String query) {
     searchQuery.value = query;
+  }
+
+  void resetFilters() {
+    selectedCategory.value = 'All';
+    searchQuery.value = '';
   }
 }
