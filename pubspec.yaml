@@ -138,6 +138,9 @@ flutter:
     - assets/logos/brewora_splash_logo.png
     - assets/logos/brewora_logo.png
     - assets/animations/
+    - assets/branding/
+    - assets/branding/brewora_splash_logo.svg
+    - assets/branding/brewora_splash_logo_native.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
@@ -167,13 +170,13 @@ flutter:
 
 flutter_native_splash:
   color: "#2C1810"
-  image: assets/logos/brewora_splash_logo.png
+  image: assets/branding/brewora_splash_logo_native.png
   android: true
   ios: true
   fullscreen: true
 
   android_12:
     color: "#2C1810"
-    image: assets/logos/brewora_splash_logo.png
+    image: assets/branding/brewora_splash_logo_native.png
     icon_background_color: "#2C1810"
 
