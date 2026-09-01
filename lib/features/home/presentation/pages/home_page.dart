@@ -8,6 +8,7 @@ import '../../../../app/theme/app_colors.dart';
 import '../../../../core/widgets/buttons/cart_badge_icon_button.dart';
 import '../../../../core/widgets/table/table_session_banner.dart';
 import '../../../../core/widgets/cards/product_card.dart';
+import '../widgets/home_product_card.dart';
 import '../../../../core/widgets/common/empty_state.dart';
 import '../../../../core/widgets/inputs/search_field.dart';
 import '../../../products/presentation/pages/products_page.dart';
@@ -371,13 +372,8 @@ class HomePage extends StatelessWidget {
                       return Container(
                         width: 175,
                         margin: const EdgeInsets.only(right: 14),
-                        child: ProductCard(
-                          imageUrl: product.image,
-                          name: product.name,
-                          category: product.category,
-                          price: product.basePrice,
-                          rating: product.rating,
-                          reviewCount: product.reviewsCount,
+                        child: HomeProductCard(
+                          product: product,
                           isFavorite: isFav,
                           showSubtleShadow: true,
                           onFavoritePressed: () =>
@@ -446,13 +442,8 @@ class HomePage extends StatelessWidget {
                       return Obx(() {
                         final isFav =
                             favoritesController.isFavorite(product.id);
-                        return ProductCard(
-                          imageUrl: product.image,
-                          name: product.name,
-                          category: product.category,
-                          price: product.basePrice,
-                          rating: product.rating,
-                          reviewCount: product.reviewsCount,
+                        return HomeProductCard(
+                          product: product,
                           isFavorite: isFav,
                           showSubtleShadow: true,
                           onFavoritePressed: () =>
