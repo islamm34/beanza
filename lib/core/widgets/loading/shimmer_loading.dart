@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../../../app/theme/app_colors.dart';
 
-
 class ShimmerLoading extends StatefulWidget {
   final Widget child;
   final bool isLoading;
@@ -57,7 +56,8 @@ class _ShimmerLoadingState extends State<ShimmerLoading>
                 AppColors.softSand.withOpacity(0.3),
               ],
               tileMode: TileMode.clamp,
-              transform: GradientRotation(_animationController.value * 2 * 3.14159),
+              transform:
+                  GradientRotation(_animationController.value * 2 * 3.14159),
             ).createShader(bounds);
           },
           child: child,

@@ -31,8 +31,8 @@ class SecondaryButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final border = borderColor ?? AppColors.coffeeBrown;
-    final bgColor = backgroundColor ?? 
-        (isDark ? AppColors.darkCardBg : AppColors.lightBg);
+    final bgColor =
+        backgroundColor ?? (isDark ? AppColors.darkCardBg : AppColors.lightBg);
 
     return SizedBox(
       width: width ?? double.infinity,

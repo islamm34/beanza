@@ -18,8 +18,8 @@ class SplashModel {
   }
 
   Map<String, dynamic> toJson() => {
-    'isLoggedIn': isLoggedIn,
-    'appVersion': appVersion,
-    'isFirstLaunch': isFirstLaunch,
-  };
+        'isLoggedIn': isLoggedIn,
+        'appVersion': appVersion,
+        'isFirstLaunch': isFirstLaunch,
+      };
 }

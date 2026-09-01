@@ -1,12 +1,12 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
 import 'package:beanza/app/controllers/cart_controller.dart';
-import 'package:beanza/app/controllers/table_session_controller.dart';
 import 'package:beanza/app/controllers/explore_controller.dart';
 import 'package:beanza/app/controllers/favorites_controller.dart';
 import 'package:beanza/app/controllers/orders_controller.dart';
 import 'package:beanza/app/controllers/product_details_controller.dart';
 import 'package:beanza/app/controllers/products_controller.dart';
+import 'package:beanza/app/controllers/table_session_controller.dart';
 import 'package:beanza/app/router/app_router.dart';
 import 'package:beanza/app/routes/app_pages.dart';
 import 'package:beanza/app/routes/app_routes.dart';
@@ -15,7 +15,7 @@ import 'package:beanza/core/data/local_product_catalog.dart';
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  group('GetX CartController', () {
+  group('GetX CartController Unit Tests', () {
     late CartController cartController;
 
     setUp(() {
@@ -62,9 +62,22 @@ void main() {
       cartController.decrementQuantity(itemId);
       expect(cartController.cartItems, isEmpty);
     });
+
+    test('clearing cart resets all items and totals without negative values',
+        () {
+      final product = LocalProductCatalog.products.first;
+      cartController.addProduct(product);
+      expect(cartController.cartItems, isNotEmpty);
+
+      cartController.clearCart();
+      expect(cartController.cartItems, isEmpty);
+      expect(cartController.itemCount, 0);
+      expect(cartController.subtotal, 0.0);
+      expect(cartController.total, 0.0);
+    });
   });
 
-  group('GetX FavoritesController', () {
+  group('GetX FavoritesController Unit Tests', () {
     late FavoritesController favoritesController;
 
     setUp(() {
@@ -72,7 +85,7 @@ void main() {
       favoritesController = Get.put(FavoritesController());
     });
 
-    test('toggles favorite status', () {
+    test('toggles favorite status and avoids duplicates', () {
       const productId = 'prod_99';
       expect(favoritesController.isFavorite(productId), isFalse);
 
@@ -84,7 +97,7 @@ void main() {
     });
   });
 
-  group('GetX ProductsController', () {
+  group('GetX ProductsController Unit Tests', () {
     late ProductsController productsController;
 
     setUp(() {
@@ -146,7 +159,7 @@ void main() {
     });
   });
 
-  group('GetX ProductDetailsController & Calculation', () {
+  group('GetX ProductDetailsController & Calculation Unit Tests', () {
     late ProductDetailsController detailsController;
 
     setUp(() {
@@ -155,7 +168,8 @@ void main() {
       detailsController = Get.put(ProductDetailsController());
     });
 
-    test('calculates price based on size multiplier and extra add-ons', () {
+    test('calculates price based on size multiplier, milk, and extra add-ons',
+        () {
       final product = LocalProductCatalog.products.first; // basePrice: 3.50
       detailsController.initProduct(product);
 
@@ -165,10 +179,16 @@ void main() {
       detailsController.toggleExtra(product.extras.first);
 
       expect(detailsController.unitPrice, 5.375);
+
+      // Increase quantity to 3
+      detailsController.incrementQuantity();
+      detailsController.incrementQuantity();
+      expect(detailsController.quantity.value, 3);
+      expect(detailsController.totalPrice, 5.375 * 3);
     });
   });
 
-  group('GetX OrdersController', () {
+  group('GetX OrdersController Unit Tests', () {
     late OrdersController ordersController;
 
     setUp(() {
@@ -189,10 +209,11 @@ void main() {
 
       expect(ordersController.orders.length, 1);
       expect(ordersController.orders.first.id, order.id);
+      expect(ordersController.orders.first.total, 13.3);
     });
   });
 
-  group('GetX TableSessionController', () {
+  group('GetX TableSessionController Unit Tests', () {
     late TableSessionController tableController;
 
     setUp(() {
@@ -263,6 +284,19 @@ void main() {
       expect(tableController.allParticipantsDone, isFalse);
     });
 
+    test('leaving table session clears active table data', () {
+      tableController.joinTableSession(
+        tableId: '12',
+        tableNumber: '12',
+        participantName: 'Ahmed',
+      );
+      expect(tableController.hasActiveSession, isTrue);
+
+      tableController.leaveTableSession();
+      expect(tableController.hasActiveSession, isFalse);
+      expect(tableController.currentSession.value, isNull);
+    });
+
     test('Routes.HOME points to AppRouter main navigation shell', () {
       final homeRoute =
           AppPages.routes.firstWhere((r) => r.name == Routes.HOME);
@@ -271,7 +305,7 @@ void main() {
     });
   });
 
-  group('GetX ExploreController', () {
+  group('GetX ExploreController Unit Tests', () {
     late ExploreController exploreController;
 
     setUp(() {

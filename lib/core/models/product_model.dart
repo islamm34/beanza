@@ -21,7 +21,8 @@ class MilkOption {
 }
 
 class Extra {
-  final String name; // Extra Shot, Whipped Cream, Caramel Drizzle, Vanilla Syrup
+  final String
+      name; // Extra Shot, Whipped Cream, Caramel Drizzle, Vanilla Syrup
   final double price;
 
   const Extra({

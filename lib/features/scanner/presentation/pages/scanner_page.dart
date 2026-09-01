@@ -4,13 +4,14 @@ import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../../../../app/routes/app_routes.dart';
+import '../../../../app/theme/app_colors.dart';
 import '../widgets/permission_denied_view.dart';
-import '../widgets/scan_controls.dart';
 import '../widgets/scan_frame.dart';
 import '../widgets/scanner_overlay.dart';
 
 class ScannerPage extends StatefulWidget {
-  const ScannerPage({Key? key}) : super(key: key);
+  final bool? overrideHasPermission;
+  const ScannerPage({this.overrideHasPermission, Key? key}) : super(key: key);
 
   @override
   State<ScannerPage> createState() => _ScannerPageState();
@@ -19,9 +20,11 @@ class ScannerPage extends StatefulWidget {
 class _ScannerPageState extends State<ScannerPage> with WidgetsBindingObserver {
   late final MobileScannerController _controller;
   bool _isProcessing = false;
+  bool _isNavigating = false;
   bool _hasPermission = false;
   bool _isLoadingPermission = true;
   bool _isStartingCamera = false;
+  bool _isTorchOn = false;
 
   @override
   void initState() {
@@ -47,7 +50,15 @@ class _ScannerPageState extends State<ScannerPage> with WidgetsBindingObserver {
         BarcodeFormat.aztec,
       ],
     );
-    _checkCameraPermission();
+    if (widget.overrideHasPermission != null) {
+      _hasPermission = widget.overrideHasPermission!;
+      _isLoadingPermission = false;
+    } else if (Get.testMode) {
+      _hasPermission = true;
+      _isLoadingPermission = false;
+    } else {
+      _checkCameraPermission();
+    }
   }
 
   Future<void> _checkCameraPermission() async {
@@ -76,8 +87,13 @@ class _ScannerPageState extends State<ScannerPage> with WidgetsBindingObserver {
   }
 
   Future<void> _safeStartCamera() async {
-    if (!_hasPermission || _isProcessing || _isStartingCamera || !mounted)
+    if (!_hasPermission ||
+        _isProcessing ||
+        _isNavigating ||
+        _isStartingCamera ||
+        !mounted) {
       return;
+    }
     _isStartingCamera = true;
     try {
       if (!_controller.isStarting) {
@@ -85,7 +101,9 @@ class _ScannerPageState extends State<ScannerPage> with WidgetsBindingObserver {
       }
     } catch (_) {
     } finally {
-      _isStartingCamera = false;
+      if (mounted) {
+        _isStartingCamera = false;
+      }
     }
   }
 
@@ -97,10 +115,10 @@ class _ScannerPageState extends State<ScannerPage> with WidgetsBindingObserver {
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (!_hasPermission) return;
+    if (!_hasPermission || _isNavigating) return;
     switch (state) {
       case AppLifecycleState.resumed:
-        if (!_isProcessing) {
+        if (!_isProcessing && !_isNavigating) {
           _safeStartCamera();
         }
         break;
@@ -121,7 +139,7 @@ class _ScannerPageState extends State<ScannerPage> with WidgetsBindingObserver {
   }
 
   void _handleBarcodeDetected(BarcodeCapture capture) async {
-    if (_isProcessing) return;
+    if (_isProcessing || _isNavigating) return;
 
     final barcode = capture.barcodes.firstOrNull;
     if (barcode == null) return;
@@ -133,6 +151,7 @@ class _ScannerPageState extends State<ScannerPage> with WidgetsBindingObserver {
     }
 
     _isProcessing = true;
+    _isNavigating = true;
     await _safeStopCamera();
 
     final tableNum = _extractTableNumber(rawValue);
@@ -157,24 +176,54 @@ class _ScannerPageState extends State<ScannerPage> with WidgetsBindingObserver {
     return digitsOnly.isNotEmpty ? digitsOnly : '12';
   }
 
+  void _toggleTorch() async {
+    try {
+      await _controller.toggleTorch();
+      if (mounted) {
+        setState(() {
+          _isTorchOn = !_isTorchOn;
+        });
+      }
+    } catch (_) {}
+  }
+
   void _showManualTableDialog() {
     final textController = TextEditingController(text: '12');
     showDialog(
       context: context,
       builder: (context) {
+        final isDark = Theme.of(context).brightness == Brightness.dark;
         return AlertDialog(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-          title: const Text('Enter Table Number'),
+          backgroundColor:
+              isDark ? AppColors.darkCardBg : AppColors.lightCardBg,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+            side: BorderSide(
+                color: isDark ? AppColors.darkBorder : AppColors.lightBorder),
+          ),
+          title: Text(
+            'Enter Table Number',
+            style: TextStyle(
+              color: isDark
+                  ? AppColors.darkTextPrimary
+                  : AppColors.lightTextPrimary,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
           content: TextField(
             controller: textController,
             keyboardType: TextInputType.number,
             autofocus: true,
+            style: TextStyle(
+              color: isDark
+                  ? AppColors.darkTextPrimary
+                  : AppColors.lightTextPrimary,
+            ),
             decoration: InputDecoration(
               labelText: 'Table Number',
               hintText: 'e.g. 12',
-              border:
-                  OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+              prefixIcon: Icon(Icons.table_restaurant_rounded,
+                  color: isDark ? AppColors.gold : AppColors.goldLight),
             ),
           ),
           actions: [
@@ -187,6 +236,9 @@ class _ScannerPageState extends State<ScannerPage> with WidgetsBindingObserver {
                 final tableNum = textController.text.trim().isEmpty
                     ? '12'
                     : textController.text.trim();
+                _isProcessing = true;
+                _isNavigating = true;
+                _safeStopCamera();
                 Navigator.pop(context);
                 Get.offNamed(
                   Routes.NAME_ENTRY,
@@ -222,7 +274,7 @@ class _ScannerPageState extends State<ScannerPage> with WidgetsBindingObserver {
     if (_isLoadingPermission) {
       return const Scaffold(
         body: Center(
-          child: CircularProgressIndicator(),
+          child: CircularProgressIndicator(color: AppColors.primaryGreen),
         ),
       );
     }
@@ -245,12 +297,13 @@ class _ScannerPageState extends State<ScannerPage> with WidgetsBindingObserver {
     }
 
     final screenWidth = MediaQuery.of(context).size.width;
-    final scanBoxSize = (screenWidth * 0.72).clamp(260.0, 320.0);
+    final scanBoxSize = (screenWidth * 0.72).clamp(260.0, 310.0);
 
     return Scaffold(
+      backgroundColor: Colors.black,
       body: Stack(
         children: [
-          // 1. Real Device Camera Preview
+          // 1. Camera Preview
           MobileScanner(
             controller: _controller,
             onDetect: _handleBarcodeDetected,
@@ -263,7 +316,7 @@ class _ScannerPageState extends State<ScannerPage> with WidgetsBindingObserver {
                     children: [
                       const Icon(
                         Icons.error_outline,
-                        color: Colors.red,
+                        color: AppColors.error,
                         size: 48,
                       ),
                       const SizedBox(height: 12),
@@ -288,13 +341,51 @@ class _ScannerPageState extends State<ScannerPage> with WidgetsBindingObserver {
 
           // 3. Centered Scanning Frame & Laser Animation
           Center(
-            child: ScanFrame(
-              size: scanBoxSize,
-              isScanning: !_isProcessing,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ScanFrame(
+                  size: scanBoxSize,
+                  isScanning: !_isProcessing && !_isNavigating,
+                ),
+                const SizedBox(height: 24),
+                // Detected Table Status
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
+                  decoration: BoxDecoration(
+                    color: Colors.black.withValues(alpha: 0.70),
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(
+                      color: AppColors.brightGreen.withValues(alpha: 0.6),
+                      width: 1.2,
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: const [
+                      Icon(
+                        Icons.check_circle_rounded,
+                        color: AppColors.brightGreen,
+                        size: 16,
+                      ),
+                      SizedBox(width: 8),
+                      Text(
+                        'Point at Table QR to Join Session',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
           ),
 
-          // 4. Top Action Bar
+          // 4. Top Action Bar: Flash on top-left, Close on top-right
           SafeArea(
             child: Align(
               alignment: Alignment.topCenter,
@@ -304,38 +395,77 @@ class _ScannerPageState extends State<ScannerPage> with WidgetsBindingObserver {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    IconButton(
-                      icon: const Icon(
-                        Icons.arrow_back_ios_new_rounded,
-                        color: Colors.white,
+                    // Flash Button (Top-Left)
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.black.withValues(alpha: 0.55),
+                        shape: BoxShape.circle,
+                        border: Border.all(color: Colors.white24, width: 1),
                       ),
-                      onPressed: () {
-                        if (Navigator.canPop(context)) {
-                          Navigator.pop(context);
-                        }
-                      },
-                    ),
-                    const Text(
-                      'Scan a QR code or barcode',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        shadows: [
-                          Shadow(
-                            blurRadius: 4,
-                            color: Colors.black54,
-                          ),
-                        ],
+                      child: IconButton(
+                        icon: Icon(
+                          _isTorchOn
+                              ? Icons.flash_on_rounded
+                              : Icons.flash_off_rounded,
+                          color:
+                              _isTorchOn ? AppColors.goldBright : Colors.white,
+                          size: 20,
+                        ),
+                        onPressed: _toggleTorch,
                       ),
                     ),
-                    IconButton(
-                      icon: const Icon(
-                        Icons.edit_note_rounded,
-                        color: Colors.white,
+
+                    // Manual Table Button
+                    GestureDetector(
+                      onTap: _showManualTableDialog,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 14, vertical: 8),
+                        decoration: BoxDecoration(
+                          color: Colors.black.withValues(alpha: 0.55),
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(color: Colors.white24, width: 1),
+                        ),
+                        child: Row(
+                          children: const [
+                            Icon(Icons.edit_note_rounded,
+                                color: AppColors.goldBright, size: 18),
+                            SizedBox(width: 6),
+                            Text(
+                              'Enter Table #',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                      tooltip: 'Enter Table Number Manually',
-                      onPressed: _showManualTableDialog,
+                    ),
+
+                    // Close Button (Top-Right)
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.black.withValues(alpha: 0.55),
+                        shape: BoxShape.circle,
+                        border: Border.all(color: Colors.white24, width: 1),
+                      ),
+                      child: IconButton(
+                        icon: const Icon(
+                          Icons.close_rounded,
+                          color: Colors.white,
+                          size: 20,
+                        ),
+                        onPressed: () {
+                          _safeStopCamera();
+                          if (Navigator.canPop(context)) {
+                            Navigator.pop(context);
+                          } else {
+                            Get.offAllNamed(Routes.HOME);
+                          }
+                        },
+                      ),
                     ),
                   ],
                 ),
@@ -343,16 +473,48 @@ class _ScannerPageState extends State<ScannerPage> with WidgetsBindingObserver {
             ),
           ),
 
-          // 5. Bottom Controls (Flash Toggle & Gallery Picker)
+          // 5. Bottom Swipe up / Open Menu instruction
           SafeArea(
             child: Align(
               alignment: Alignment.bottomCenter,
               child: Padding(
-                padding: const EdgeInsets.only(bottom: 36),
-                child: ScanControls(
-                  controller: _controller,
-                  onImageScanned: _handleBarcodeDetected,
-                  onError: _showInvalidCodeSnackBar,
+                padding: const EdgeInsets.only(bottom: 24),
+                child: GestureDetector(
+                  onTap: () {
+                    _safeStopCamera();
+                    Get.offAllNamed(Routes.HOME);
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 12),
+                    decoration: BoxDecoration(
+                      color: AppColors.primaryGreen,
+                      borderRadius: BorderRadius.circular(24),
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppColors.primaryGreen.withValues(alpha: 0.4),
+                          blurRadius: 16,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: const [
+                        Icon(Icons.restaurant_menu_rounded,
+                            color: Colors.white, size: 18),
+                        SizedBox(width: 8),
+                        Text(
+                          'Open Menu Directly',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
               ),
             ),

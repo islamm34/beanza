@@ -5,8 +5,10 @@ import 'package:glassy/glassy_config.dart';
 import '../../../app/theme/app_colors.dart';
 import '../../../app/theme/app_radius.dart';
 import '../../../app/theme/app_spacing.dart';
+import '../buttons/favorite_button.dart';
 
 class ProductCard extends StatelessWidget {
+  final String? productId;
   final String imageUrl;
   final String name;
   final String category;
@@ -20,6 +22,7 @@ class ProductCard extends StatelessWidget {
 
   const ProductCard({
     Key? key,
+    this.productId,
     required this.imageUrl,
     required this.name,
     required this.category,
@@ -80,7 +83,18 @@ class ProductCard extends StatelessWidget {
                           ),
                   ),
                 ),
-                if (onFavoritePressed != null)
+                if (productId != null)
+                  Positioned(
+                    top: AppSpacing.xs + 4,
+                    right: AppSpacing.xs + 4,
+                    child: FavoriteButton(
+                      productId: productId!,
+                      size: 30,
+                      iconSize: 16,
+                      onTapped: onFavoritePressed,
+                    ),
+                  )
+                else if (onFavoritePressed != null)
                   Positioned(
                     top: AppSpacing.xs + 4,
                     right: AppSpacing.xs + 4,
@@ -162,12 +176,14 @@ class ProductCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
-                        '\$${price.toStringAsFixed(2)}',
-                        style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                              fontWeight: FontWeight.w700,
-                              color: AppColors.coffeeBrown,
-                              fontSize: 14,
-                            ),
+                        '${price.toStringAsFixed(2)} EGP',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          color: isDark
+                              ? AppColors.goldBright
+                              : AppColors.goldLight,
+                          fontSize: 14,
+                        ),
                       ),
                       if (rating != null)
                         Row(

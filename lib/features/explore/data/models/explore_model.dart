@@ -39,17 +39,17 @@ class CafeModel {
   }
 
   Map<String, dynamic> toJson() => {
-    'id': id,
-    'name': name,
-    'address': address,
-    'latitude': latitude,
-    'longitude': longitude,
-    'rating': rating,
-    'reviewCount': reviewCount,
-    'imageUrl': imageUrl,
-    'tags': tags,
-    'distance': distance,
-  };
+        'id': id,
+        'name': name,
+        'address': address,
+        'latitude': latitude,
+        'longitude': longitude,
+        'rating': rating,
+        'reviewCount': reviewCount,
+        'imageUrl': imageUrl,
+        'tags': tags,
+        'distance': distance,
+      };
 }
 
 class CafeReviewModel {
@@ -81,11 +81,11 @@ class CafeReviewModel {
   }
 
   Map<String, dynamic> toJson() => {
-    'id': id,
-    'userName': userName,
-    'userImage': userImage,
-    'rating': rating,
-    'comment': comment,
-    'createdAt': createdAt,
-  };
+        'id': id,
+        'userName': userName,
+        'userImage': userImage,
+        'rating': rating,
+        'comment': comment,
+        'createdAt': createdAt,
+      };
 }

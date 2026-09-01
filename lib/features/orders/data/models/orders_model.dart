@@ -1,6 +1,7 @@
 class OrderModel {
   final String id;
-  final String status; // pending, confirmed, preparing, ready, delivered, cancelled
+  final String
+      status; // pending, confirmed, preparing, ready, delivered, cancelled
   final double total;
   final String cafeName;
   final String cafeImage;
@@ -28,7 +29,8 @@ class OrderModel {
       total: (json['total'] as num?)?.toDouble() ?? 0.0,
       cafeName: json['cafeName'] as String? ?? '',
       cafeImage: json['cafeImage'] as String? ?? '',
-      items: List<Map<String, dynamic>>.from(json['items'] as List<dynamic>? ?? []),
+      items: List<Map<String, dynamic>>.from(
+          json['items'] as List<dynamic>? ?? []),
       deliveryAddress: json['deliveryAddress'] as String? ?? '',
       createdAt: json['createdAt'] as String? ?? '',
       deliveredAt: json['deliveredAt'] as String?,
@@ -36,14 +38,14 @@ class OrderModel {
   }
 
   Map<String, dynamic> toJson() => {
-    'id': id,
-    'status': status,
-    'total': total,
-    'cafeName': cafeName,
-    'cafeImage': cafeImage,
-    'items': items,
-    'deliveryAddress': deliveryAddress,
-    'createdAt': createdAt,
-    'deliveredAt': deliveredAt,
-  };
+        'id': id,
+        'status': status,
+        'total': total,
+        'cafeName': cafeName,
+        'cafeImage': cafeImage,
+        'items': items,
+        'deliveryAddress': deliveryAddress,
+        'createdAt': createdAt,
+        'deliveredAt': deliveredAt,
+      };
 }

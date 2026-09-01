@@ -33,15 +33,15 @@ class OrderTrackingModel {
   }
 
   Map<String, dynamic> toJson() => {
-    'orderId': orderId,
-    'status': status,
-    'latitude': latitude,
-    'longitude': longitude,
-    'estimatedDelivery': estimatedDelivery,
-    'deliveryPersonName': deliveryPersonName,
-    'deliveryPersonImage': deliveryPersonImage,
-    'deliveryPersonPhone': deliveryPersonPhone,
-  };
+        'orderId': orderId,
+        'status': status,
+        'latitude': latitude,
+        'longitude': longitude,
+        'estimatedDelivery': estimatedDelivery,
+        'deliveryPersonName': deliveryPersonName,
+        'deliveryPersonImage': deliveryPersonImage,
+        'deliveryPersonPhone': deliveryPersonPhone,
+      };
 }
 
 class OrderTimelineModel {
@@ -67,9 +67,9 @@ class OrderTimelineModel {
   }
 
   Map<String, dynamic> toJson() => {
-    'status': status,
-    'timestamp': timestamp,
-    'message': message,
-    'isCompleted': isCompleted,
-  };
+        'status': status,
+        'timestamp': timestamp,
+        'message': message,
+        'isCompleted': isCompleted,
+      };
 }

@@ -50,7 +50,8 @@ class MyQrPage extends StatelessWidget {
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               color: AppColors.caramel.withValues(alpha: 0.20),
-                              border: Border.all(color: AppColors.caramel, width: 2),
+                              border: Border.all(
+                                  color: AppColors.caramel, width: 2),
                             ),
                             child: const Icon(
                               Icons.person_rounded,
@@ -94,7 +95,8 @@ class MyQrPage extends StatelessWidget {
                       const Text(
                         'Scan at any Brewora Barista to earn & redeem points',
                         textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 13, color: AppColors.textMuted),
+                        style:
+                            TextStyle(fontSize: 13, color: AppColors.textMuted),
                       ),
                       const SizedBox(height: 20),
 

@@ -30,12 +30,12 @@ class AuthenticationModel {
   }
 
   Map<String, dynamic> toJson() => {
-    'id': id,
-    'email': email,
-    'fullName': fullName,
-    'phoneNumber': phoneNumber,
-    'profileImage': profileImage,
-    'accessToken': accessToken,
-    'refreshToken': refreshToken,
-  };
+        'id': id,
+        'email': email,
+        'fullName': fullName,
+        'phoneNumber': phoneNumber,
+        'profileImage': profileImage,
+        'accessToken': accessToken,
+        'refreshToken': refreshToken,
+      };
 }

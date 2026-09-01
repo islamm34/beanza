@@ -24,8 +24,7 @@ class AppScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final bgColor =
-        backgroundColor ??
+    final bgColor = backgroundColor ??
         AppColors.getBackgroundColor(Theme.of(context).brightness);
 
     return Scaffold(

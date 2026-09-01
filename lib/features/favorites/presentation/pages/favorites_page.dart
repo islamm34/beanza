@@ -44,15 +44,13 @@ class FavoritesPage extends StatelessWidget {
           itemBuilder: (context, index) {
             final product = products[index];
             return ProductCard(
+              productId: product.id,
               imageUrl: product.image,
               name: product.name,
               category: product.category,
               price: product.basePrice,
               rating: product.rating,
               reviewCount: product.reviewsCount,
-              isFavorite: true,
-              onFavoritePressed: () =>
-                  favoritesController.toggleFavorite(product.id),
               onTap: () {
                 Get.find<ProductDetailsController>().initProduct(product);
                 Get.to(

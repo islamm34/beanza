@@ -20,19 +20,22 @@ class _OnboardingPageState extends State<OnboardingPage> {
   final List<_OnboardingItem> _slides = const [
     _OnboardingItem(
       title: 'Welcome to Brewora',
-      subtitle: 'Discover hand-crafted coffee & local artisan roasters near you.',
+      subtitle:
+          'Discover hand-crafted coffee & local artisan roasters near you.',
       icon: Icons.local_cafe_rounded,
       tag: 'PREMIUM COFFEE',
     ),
     _OnboardingItem(
       title: 'Seamless Order & Track',
-      subtitle: 'Order ahead for pickup or track fresh delivery to your doorstep in real time.',
+      subtitle:
+          'Order ahead for pickup or track fresh delivery to your doorstep in real time.',
       icon: Icons.coffee_maker_rounded,
       tag: 'QUICK ORDER',
     ),
     _OnboardingItem(
       title: 'Exclusive Rewards & Pass',
-      subtitle: 'Earn coffee points on every cup and unlock VIP perks & loyalty discounts.',
+      subtitle:
+          'Earn coffee points on every cup and unlock VIP perks & loyalty discounts.',
       icon: Icons.workspace_premium_rounded,
       tag: 'LOYALTY PERKS',
     ),
@@ -102,7 +105,8 @@ class _OnboardingPageState extends State<OnboardingPage> {
               Expanded(
                 child: PageView.builder(
                   controller: _pageController,
-                  onPageChanged: (index) => setState(() => _currentPage = index),
+                  onPageChanged: (index) =>
+                      setState(() => _currentPage = index),
                   itemCount: _slides.length,
                   itemBuilder: (context, index) {
                     final item = _slides[index];
@@ -150,7 +154,8 @@ class _OnboardingPageState extends State<OnboardingPage> {
                                     height: 100,
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
-                                      color: Colors.white.withValues(alpha: 0.15),
+                                      color:
+                                          Colors.white.withValues(alpha: 0.15),
                                     ),
                                     child: Icon(
                                       item.icon,
@@ -173,7 +178,8 @@ class _OnboardingPageState extends State<OnboardingPage> {
                                     item.subtitle,
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
-                                      color: Colors.white.withValues(alpha: 0.75),
+                                      color:
+                                          Colors.white.withValues(alpha: 0.75),
                                       fontSize: 14,
                                       height: 1.4,
                                     ),

@@ -20,7 +20,7 @@ class InitialBinding extends Bindings {
 
     Get.lazyPut<CartController>(() => CartController(), fenix: true);
     Get.put<TableSessionController>(TableSessionController(), permanent: true);
-    Get.lazyPut<FavoritesController>(() => FavoritesController(), fenix: true);
+    Get.put<FavoritesController>(FavoritesController(), permanent: true);
     Get.lazyPut<ProductsController>(() => ProductsController(), fenix: true);
     Get.lazyPut<ProductDetailsController>(
       () => ProductDetailsController(),

@@ -21,11 +21,11 @@ class CategoryModel {
   }
 
   Map<String, dynamic> toJson() => {
-    'id': id,
-    'name': name,
-    'icon': icon,
-    'color': color,
-  };
+        'id': id,
+        'name': name,
+        'icon': icon,
+        'color': color,
+      };
 }
 
 class HeroBannerModel {
@@ -54,10 +54,10 @@ class HeroBannerModel {
   }
 
   Map<String, dynamic> toJson() => {
-    'id': id,
-    'title': title,
-    'subtitle': subtitle,
-    'imageUrl': imageUrl,
-    'actionLabel': actionLabel,
-  };
+        'id': id,
+        'title': title,
+        'subtitle': subtitle,
+        'imageUrl': imageUrl,
+        'actionLabel': actionLabel,
+      };
 }

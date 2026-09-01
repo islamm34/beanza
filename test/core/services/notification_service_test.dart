@@ -48,7 +48,8 @@ void main() {
       );
 
       expect(notificationsController.notifications.length, initialCount + 1);
-      expect(notificationsController.notifications.first.title, 'Test Notification ☕');
+      expect(notificationsController.notifications.first.title,
+          'Test Notification ☕');
     });
   });
 }

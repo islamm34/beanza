@@ -19,17 +19,18 @@ class ProductVariantModel {
       name: json['name'] as String? ?? '',
       price: (json['price'] as num?)?.toDouble() ?? 0.0,
       size: json['size'] as String? ?? '',
-      customizations: List<String>.from(json['customizations'] as List<dynamic>? ?? []),
+      customizations:
+          List<String>.from(json['customizations'] as List<dynamic>? ?? []),
     );
   }
 
   Map<String, dynamic> toJson() => {
-    'id': id,
-    'name': name,
-    'price': price,
-    'size': size,
-    'customizations': customizations,
-  };
+        'id': id,
+        'name': name,
+        'price': price,
+        'size': size,
+        'customizations': customizations,
+      };
 }
 
 class ProductModel {
@@ -75,17 +76,17 @@ class ProductModel {
   }
 
   Map<String, dynamic> toJson() => {
-    'id': id,
-    'name': name,
-    'description': description,
-    'basePrice': basePrice,
-    'imageUrl': imageUrl,
-    'rating': rating,
-    'reviewCount': reviewCount,
-    'variants': variants.map((v) => v.toJson()).toList(),
-    'category': category,
-    'isAvailable': isAvailable,
-  };
+        'id': id,
+        'name': name,
+        'description': description,
+        'basePrice': basePrice,
+        'imageUrl': imageUrl,
+        'rating': rating,
+        'reviewCount': reviewCount,
+        'variants': variants.map((v) => v.toJson()).toList(),
+        'category': category,
+        'isAvailable': isAvailable,
+      };
 }
 
 class ProductReviewModel {
@@ -114,10 +115,10 @@ class ProductReviewModel {
   }
 
   Map<String, dynamic> toJson() => {
-    'id': id,
-    'userName': userName,
-    'rating': rating,
-    'comment': comment,
-    'createdAt': createdAt,
-  };
+        'id': id,
+        'userName': userName,
+        'rating': rating,
+        'comment': comment,
+        'createdAt': createdAt,
+      };
 }

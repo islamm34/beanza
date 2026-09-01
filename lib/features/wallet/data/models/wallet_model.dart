@@ -24,12 +24,12 @@ class WalletModel {
   }
 
   Map<String, dynamic> toJson() => {
-    'balance': balance,
-    'totalSpent': totalSpent,
-    'totalEarned': totalEarned,
-    'currency': currency,
-    'isVerified': isVerified,
-  };
+        'balance': balance,
+        'totalSpent': totalSpent,
+        'totalEarned': totalEarned,
+        'currency': currency,
+        'isVerified': isVerified,
+      };
 }
 
 class TransactionModel {
@@ -67,13 +67,13 @@ class TransactionModel {
   }
 
   Map<String, dynamic> toJson() => {
-    'id': id,
-    'type': type,
-    'amount': amount,
-    'description': description,
-    'timestamp': timestamp,
-    'status': status,
-    'cafeId': cafeId,
-    'orderId': orderid,
-  };
+        'id': id,
+        'type': type,
+        'amount': amount,
+        'description': description,
+        'timestamp': timestamp,
+        'status': status,
+        'cafeId': cafeId,
+        'orderId': orderid,
+      };
 }

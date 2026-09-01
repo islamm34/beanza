@@ -4,7 +4,8 @@ import 'package:beanza/core/widgets/inputs/search_field.dart';
 
 void main() {
   group('SearchField Widget', () {
-    testWidgets('renders hint text and search icon', (WidgetTester tester) async {
+    testWidgets('renders hint text and search icon',
+        (WidgetTester tester) async {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
@@ -19,7 +20,8 @@ void main() {
       expect(find.byIcon(Icons.search), findsOneWidget);
     });
 
-    testWidgets('triggers onChanged callback when typing', (WidgetTester tester) async {
+    testWidgets('triggers onChanged callback when typing',
+        (WidgetTester tester) async {
       String searchQuery = '';
 
       await tester.pumpWidget(

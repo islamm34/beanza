@@ -52,8 +52,7 @@ class HomeRepositoryImpl implements HomeRepository {
               id: item['id'] as String? ?? '',
               name: item['name'] as String? ?? '',
               description: item['description'] as String? ?? '',
-              basePrice:
-                  (item['basePrice'] as num?)?.toDouble() ??
+              basePrice: (item['basePrice'] as num?)?.toDouble() ??
                   (item['price'] as num?)?.toDouble() ??
                   0.0,
               imageUrl: item['imageUrl'] as String? ?? '',

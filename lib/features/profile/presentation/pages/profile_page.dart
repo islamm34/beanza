@@ -1,22 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 import '../../../../app/controllers/profile_controller.dart';
 import '../../../../app/routes/app_routes.dart';
 import '../../../../app/theme/app_colors.dart';
 import '../../../../core/widgets/common/app_app_bar.dart';
+import '../../../../core/widgets/common/cafe_card.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({Key? key}) : super(key: key);
 
   void _showLogoutDialog(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-          title: const Text('Logout from Brewora?'),
-          content: const Text(
+          backgroundColor:
+              isDark ? AppColors.darkCardBg : AppColors.lightCardBg,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+            side: BorderSide(
+                color: isDark ? AppColors.darkBorder : AppColors.lightBorder),
+          ),
+          title: Text(
+            'Logout from Brewora?',
+            style: TextStyle(
+              color: isDark
+                  ? AppColors.darkTextPrimary
+                  : AppColors.lightTextPrimary,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          content: Text(
             'Are you sure you want to log out of your coffee account?',
+            style: TextStyle(
+              color: isDark
+                  ? AppColors.darkTextSecondary
+                  : AppColors.lightTextSecondary,
+            ),
           ),
           actions: [
             TextButton(
@@ -44,229 +66,256 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final profileController = Get.find<ProfileController>();
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final goldColor = isDark ? AppColors.gold : AppColors.goldLight;
 
     return Scaffold(
+      backgroundColor: isDark ? AppColors.darkBg : AppColors.lightBg,
       appBar: AppAppBar(
-        title: 'My Profile',
+        title: 'Profile & Settings',
         actions: [
           IconButton(
-            icon: const Icon(Icons.settings_outlined),
-            onPressed: () => Get.toNamed(Routes.SETTINGS),
+            icon: Icon(Icons.qr_code_rounded, color: goldColor),
+            onPressed: () => Get.toNamed(Routes.MY_QR),
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(20),
-        physics: const BouncingScrollPhysics(),
-        child: Column(
-          children: [
-            // User Header Profile Card
-            Obx(() {
-              final user = profileController.user.value;
-              return Container(
-                padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  color: isDark ? AppColors.darkCardBg : AppColors.lightCardBg,
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(
-                    color: isDark
-                        ? AppColors.darkSecondaryBg
-                        : AppColors.softSand,
-                  ),
-                ),
-                child: Row(
-                  children: [
-                    Container(
-                      width: 68,
-                      height: 68,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: AppColors.caramel.withValues(alpha: 0.2),
-                        border: Border.all(
-                          color: AppColors.caramel,
-                          width: 2,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.fromLTRB(16, 12, 16, 36),
+          physics: const BouncingScrollPhysics(),
+          child: Column(
+            children: [
+              // 1. User Avatar, Name, and Edit Profile Header
+              Obx(() {
+                final user = profileController.user.value;
+                return CafeCard(
+                  padding: const EdgeInsets.all(18),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 64,
+                        height: 64,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color:
+                              goldColor.withValues(alpha: isDark ? 0.22 : 0.14),
+                          border: Border.all(
+                            color: goldColor,
+                            width: 1.8,
+                          ),
+                        ),
+                        child: Icon(
+                          Icons.person_rounded,
+                          size: 36,
+                          color: goldColor,
                         ),
                       ),
-                      child: const Icon(
-                        Icons.person_rounded,
-                        size: 36,
-                        color: AppColors.caramel,
-                      ),
-                    ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            user.name,
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleLarge
-                                ?.copyWith(fontWeight: FontWeight.bold),
-                          ),
-                          const SizedBox(height: 2),
-                          Text(
-                            user.email,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodySmall
-                                ?.copyWith(
-                                  color: AppColors.getTextMutedColor(
-                                      Theme.of(context).brightness),
-                                ),
-                          ),
-                          const SizedBox(height: 8),
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 4),
-                            decoration: BoxDecoration(
-                              color: AppColors.caramel.withValues(alpha: 0.15),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: const Text(
-                              '☕ Brewora Gold Member',
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              user.name,
                               style: TextStyle(
-                                color: AppColors.caramel,
+                                fontSize: 17,
                                 fontWeight: FontWeight.bold,
-                                fontSize: 11,
+                                color: isDark
+                                    ? AppColors.darkTextPrimary
+                                    : AppColors.lightTextPrimary,
                               ),
                             ),
-                          ),
-                        ],
+                            const SizedBox(height: 2),
+                            Text(
+                              user.email,
+                              style: TextStyle(
+                                color: isDark
+                                    ? AppColors.darkTextSecondary
+                                    : AppColors.lightTextSecondary,
+                                fontSize: 12.5,
+                              ),
+                            ),
+                            const SizedBox(height: 6),
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 8, vertical: 3),
+                              decoration: BoxDecoration(
+                                color: goldColor.withValues(
+                                    alpha: isDark ? 0.18 : 0.12),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Text(
+                                'Silver Tier Member',
+                                style: TextStyle(
+                                  color:
+                                      isDark ? AppColors.goldBright : goldColor,
+                                  fontSize: 10.5,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
+                      IconButton(
+                        icon: Icon(Icons.edit_outlined,
+                            size: 20, color: goldColor),
+                        onPressed: () {},
+                      ),
+                    ],
+                  ),
+                );
+              }),
+              const SizedBox(height: 18),
+
+              // 2. Menu Items in Rounded Card
+              CafeCard(
+                padding: const EdgeInsets.symmetric(vertical: 6),
+                child: Column(
+                  children: [
+                    _buildMenuItem(
+                      context,
+                      icon: Icons.receipt_long_rounded,
+                      title: 'My Orders / طلباتي',
+                      onTap: () => Get.toNamed(Routes.ORDERS),
+                      isDark: isDark,
+                      goldColor: goldColor,
+                    ),
+                    _buildDivider(isDark),
+                    _buildMenuItem(
+                      context,
+                      icon: Icons.favorite_rounded,
+                      title: 'Saved Drinks / المفضلة',
+                      onTap: () => Get.toNamed(Routes.FAVORITES),
+                      isDark: isDark,
+                      goldColor: goldColor,
+                    ),
+                    _buildDivider(isDark),
+                    _buildMenuItem(
+                      context,
+                      icon: Icons.payment_rounded,
+                      title: 'Payment Methods & Split / الدفع',
+                      onTap: () => Get.toNamed(Routes.PAYMENT_METHODS),
+                      isDark: isDark,
+                      goldColor: goldColor,
+                    ),
+                    _buildDivider(isDark),
+                    _buildMenuItem(
+                      context,
+                      icon: Icons.location_on_rounded,
+                      title: 'Addresses & Branches / العناوين',
+                      onTap: () => Get.toNamed(Routes.ADDRESSES),
+                      isDark: isDark,
+                      goldColor: goldColor,
+                    ),
+                    _buildDivider(isDark),
+                    _buildMenuItem(
+                      context,
+                      icon: Icons.notifications_none_rounded,
+                      title: 'Notifications / الإشعارات',
+                      onTap: () => Get.toNamed(Routes.NOTIFICATIONS),
+                      isDark: isDark,
+                      goldColor: goldColor,
+                    ),
+                    _buildDivider(isDark),
+                    _buildMenuItem(
+                      context,
+                      icon: Icons.settings_rounded,
+                      title: 'Settings & Theme / الإعدادات',
+                      onTap: () => Get.toNamed(Routes.SETTINGS),
+                      isDark: isDark,
+                      goldColor: goldColor,
+                    ),
+                    _buildDivider(isDark),
+                    _buildMenuItem(
+                      context,
+                      icon: Icons.help_outline_rounded,
+                      title: 'Help & Support / المساعدة والدعم',
+                      onTap: () {},
+                      isDark: isDark,
+                      goldColor: goldColor,
                     ),
                   ],
                 ),
-              );
-            }),
-            const SizedBox(height: 24),
+              ),
+              const SizedBox(height: 24),
 
-            // Profile Menu Links
-            _buildProfileTile(
-              context,
-              icon: Icons.favorite_border_rounded,
-              title: 'Favorite Coffee',
-              subtitle: 'Manage your saved coffee items',
-              onTap: () => Get.toNamed(Routes.FAVORITES),
-            ),
-            _buildProfileTile(
-              context,
-              icon: Icons.receipt_long_rounded,
-              title: 'Order History',
-              subtitle: 'View active and past orders',
-              onTap: () => Get.toNamed(Routes.ORDERS),
-            ),
-            _buildProfileTile(
-              context,
-              icon: Icons.location_on_outlined,
-              title: 'Delivery Addresses',
-              subtitle: 'Manage saved delivery locations',
-              onTap: () => Get.toNamed(Routes.ADDRESSES),
-            ),
-            _buildProfileTile(
-              context,
-              icon: Icons.payment_rounded,
-              title: 'Payment Methods',
-              subtitle: 'Manage saved credit cards & options',
-              onTap: () => Get.toNamed(Routes.PAYMENT_METHODS),
-            ),
-            _buildProfileTile(
-              context,
-              icon: Icons.account_balance_wallet_rounded,
-              title: 'Brewora Wallet',
-              subtitle: 'Check balance & transactions',
-              onTap: () => Get.toNamed(Routes.WALLET),
-            ),
-            _buildProfileTile(
-              context,
-              icon: Icons.stars_rounded,
-              title: 'Rewards & Points',
-              subtitle: '350 Loyalty Points available',
-              onTap: () => Get.toNamed(Routes.REWARDS),
-            ),
-            _buildProfileTile(
-              context,
-              icon: Icons.qr_code_scanner_rounded,
-              title: 'Scan History',
-              subtitle: 'View saved coffee QR code scans',
-              onTap: () => Get.toNamed(Routes.SCAN_HISTORY),
-            ),
-            _buildProfileTile(
-              context,
-              icon: Icons.settings_outlined,
-              title: 'Settings & Appearance',
-              subtitle: 'App preferences and system theme',
-              onTap: () => Get.toNamed(Routes.SETTINGS),
-            ),
-            const SizedBox(height: 12),
-            SizedBox(
-              width: double.infinity,
-              height: 50,
-              child: ElevatedButton.icon(
-                onPressed: () => _showLogoutDialog(context),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.error.withValues(alpha: 0.10),
-                  foregroundColor: AppColors.error,
-                  elevation: 0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(14),
+              // 3. Separate Red Log Out Button at Bottom
+              SizedBox(
+                width: double.infinity,
+                height: 50,
+                child: OutlinedButton.icon(
+                  onPressed: () => _showLogoutDialog(context),
+                  icon: const Icon(Icons.logout_rounded,
+                      color: AppColors.error, size: 20),
+                  label: const Text(
+                    'Log Out / تسجيل الخروج',
+                    style: TextStyle(
+                      color: AppColors.error,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14.5,
+                    ),
+                  ),
+                  style: OutlinedButton.styleFrom(
+                    side: BorderSide(
+                      color: AppColors.error.withValues(alpha: 0.5),
+                      width: 1.2,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
                   ),
                 ),
-                icon: const Icon(Icons.logout_rounded, size: 18),
-                label: const Text(
-                  'Logout Account',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Widget _buildProfileTile(
+  Widget _buildMenuItem(
     BuildContext context, {
     required IconData icon,
     required String title,
-    required String subtitle,
     required VoidCallback onTap,
+    required bool isDark,
+    required Color goldColor,
   }) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    return ListTile(
+      leading: Container(
+        padding: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          color: goldColor.withValues(alpha: isDark ? 0.18 : 0.12),
+          shape: BoxShape.circle,
+        ),
+        child: Icon(icon, color: goldColor, size: 20),
+      ),
+      title: Text(
+        title,
+        style: TextStyle(
+          color:
+              isDark ? AppColors.darkTextPrimary : AppColors.lightTextPrimary,
+          fontWeight: FontWeight.w600,
+          fontSize: 14,
+        ),
+      ),
+      trailing: Icon(
+        Icons.arrow_forward_ios_rounded,
+        size: 14,
+        color:
+            isDark ? AppColors.darkTextSecondary : AppColors.lightTextSecondary,
+      ),
+      onTap: onTap,
+    );
+  }
 
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      decoration: BoxDecoration(
-        color: isDark ? AppColors.darkCardBg : AppColors.lightCardBg,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: isDark ? AppColors.darkSecondaryBg : AppColors.softSand,
-        ),
-      ),
-      child: ListTile(
-        leading: Container(
-          padding: const EdgeInsets.all(8),
-          decoration: BoxDecoration(
-            color: AppColors.caramel.withValues(alpha: 0.15),
-            shape: BoxShape.circle,
-          ),
-          child: Icon(icon, color: AppColors.caramel, size: 20),
-        ),
-        title: Text(
-          title,
-          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
-        ),
-        subtitle: Text(
-          subtitle,
-          style: TextStyle(
-            fontSize: 12,
-            color: AppColors.getTextMutedColor(Theme.of(context).brightness),
-          ),
-        ),
-        trailing: const Icon(Icons.arrow_forward_ios_rounded, size: 16),
-        onTap: onTap,
-      ),
+  Widget _buildDivider(bool isDark) {
+    return Divider(
+      height: 1,
+      color: isDark ? AppColors.darkBorder : AppColors.lightBorder,
+      indent: 56,
+      endIndent: 16,
     );
   }
 }

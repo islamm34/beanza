@@ -27,11 +27,11 @@ class MyQrModel {
   }
 
   Map<String, dynamic> toJson() => {
-    'userId': userId,
-    'qrCode': qrCode,
-    'qrUrl': qrUrl,
-    'membershipId': membershipId,
-    'createdAt': createdAt,
-    'expiresAt': expiresAt,
-  };
+        'userId': userId,
+        'qrCode': qrCode,
+        'qrUrl': qrUrl,
+        'membershipId': membershipId,
+        'createdAt': createdAt,
+        'expiresAt': expiresAt,
+      };
 }

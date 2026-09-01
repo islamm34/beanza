@@ -22,7 +22,8 @@ class MenuCategoryEntity {
           itemCount == other.itemCount;
 
   @override
-  int get hashCode => id.hashCode ^ name.hashCode ^ icon.hashCode ^ itemCount.hashCode;
+  int get hashCode =>
+      id.hashCode ^ name.hashCode ^ icon.hashCode ^ itemCount.hashCode;
 }
 
 class MenuItemEntity {

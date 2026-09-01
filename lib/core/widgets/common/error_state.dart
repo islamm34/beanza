@@ -31,19 +31,19 @@ class ErrorState extends StatelessWidget {
               title,
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                fontWeight: FontWeight.w600,
-                color: AppColors.error,
-              ),
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.error,
+                  ),
             ),
             const SizedBox(height: AppSpacing.sm),
             Text(
               message,
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: AppColors.getTextMutedColor(
-                  Theme.of(context).brightness,
-                ),
-              ),
+                    color: AppColors.getTextMutedColor(
+                      Theme.of(context).brightness,
+                    ),
+                  ),
             ),
             if (onRetry != null) ...[
               const SizedBox(height: AppSpacing.lg),
@@ -61,9 +61,9 @@ class ErrorState extends StatelessWidget {
                   child: Text(
                     'Try Again',
                     style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                      color: AppColors.cream,
-                      fontWeight: FontWeight.w600,
-                    ),
+                          color: AppColors.cream,
+                          fontWeight: FontWeight.w600,
+                        ),
                   ),
                 ),
               ),

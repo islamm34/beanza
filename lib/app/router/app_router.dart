@@ -22,22 +22,27 @@ class _AppRouterState extends State<AppRouter> {
   final List<_NavSvgItem> _items = const [
     _NavSvgItem(
       svgPath: 'assets/images/icons/home.svg',
+      label: 'Home',
       semanticsLabel: 'Home',
     ),
     _NavSvgItem(
       svgPath: 'assets/images/icons/explore.svg',
+      label: 'Explore',
       semanticsLabel: 'Explore',
     ),
     _NavSvgItem(
       svgPath: 'assets/images/icons/scan.svg',
+      label: 'Scan',
       semanticsLabel: 'Scan',
     ),
     _NavSvgItem(
       svgPath: 'assets/images/icons/orders.svg',
+      label: 'Orders',
       semanticsLabel: 'Orders',
     ),
     _NavSvgItem(
       svgPath: 'assets/images/icons/profile.svg',
+      label: 'Profile',
       semanticsLabel: 'Profile',
     ),
   ];
@@ -45,14 +50,10 @@ class _AppRouterState extends State<AppRouter> {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-
-    // Selected Icon Color: BLUE (#2563EB) in both Light Mode & Dark Mode
-    const selectedIconColor = Color(0xFF2563EB);
-    final unselectedIconColor =
-        isDark ? const Color(0xFF9CA3AF) : const Color(0xFF6B7280);
-
-    final indicatorBgColor = const Color(0xFF2563EB)
-        .withValues(alpha: isDark ? 0.22 : 0.12);
+    final activeGreen =
+        isDark ? AppColors.primaryGreen : AppColors.primaryGreenLight;
+    final inactiveColor =
+        isDark ? AppColors.darkTextSecondary : AppColors.lightTextSecondary;
 
     return Scaffold(
       body: AnimatedSwitcher(
@@ -75,34 +76,33 @@ class _AppRouterState extends State<AppRouter> {
       ),
       bottomNavigationBar: SafeArea(
         child: Container(
-          margin: const EdgeInsets.fromLTRB(20, 8, 20, 16),
+          margin: const EdgeInsets.fromLTRB(16, 6, 16, 12),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(28),
+            borderRadius: BorderRadius.circular(24),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withValues(alpha: isDark ? 0.35 : 0.08),
-                blurRadius: 24,
+                blurRadius: 20,
                 spreadRadius: 0,
-                offset: const Offset(0, 8),
+                offset: const Offset(0, 6),
               ),
             ],
           ),
           child: ClipRRect(
-            borderRadius: BorderRadius.circular(28),
+            borderRadius: BorderRadius.circular(24),
             child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
+              filter: ImageFilter.blur(sigmaX: 16, sigmaY: 16),
               child: Container(
-                height: 64,
-                padding: const EdgeInsets.symmetric(horizontal: 12),
+                height: 68,
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
                 decoration: BoxDecoration(
                   color: isDark
-                      ? AppColors.darkCardBg.withValues(alpha: 0.68)
-                      : Colors.white.withValues(alpha: 0.72),
-                  borderRadius: BorderRadius.circular(28),
+                      ? AppColors.darkCardBg.withValues(alpha: 0.92)
+                      : AppColors.lightCardBg.withValues(alpha: 0.95),
+                  borderRadius: BorderRadius.circular(24),
                   border: Border.all(
-                    color: isDark
-                        ? Colors.white.withValues(alpha: 0.15)
-                        : AppColors.espressoDark.withValues(alpha: 0.08),
+                    color:
+                        isDark ? AppColors.darkBorder : AppColors.lightBorder,
                     width: 1.2,
                   ),
                 ),
@@ -111,8 +111,6 @@ class _AppRouterState extends State<AppRouter> {
                   children: List.generate(_items.length, (index) {
                     final isSelected = _currentIndex == index;
                     final item = _items[index];
-                    final currentIconColor =
-                        isSelected ? selectedIconColor : unselectedIconColor;
 
                     return Expanded(
                       child: GestureDetector(
@@ -126,32 +124,43 @@ class _AppRouterState extends State<AppRouter> {
                         behavior: HitTestBehavior.opaque,
                         child: Center(
                           child: AnimatedContainer(
-                            duration: const Duration(milliseconds: 250),
+                            duration: const Duration(milliseconds: 220),
                             curve: Curves.fastOutSlowIn,
-                            width: 48,
-                            height: 44,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 4),
                             decoration: BoxDecoration(
-                              color: isSelected
-                                  ? indicatorBgColor
-                                  : Colors.transparent,
+                              color:
+                                  isSelected ? activeGreen : Colors.transparent,
                               borderRadius: BorderRadius.circular(16),
                             ),
-                            child: Center(
-                              child: AnimatedScale(
-                                scale: isSelected ? 1.18 : 1.0,
-                                duration: const Duration(milliseconds: 250),
-                                curve: Curves.fastOutSlowIn,
-                                child: SvgPicture.asset(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SvgPicture.asset(
                                   item.svgPath,
-                                  width: 24,
-                                  height: 24,
+                                  width: 20,
+                                  height: 20,
                                   colorFilter: ColorFilter.mode(
-                                    currentIconColor,
+                                    isSelected ? Colors.white : inactiveColor,
                                     BlendMode.srcIn,
                                   ),
                                   semanticsLabel: item.semanticsLabel,
                                 ),
-                              ),
+                                const SizedBox(height: 3),
+                                Text(
+                                  item.label,
+                                  style: TextStyle(
+                                    color: isSelected
+                                        ? Colors.white
+                                        : inactiveColor,
+                                    fontSize: 10,
+                                    fontWeight: isSelected
+                                        ? FontWeight.bold
+                                        : FontWeight.w500,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ),
@@ -187,10 +196,12 @@ class _AppRouterState extends State<AppRouter> {
 
 class _NavSvgItem {
   final String svgPath;
+  final String label;
   final String semanticsLabel;
 
   const _NavSvgItem({
     required this.svgPath,
+    required this.label,
     required this.semanticsLabel,
   });
 }

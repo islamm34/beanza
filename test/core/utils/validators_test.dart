@@ -10,9 +10,12 @@ void main() {
       });
 
       test('should return error message when email is invalid', () {
-        expect(AppValidators.validateEmail('invalid-email'), 'Please enter a valid email');
-        expect(AppValidators.validateEmail('test@'), 'Please enter a valid email');
-        expect(AppValidators.validateEmail('@domain.com'), 'Please enter a valid email');
+        expect(AppValidators.validateEmail('invalid-email'),
+            'Please enter a valid email');
+        expect(
+            AppValidators.validateEmail('test@'), 'Please enter a valid email');
+        expect(AppValidators.validateEmail('@domain.com'),
+            'Please enter a valid email');
       });
 
       test('should return null when email is valid', () {
@@ -89,7 +92,8 @@ void main() {
       });
 
       test('should return error when phone has less than 10 digits', () {
-        expect(AppValidators.validatePhone('12345'), 'Please enter a valid phone number');
+        expect(AppValidators.validatePhone('12345'),
+            'Please enter a valid phone number');
       });
 
       test('should return null when phone number is valid', () {
@@ -101,7 +105,8 @@ void main() {
     group('validateName', () {
       test('should return error when name is empty or too short', () {
         expect(AppValidators.validateName(''), 'Name is required');
-        expect(AppValidators.validateName('A'), 'Name must be at least 2 characters');
+        expect(AppValidators.validateName('A'),
+            'Name must be at least 2 characters');
       });
 
       test('should return null when name is valid', () {

@@ -39,15 +39,15 @@ class UserProfileModel {
   }
 
   Map<String, dynamic> toJson() => {
-    'id': id,
-    'email': email,
-    'fullName': fullName,
-    'phoneNumber': phoneNumber,
-    'profileImage': profileImage,
-    'dateOfBirth': dateOfBirth,
-    'address': address,
-    'memberSince': memberSince,
-    'emailVerified': emailVerified,
-    'phoneVerified': phoneVerified,
-  };
+        'id': id,
+        'email': email,
+        'fullName': fullName,
+        'phoneNumber': phoneNumber,
+        'profileImage': profileImage,
+        'dateOfBirth': dateOfBirth,
+        'address': address,
+        'memberSince': memberSince,
+        'emailVerified': emailVerified,
+        'phoneVerified': phoneVerified,
+      };
 }

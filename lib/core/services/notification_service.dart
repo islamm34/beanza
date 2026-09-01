@@ -78,7 +78,8 @@ class NotificationService extends GetxService {
     required String body,
     String? payload,
   }) async {
-    const AndroidNotificationDetails androidDetails = AndroidNotificationDetails(
+    const AndroidNotificationDetails androidDetails =
+        AndroidNotificationDetails(
       channelId,
       channelName,
       channelDescription: channelDescription,
@@ -114,7 +115,8 @@ class NotificationService extends GetxService {
     required DateTime scheduledDate,
     String? payload,
   }) async {
-    const AndroidNotificationDetails androidDetails = AndroidNotificationDetails(
+    const AndroidNotificationDetails androidDetails =
+        AndroidNotificationDetails(
       channelId,
       channelName,
       channelDescription: channelDescription,

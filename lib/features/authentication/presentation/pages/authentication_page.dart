@@ -7,8 +7,15 @@ import 'package:glassy/glassy_config.dart';
 import '../../../../app/routes/app_routes.dart';
 import '../../../../app/theme/app_colors.dart';
 import '../../../../core/utils/validators.dart';
+import '../../../../core/widgets/common/adaptive_cafe_logo.dart';
 
-enum AuthViewMode { login, register, forgotPassword, otpVerification, resetPassword }
+enum AuthViewMode {
+  login,
+  register,
+  forgotPassword,
+  otpVerification,
+  resetPassword
+}
 
 class AuthenticationPage extends StatefulWidget {
   final bool isLogin;
@@ -154,27 +161,21 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     // Brand Header Logo
-                    Container(
-                      width: 72,
-                      height: 72,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: AppColors.caramel.withValues(alpha: 0.20),
-                        border: Border.all(color: AppColors.caramel, width: 2),
-                      ),
-                      child: const Icon(
-                        Icons.local_cafe_rounded,
-                        size: 38,
-                        color: AppColors.caramel,
-                      ),
+                    const AdaptiveCafeLogo(
+                      size: 88,
+                      semanticsLabel: 'Brewora logo',
                     ),
                     const SizedBox(height: 12),
                     Text(
                       'BREWORA',
-                      style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                      style: Theme.of(context)
+                          .textTheme
+                          .headlineMedium
+                          ?.copyWith(
                             fontWeight: FontWeight.w900,
                             letterSpacing: 2.5,
-                            color: isDark ? Colors.white : AppColors.espressoDark,
+                            color:
+                                isDark ? Colors.white : AppColors.espressoDark,
                           ),
                     ),
                     const SizedBox(height: 24),
@@ -183,9 +184,11 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                     GlassyCard(
                       config: GlassyConfig(
                         radius: 24,
-                        backgroundColor: isDark ? AppColors.darkCardBg : Colors.white,
+                        backgroundColor:
+                            isDark ? AppColors.darkCardBg : Colors.white,
                         backgroundOpacity: isDark ? 0.65 : 0.75,
-                        borderColor: isDark ? Colors.white : AppColors.espressoDark,
+                        borderColor:
+                            isDark ? Colors.white : AppColors.espressoDark,
                         borderOpacity: isDark ? 0.15 : 0.10,
                       ),
                       child: Padding(
@@ -195,7 +198,10 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                           children: [
                             Text(
                               _getTitle(),
-                              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleLarge
+                                  ?.copyWith(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 22,
                                   ),
@@ -203,7 +209,10 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                             const SizedBox(height: 4),
                             Text(
                               _getSubtitle(),
-                              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium
+                                  ?.copyWith(
                                     color: AppColors.getTextMutedColor(
                                       Theme.of(context).brightness,
                                     ),
@@ -218,7 +227,8 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                                 validator: AppValidators.validateName,
                                 decoration: InputDecoration(
                                   labelText: 'Full Name',
-                                  prefixIcon: const Icon(Icons.person_outline_rounded),
+                                  prefixIcon:
+                                      const Icon(Icons.person_outline_rounded),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(14),
                                   ),
@@ -252,7 +262,8 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                                 validator: AppValidators.validatePassword,
                                 decoration: InputDecoration(
                                   labelText: 'Password',
-                                  prefixIcon: const Icon(Icons.lock_outline_rounded),
+                                  prefixIcon:
+                                      const Icon(Icons.lock_outline_rounded),
                                   suffixIcon: IconButton(
                                     icon: Icon(
                                       _obscurePassword
@@ -260,7 +271,8 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                                           : Icons.visibility_outlined,
                                     ),
                                     onPressed: () => setState(
-                                      () => _obscurePassword = !_obscurePassword,
+                                      () =>
+                                          _obscurePassword = !_obscurePassword,
                                     ),
                                   ),
                                   border: OutlineInputBorder(
@@ -276,7 +288,8 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                                 alignment: Alignment.centerRight,
                                 child: TextButton(
                                   onPressed: () => setState(
-                                    () => _viewMode = AuthViewMode.forgotPassword,
+                                    () =>
+                                        _viewMode = AuthViewMode.forgotPassword,
                                   ),
                                   child: const Text(
                                     'Forgot Password?',
@@ -316,16 +329,20 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                               ),
                               const SizedBox(height: 16),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     _canResendOtp
                                         ? 'Didn\'t receive code?'
                                         : 'Resend code in ${_resendSeconds}s',
-                                    style: Theme.of(context).textTheme.bodySmall,
+                                    style:
+                                        Theme.of(context).textTheme.bodySmall,
                                   ),
                                   TextButton(
-                                    onPressed: _canResendOtp ? _startResendTimer : null,
+                                    onPressed: _canResendOtp
+                                        ? _startResendTimer
+                                        : null,
                                     child: const Text(
                                       'Resend OTP',
                                       style: TextStyle(
@@ -347,7 +364,8 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                                 validator: AppValidators.validatePassword,
                                 decoration: InputDecoration(
                                   labelText: 'New Password',
-                                  prefixIcon: const Icon(Icons.lock_outline_rounded),
+                                  prefixIcon:
+                                      const Icon(Icons.lock_outline_rounded),
                                   suffixIcon: IconButton(
                                     icon: Icon(
                                       _obscurePassword
@@ -355,7 +373,8 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                                           : Icons.visibility_outlined,
                                     ),
                                     onPressed: () => setState(
-                                      () => _obscurePassword = !_obscurePassword,
+                                      () =>
+                                          _obscurePassword = !_obscurePassword,
                                     ),
                                   ),
                                   border: OutlineInputBorder(
@@ -374,7 +393,8 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                                 ),
                                 decoration: InputDecoration(
                                   labelText: 'Confirm New Password',
-                                  prefixIcon: const Icon(Icons.lock_reset_rounded),
+                                  prefixIcon:
+                                      const Icon(Icons.lock_reset_rounded),
                                   suffixIcon: IconButton(
                                     icon: Icon(
                                       _obscureConfirmPassword
@@ -434,7 +454,8 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                                 children: [
                                   Text(
                                     _getTogglePrompt(),
-                                    style: Theme.of(context).textTheme.bodyMedium,
+                                    style:
+                                        Theme.of(context).textTheme.bodyMedium,
                                   ),
                                   GestureDetector(
                                     onTap: _toggleAuthMode,

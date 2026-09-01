@@ -21,7 +21,8 @@ class CartController extends GetxController {
       product: product,
       size: product.sizes.isNotEmpty
           ? product.sizes.first
-          : const ProductSize(name: 'Medium', volume: '12 oz', priceMultiplier: 1.0),
+          : const ProductSize(
+              name: 'Medium', volume: '12 oz', priceMultiplier: 1.0),
       milk: product.milkOptions.isNotEmpty
           ? product.milkOptions.first
           : const MilkOption(name: 'Whole Milk', additionalPrice: 0.0),

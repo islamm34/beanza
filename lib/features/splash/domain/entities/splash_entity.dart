@@ -19,5 +19,6 @@ class SplashEntity {
           isFirstLaunch == other.isFirstLaunch;
 
   @override
-  int get hashCode => isLoggedIn.hashCode ^ appVersion.hashCode ^ isFirstLaunch.hashCode;
+  int get hashCode =>
+      isLoggedIn.hashCode ^ appVersion.hashCode ^ isFirstLaunch.hashCode;
 }

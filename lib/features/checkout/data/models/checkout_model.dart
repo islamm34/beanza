@@ -36,16 +36,16 @@ class AddressModel {
   }
 
   Map<String, dynamic> toJson() => {
-    'id': id,
-    'label': label,
-    'street': street,
-    'city': city,
-    'state': state,
-    'zipCode': zipCode,
-    'latitude': latitude,
-    'longitude': longitude,
-    'isDefault': isDefault,
-  };
+        'id': id,
+        'label': label,
+        'street': street,
+        'city': city,
+        'state': state,
+        'zipCode': zipCode,
+        'latitude': latitude,
+        'longitude': longitude,
+        'isDefault': isDefault,
+      };
 }
 
 class PaymentMethodModel {
@@ -77,13 +77,13 @@ class PaymentMethodModel {
   }
 
   Map<String, dynamic> toJson() => {
-    'id': id,
-    'type': type,
-    'lastDigits': lastDigits,
-    'cardholderName': cardholderName,
-    'expiryDate': expiryDate,
-    'isDefault': isDefault,
-  };
+        'id': id,
+        'type': type,
+        'lastDigits': lastDigits,
+        'cardholderName': cardholderName,
+        'expiryDate': expiryDate,
+        'isDefault': isDefault,
+      };
 }
 
 class OrderModel {
@@ -115,11 +115,11 @@ class OrderModel {
   }
 
   Map<String, dynamic> toJson() => {
-    'id': id,
-    'status': status,
-    'total': total,
-    'deliveryAddress': deliveryAddress,
-    'paymentMethod': paymentMethod,
-    'createdAt': createdAt,
-  };
+        'id': id,
+        'status': status,
+        'total': total,
+        'deliveryAddress': deliveryAddress,
+        'paymentMethod': paymentMethod,
+        'createdAt': createdAt,
+      };
 }

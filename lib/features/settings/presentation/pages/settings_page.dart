@@ -23,7 +23,8 @@ class _SettingsPageState extends State<SettingsPage> {
       context: context,
       builder: (context) {
         return SimpleDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           title: const Text('Choose Theme Mode'),
           children: [
             SimpleDialogOption(
@@ -79,7 +80,8 @@ class _SettingsPageState extends State<SettingsPage> {
       context: context,
       builder: (context) {
         return SimpleDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           title: const Text('Select Language'),
           children: [
             SimpleDialogOption(
@@ -109,7 +111,8 @@ class _SettingsPageState extends State<SettingsPage> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           title: const Text('Logout from Brewora?'),
           content: const Text(
             'Are you sure you want to log out of your coffee account?',
@@ -161,18 +164,21 @@ class _SettingsPageState extends State<SettingsPage> {
               (value) => setState(() => _emailNotifications = value),
             ),
             const Divider(height: 24),
-
             _buildSectionTitle(context, 'Preferences'),
             ListTile(
-              leading: const Icon(Icons.brightness_auto_outlined, color: AppColors.caramel),
-              title: const Text('App Theme Mode', style: TextStyle(fontWeight: FontWeight.bold)),
+              leading: const Icon(Icons.brightness_auto_outlined,
+                  color: AppColors.caramel),
+              title: const Text('App Theme Mode',
+                  style: TextStyle(fontWeight: FontWeight.bold)),
               subtitle: Text(_getThemeName()),
               trailing: const Icon(Icons.arrow_forward_ios_rounded, size: 16),
               onTap: _showThemeDialog,
             ),
             ListTile(
-              leading: const Icon(Icons.language_rounded, color: AppColors.caramel),
-              title: const Text('App Language', style: TextStyle(fontWeight: FontWeight.bold)),
+              leading:
+                  const Icon(Icons.language_rounded, color: AppColors.caramel),
+              title: const Text('App Language',
+                  style: TextStyle(fontWeight: FontWeight.bold)),
               subtitle: Text(_selectedLanguage),
               trailing: const Icon(Icons.arrow_forward_ios_rounded, size: 16),
               onTap: _showLanguageDialog,
@@ -184,7 +190,6 @@ class _SettingsPageState extends State<SettingsPage> {
               (value) => setState(() => _locationServices = value),
             ),
             const Divider(height: 24),
-
             _buildSectionTitle(context, 'About & Support'),
             _buildSettingsTile(
               Icons.info_outline_rounded,
@@ -223,7 +228,6 @@ class _SettingsPageState extends State<SettingsPage> {
               () {},
             ),
             const Divider(height: 24),
-
             Padding(
               padding: const EdgeInsets.all(16),
               child: SizedBox(

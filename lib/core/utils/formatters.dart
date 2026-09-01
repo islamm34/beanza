@@ -14,7 +14,8 @@ class AppFormatters {
     return DateFormat(format).format(date);
   }
 
-  static String formatDateTime(DateTime dateTime, {String format = 'MMM dd, yyyy HH:mm'}) {
+  static String formatDateTime(DateTime dateTime,
+      {String format = 'MMM dd, yyyy HH:mm'}) {
     return DateFormat(format).format(dateTime);
   }
 
@@ -35,7 +36,9 @@ class AppFormatters {
 
   static String formatCardNumber(String cardNumber) {
     final digits = cardNumber.replaceAll(RegExp(r'[^\d]'), '');
-    return digits.replaceAllMapped(RegExp(r'.{1,4}'), (match) => '${match.group(0)} ').trim();
+    return digits
+        .replaceAllMapped(RegExp(r'.{1,4}'), (match) => '${match.group(0)} ')
+        .trim();
   }
 
   static String formatPercentage(double value) {

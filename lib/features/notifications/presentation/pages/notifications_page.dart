@@ -50,9 +50,7 @@ class NotificationsPage extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: notif.isRead
                       ? (isDark ? AppColors.darkCardBg : AppColors.lightCardBg)
-                      : (isDark
-                          ? AppColors.darkSecondaryBg
-                          : AppColors.cream),
+                      : (isDark ? AppColors.darkSecondaryBg : AppColors.cream),
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(
                     color: notif.isRead

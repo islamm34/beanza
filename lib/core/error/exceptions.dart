@@ -19,10 +19,10 @@ class NetworkException extends AppException {
     String? code,
     dynamic originalError,
   }) : super(
-    message: message,
-    code: code ?? 'network_error',
-    originalError: originalError,
-  );
+          message: message,
+          code: code ?? 'network_error',
+          originalError: originalError,
+        );
 }
 
 class ServerException extends AppException {
@@ -34,10 +34,10 @@ class ServerException extends AppException {
     String? code,
     dynamic originalError,
   }) : super(
-    message: message,
-    code: code ?? 'server_error',
-    originalError: originalError,
-  );
+          message: message,
+          code: code ?? 'server_error',
+          originalError: originalError,
+        );
 }
 
 class AuthenticationException extends AppException {
@@ -46,10 +46,10 @@ class AuthenticationException extends AppException {
     String? code,
     dynamic originalError,
   }) : super(
-    message: message,
-    code: code ?? 'auth_error',
-    originalError: originalError,
-  );
+          message: message,
+          code: code ?? 'auth_error',
+          originalError: originalError,
+        );
 }
 
 class ValidationException extends AppException {
@@ -61,10 +61,10 @@ class ValidationException extends AppException {
     String? code,
     dynamic originalError,
   }) : super(
-    message: message,
-    code: code ?? 'validation_error',
-    originalError: originalError,
-  );
+          message: message,
+          code: code ?? 'validation_error',
+          originalError: originalError,
+        );
 }
 
 class NotFoundException extends AppException {
@@ -73,10 +73,10 @@ class NotFoundException extends AppException {
     String? code,
     dynamic originalError,
   }) : super(
-    message: message,
-    code: code ?? 'not_found',
-    originalError: originalError,
-  );
+          message: message,
+          code: code ?? 'not_found',
+          originalError: originalError,
+        );
 }
 
 class CacheException extends AppException {
@@ -85,10 +85,10 @@ class CacheException extends AppException {
     String? code,
     dynamic originalError,
   }) : super(
-    message: message,
-    code: code ?? 'cache_error',
-    originalError: originalError,
-  );
+          message: message,
+          code: code ?? 'cache_error',
+          originalError: originalError,
+        );
 }
 
 class LocationException extends AppException {
@@ -97,10 +97,10 @@ class LocationException extends AppException {
     String? code,
     dynamic originalError,
   }) : super(
-    message: message,
-    code: code ?? 'location_error',
-    originalError: originalError,
-  );
+          message: message,
+          code: code ?? 'location_error',
+          originalError: originalError,
+        );
 }
 
 class CameraException extends AppException {
@@ -109,10 +109,10 @@ class CameraException extends AppException {
     String? code,
     dynamic originalError,
   }) : super(
-    message: message,
-    code: code ?? 'camera_error',
-    originalError: originalError,
-  );
+          message: message,
+          code: code ?? 'camera_error',
+          originalError: originalError,
+        );
 }
 
 class ScanException extends AppException {
@@ -121,8 +121,8 @@ class ScanException extends AppException {
     String? code,
     dynamic originalError,
   }) : super(
-    message: message,
-    code: code ?? 'scan_error',
-    originalError: originalError,
-  );
+          message: message,
+          code: code ?? 'scan_error',
+          originalError: originalError,
+        );
 }

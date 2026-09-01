@@ -30,12 +30,12 @@ class SettingsModel {
   }
 
   Map<String, dynamic> toJson() => {
-    'notificationsEnabled': notificationsEnabled,
-    'pushNotifications': pushNotifications,
-    'emailNotifications': emailNotifications,
-    'themeMode': themeMode,
-    'language': language,
-    'locationServices': locationServices,
-    'privacyLevel': privacyLevel,
-  };
+        'notificationsEnabled': notificationsEnabled,
+        'pushNotifications': pushNotifications,
+        'emailNotifications': emailNotifications,
+        'themeMode': themeMode,
+        'language': language,
+        'locationServices': locationServices,
+        'privacyLevel': privacyLevel,
+      };
 }

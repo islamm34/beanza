@@ -6,5 +6,6 @@ abstract class DigitalMenuRemoteDataSource {
   Future<List<Map<String, dynamic>>> getMenuCategories(String cafeId);
 
   /// Searches menu items
-  Future<List<Map<String, dynamic>>> searchMenuItems(String cafeId, String query);
+  Future<List<Map<String, dynamic>>> searchMenuItems(
+      String cafeId, String query);
 }

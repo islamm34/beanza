@@ -7,6 +7,7 @@ import '../../../../app/controllers/cart_controller.dart';
 import '../../../../app/controllers/favorites_controller.dart';
 import '../../../../app/controllers/products_controller.dart';
 import '../../../../app/theme/app_colors.dart';
+import '../../../../core/widgets/buttons/favorite_button.dart';
 import '../../../../core/widgets/common/app_app_bar.dart';
 import '../../../../core/widgets/common/empty_state.dart';
 import '../../../../core/widgets/inputs/search_field.dart';
@@ -114,7 +115,6 @@ class _DigitalMenuPageState extends State<DigitalMenuPage> {
                   itemCount: products.length,
                   itemBuilder: (context, index) {
                     final product = products[index];
-                    final isFav = favoritesController.isFavorite(product.id);
 
                     return Container(
                       margin: const EdgeInsets.only(bottom: 12),
@@ -174,18 +174,11 @@ class _DigitalMenuPageState extends State<DigitalMenuPage> {
                                             ),
                                           ),
                                         ),
-                                        GestureDetector(
-                                          onTap: () => favoritesController
-                                              .toggleFavorite(product.id),
-                                          child: Icon(
-                                            isFav
-                                                ? Icons.favorite_rounded
-                                                : Icons.favorite_border_rounded,
-                                            color: isFav
-                                                ? AppColors.error
-                                                : AppColors.textMuted,
-                                            size: 20,
-                                          ),
+                                        FavoriteButton(
+                                          productId: product.id,
+                                          showBackground: false,
+                                          iconSize: 20,
+                                          size: 28,
                                         ),
                                       ],
                                     ),

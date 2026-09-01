@@ -33,7 +33,8 @@ class _ScannerOverlayPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final backgroundPath = Path()..addRect(Rect.fromLTWH(0, 0, size.width, size.height));
+    final backgroundPath = Path()
+      ..addRect(Rect.fromLTWH(0, 0, size.width, size.height));
 
     final scanBoxRect = Rect.fromCenter(
       center: Offset(size.width / 2, size.height / 2),
@@ -42,7 +43,8 @@ class _ScannerOverlayPainter extends CustomPainter {
     );
 
     final cutoutPath = Path()
-      ..addRRect(RRect.fromRectAndRadius(scanBoxRect, Radius.circular(borderRadius)));
+      ..addRRect(
+          RRect.fromRectAndRadius(scanBoxRect, Radius.circular(borderRadius)));
 
     final overlayPath = Path.combine(
       PathOperation.difference,

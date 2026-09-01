@@ -84,9 +84,8 @@ class _ScanControlsState extends State<ScanControls> {
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: isActive
-                  ? AppColors.caramel
-                  : Colors.black.withOpacity(0.5),
+              color:
+                  isActive ? AppColors.caramel : Colors.black.withOpacity(0.5),
               shape: BoxShape.circle,
               border: Border.all(
                 color: isActive ? AppColors.caramel : Colors.white24,

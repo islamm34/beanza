@@ -33,13 +33,13 @@ class NotificationModel {
   }
 
   Map<String, dynamic> toJson() => {
-    'id': id,
-    'title': title,
-    'message': message,
-    'type': type,
-    'imageUrl': imageUrl,
-    'isRead': isRead,
-    'timestamp': timestamp,
-    'data': data,
-  };
+        'id': id,
+        'title': title,
+        'message': message,
+        'type': type,
+        'imageUrl': imageUrl,
+        'isRead': isRead,
+        'timestamp': timestamp,
+        'data': data,
+      };
 }

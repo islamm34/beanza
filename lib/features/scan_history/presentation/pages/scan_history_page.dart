@@ -12,8 +12,8 @@ class ScanHistoryPage extends StatelessWidget {
         title: Text(
           'Scan History',
           style: Theme.of(context).textTheme.titleLarge?.copyWith(
-            fontWeight: FontWeight.bold,
-          ),
+                fontWeight: FontWeight.bold,
+              ),
         ),
         actions: [
           IconButton(
@@ -86,8 +86,8 @@ class ScanHistoryTile extends StatelessWidget {
                   Text(
                     _getType(),
                     style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
+                          fontWeight: FontWeight.bold,
+                        ),
                   ),
                   const SizedBox(height: 4),
                   Text(
@@ -98,14 +98,15 @@ class ScanHistoryTile extends StatelessWidget {
                   Text(
                     '$index hours ago',
                     style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                      color: Theme.of(context).colorScheme.onSurfaceVariant,
-                    ),
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        ),
                   ),
                 ],
               ),
             ),
             IconButton(
-              icon: Icon(Icons.close, size: 20, color: Theme.of(context).colorScheme.error),
+              icon: Icon(Icons.close,
+                  size: 20, color: Theme.of(context).colorScheme.error),
               onPressed: () {},
             ),
           ],

@@ -26,7 +26,11 @@ class ProductVariantEntity {
 
   @override
   int get hashCode =>
-      id.hashCode ^ name.hashCode ^ price.hashCode ^ size.hashCode ^ customizations.hashCode;
+      id.hashCode ^
+      name.hashCode ^
+      price.hashCode ^
+      size.hashCode ^
+      customizations.hashCode;
 }
 
 class ProductEntity {
@@ -115,5 +119,9 @@ class ProductReviewEntity {
 
   @override
   int get hashCode =>
-      id.hashCode ^ userName.hashCode ^ rating.hashCode ^ comment.hashCode ^ createdAt.hashCode;
+      id.hashCode ^
+      userName.hashCode ^
+      rating.hashCode ^
+      comment.hashCode ^
+      createdAt.hashCode;
 }

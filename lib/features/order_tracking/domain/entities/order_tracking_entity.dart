@@ -70,5 +70,8 @@ class OrderTimelineEntity {
 
   @override
   int get hashCode =>
-      status.hashCode ^ timestamp.hashCode ^ message.hashCode ^ isCompleted.hashCode;
+      status.hashCode ^
+      timestamp.hashCode ^
+      message.hashCode ^
+      isCompleted.hashCode;
 }

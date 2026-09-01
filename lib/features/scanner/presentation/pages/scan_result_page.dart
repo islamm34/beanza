@@ -58,7 +58,8 @@ class ScanResultPage extends StatelessWidget {
                 color: isDark ? AppColors.darkCardBg : AppColors.lightCardBg,
                 borderRadius: BorderRadius.circular(16),
                 border: Border.all(
-                  color: isDark ? AppColors.darkSecondaryBg : AppColors.softSand,
+                  color:
+                      isDark ? AppColors.darkSecondaryBg : AppColors.softSand,
                 ),
               ),
               child: Column(
@@ -66,14 +67,17 @@ class ScanResultPage extends StatelessWidget {
                 children: [
                   _buildDetailRow(context, 'Format', scanResult.barcodeFormat),
                   const Divider(height: 24),
-                  _buildDetailRow(context, 'Type', scanResult.scanType.name.toUpperCase()),
+                  _buildDetailRow(
+                      context, 'Type', scanResult.scanType.name.toUpperCase()),
                   const Divider(height: 24),
-                  _buildDetailRow(context, 'Scanned At', _formatTimestamp(scanResult.timestamp)),
+                  _buildDetailRow(context, 'Scanned At',
+                      _formatTimestamp(scanResult.timestamp)),
                   const Divider(height: 24),
                   Text(
                     'Raw Value',
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: AppColors.getTextMutedColor(Theme.of(context).brightness),
+                          color: AppColors.getTextMutedColor(
+                              Theme.of(context).brightness),
                           fontWeight: FontWeight.bold,
                         ),
                   ),
@@ -121,7 +125,8 @@ class ScanResultPage extends StatelessWidget {
         Text(
           label,
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: AppColors.getTextMutedColor(Theme.of(context).brightness),
+                color:
+                    AppColors.getTextMutedColor(Theme.of(context).brightness),
               ),
         ),
         Text(

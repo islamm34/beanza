@@ -4,6 +4,7 @@ import '../buttons/cart_badge_icon_button.dart';
 
 class AppAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String? title;
+  final Widget? titleWidget;
   final bool centerTitle;
   final List<Widget>? actions;
   final VoidCallback? onBackPressed;
@@ -18,7 +19,8 @@ class AppAppBar extends StatelessWidget implements PreferredSizeWidget {
   const AppAppBar({
     Key? key,
     this.title,
-    this.centerTitle = true,
+    this.titleWidget,
+    this.centerTitle = false,
     this.actions,
     this.onBackPressed,
     this.leading,
@@ -38,8 +40,8 @@ class AppAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final bgColor = backgroundColor ??
-        (isDark ? AppColors.darkCardBg : AppColors.lightCardBg);
+    final bgColor =
+        backgroundColor ?? (isDark ? AppColors.darkBg : AppColors.lightBg);
 
     final mergedActions = <Widget>[
       if (actions != null) ...actions!,
@@ -47,26 +49,52 @@ class AppAppBar extends StatelessWidget implements PreferredSizeWidget {
     ];
 
     return AppBar(
-      title: title != null
-          ? Text(
-              title!,
-              style: titleStyle ??
-                  Theme.of(context).textTheme.titleLarge?.copyWith(
+      title: titleWidget ??
+          (title != null
+              ? Text(
+                  title!,
+                  style: titleStyle ??
+                      TextStyle(
                         color: titleColor ??
-                            AppColors.getTextColor(Theme.of(context).brightness),
-                        fontWeight: FontWeight.w600,
+                            (isDark
+                                ? AppColors.darkTextPrimary
+                                : AppColors.lightTextPrimary),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                        letterSpacing: 0.2,
                       ),
-            )
-          : null,
+                )
+              : null),
       centerTitle: centerTitle,
       backgroundColor: bgColor,
       elevation: elevation,
+      scrolledUnderElevation: 0,
       actions: mergedActions.isNotEmpty ? mergedActions : null,
       leading: leading ??
           (Navigator.of(context).canPop()
               ? IconButton(
-                  icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 18),
-                  color: AppColors.getTextColor(Theme.of(context).brightness),
+                  icon: Container(
+                    padding: const EdgeInsets.all(6),
+                    decoration: BoxDecoration(
+                      color: isDark
+                          ? AppColors.darkCardElevated
+                          : AppColors.lightSecondaryBg,
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: isDark
+                            ? AppColors.darkBorder
+                            : AppColors.lightBorder,
+                        width: 1,
+                      ),
+                    ),
+                    child: Icon(
+                      Icons.arrow_back_ios_new_rounded,
+                      size: 15,
+                      color: isDark
+                          ? AppColors.darkTextPrimary
+                          : AppColors.lightTextPrimary,
+                    ),
+                  ),
                   onPressed: onBackPressed ?? () => Navigator.of(context).pop(),
                 )
               : null),

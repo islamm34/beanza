@@ -65,5 +65,9 @@ class FavoriteProductEntity {
 
   @override
   int get hashCode =>
-      id.hashCode ^ name.hashCode ^ price.hashCode ^ imageUrl.hashCode ^ cafeId.hashCode;
+      id.hashCode ^
+      name.hashCode ^
+      price.hashCode ^
+      imageUrl.hashCode ^
+      cafeId.hashCode;
 }

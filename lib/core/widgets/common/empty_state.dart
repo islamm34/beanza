@@ -40,7 +40,8 @@ class EmptyState extends StatelessWidget {
         ),
         child: Text(
           actionLabel!,
-          style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          style:
+              const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
       );
     }

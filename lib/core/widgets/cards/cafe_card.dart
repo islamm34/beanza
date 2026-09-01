@@ -37,6 +37,10 @@ class CafeCard extends StatelessWidget {
         decoration: BoxDecoration(
           color: bgColor,
           borderRadius: AppRadius.cardRadius,
+          border: Border.all(
+            color: isDark ? AppColors.darkBorder : AppColors.lightBorder,
+            width: 1.0,
+          ),
           boxShadow: AppShadows.shadowSm,
         ),
         child: Row(
@@ -73,20 +77,22 @@ class CafeCard extends StatelessWidget {
                           name,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                                fontWeight: FontWeight.w600,
-                              ),
+                          style:
+                              Theme.of(context).textTheme.titleMedium?.copyWith(
+                                    fontWeight: FontWeight.w600,
+                                  ),
                         ),
                         const SizedBox(height: 4),
                         Text(
                           address,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                color: AppColors.getTextMutedColor(
-                                  Theme.of(context).brightness,
-                                ),
-                              ),
+                          style:
+                              Theme.of(context).textTheme.bodySmall?.copyWith(
+                                    color: AppColors.getTextMutedColor(
+                                      Theme.of(context).brightness,
+                                    ),
+                                  ),
                         ),
                       ],
                     ),
@@ -103,7 +109,10 @@ class CafeCard extends StatelessWidget {
                             const SizedBox(width: 4),
                             Text(
                               '$rating',
-                              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall
+                                  ?.copyWith(
                                     fontWeight: FontWeight.w600,
                                   ),
                             ),
@@ -133,10 +142,13 @@ class CafeCard extends StatelessWidget {
                           ),
                           child: Text(
                             isOpen ? 'Open' : 'Closed',
-                            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                  color: isOpen ? AppColors.success : AppColors.error,
-                                  fontWeight: FontWeight.w600,
-                                ),
+                            style:
+                                Theme.of(context).textTheme.bodySmall?.copyWith(
+                                      color: isOpen
+                                          ? AppColors.success
+                                          : AppColors.error,
+                                      fontWeight: FontWeight.w600,
+                                    ),
                           ),
                         ),
                       ],

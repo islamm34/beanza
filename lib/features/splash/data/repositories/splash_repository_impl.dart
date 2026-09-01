@@ -12,7 +12,7 @@ class SplashRepositoryImpl implements SplashRepository {
     try {
       await remoteDataSource.getAppConfig();
       final isLoggedIn = await remoteDataSource.isUserLoggedIn();
-      
+
       return SplashEntity(
         isLoggedIn: isLoggedIn,
         appVersion: '1.0.0',

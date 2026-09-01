@@ -21,11 +21,11 @@ class MenuCategoryModel {
   }
 
   Map<String, dynamic> toJson() => {
-    'id': id,
-    'name': name,
-    'icon': icon,
-    'itemCount': itemCount,
-  };
+        'id': id,
+        'name': name,
+        'icon': icon,
+        'itemCount': itemCount,
+      };
 }
 
 class MenuItemModel {
@@ -63,13 +63,13 @@ class MenuItemModel {
   }
 
   Map<String, dynamic> toJson() => {
-    'id': id,
-    'name': name,
-    'description': description,
-    'price': price,
-    'imageUrl': imageUrl,
-    'categoryId': categoryId,
-    'isAvailable': isAvailable,
-    'addons': addons,
-  };
+        'id': id,
+        'name': name,
+        'description': description,
+        'price': price,
+        'imageUrl': imageUrl,
+        'categoryId': categoryId,
+        'isAvailable': isAvailable,
+        'addons': addons,
+      };
 }

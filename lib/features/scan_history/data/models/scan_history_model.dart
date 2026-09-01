@@ -30,12 +30,12 @@ class ScanHistoryModel {
   }
 
   Map<String, dynamic> toJson() => {
-    'id': id,
-    'type': type,
-    'scannedData': scannedData,
-    'resultType': resultType,
-    'resultTitle': resultTitle,
-    'timestamp': timestamp,
-    'wasSuccessful': wasSuccessful,
-  };
+        'id': id,
+        'type': type,
+        'scannedData': scannedData,
+        'resultType': resultType,
+        'resultTitle': resultTitle,
+        'timestamp': timestamp,
+        'wasSuccessful': wasSuccessful,
+      };
 }

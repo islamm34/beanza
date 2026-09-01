@@ -24,10 +24,10 @@ class OnboardingScreenModel {
   }
 
   Map<String, dynamic> toJson() => {
-    'id': id,
-    'title': title,
-    'description': description,
-    'imageUrl': imageUrl,
-    'color': color,
-  };
+        'id': id,
+        'title': title,
+        'description': description,
+        'imageUrl': imageUrl,
+        'color': color,
+      };
 }

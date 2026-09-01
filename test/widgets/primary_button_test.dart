@@ -19,7 +19,8 @@ void main() {
       expect(find.text('Checkout Now'), findsOneWidget);
     });
 
-    testWidgets('triggers onPressed callback when tapped', (WidgetTester tester) async {
+    testWidgets('triggers onPressed callback when tapped',
+        (WidgetTester tester) async {
       bool wasTapped = false;
 
       await tester.pumpWidget(
@@ -39,7 +40,8 @@ void main() {
       expect(wasTapped, isTrue);
     });
 
-    testWidgets('shows loading indicator when isLoading is true', (WidgetTester tester) async {
+    testWidgets('shows loading indicator when isLoading is true',
+        (WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(

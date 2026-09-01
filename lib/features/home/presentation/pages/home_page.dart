@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../../app/controllers/favorites_controller.dart';
+
 import '../../../../app/controllers/product_details_controller.dart';
 import '../../../../app/controllers/products_controller.dart';
 import '../../../../app/controllers/profile_controller.dart';
+import '../../../../app/controllers/table_session_controller.dart';
+import '../../../../app/routes/app_routes.dart';
 import '../../../../app/theme/app_colors.dart';
 import '../../../../core/widgets/buttons/cart_badge_icon_button.dart';
-import '../../../../core/widgets/table/table_session_banner.dart';
-import '../../../../core/widgets/cards/product_card.dart';
-import '../widgets/home_product_card.dart';
 import '../../../../core/widgets/common/empty_state.dart';
 import '../../../../core/widgets/inputs/search_field.dart';
 import '../../../products/presentation/pages/products_page.dart';
+import '../widgets/home_product_card.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -19,18 +19,26 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final productsController = Get.find<ProductsController>();
-    final favoritesController = Get.find<FavoritesController>();
     final profileController = Get.find<ProfileController>();
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final goldColor = isDark ? AppColors.gold : AppColors.goldLight;
+    final greenColor =
+        isDark ? AppColors.primaryGreen : AppColors.primaryGreenLight;
+
+    TableSessionController? tableController;
+    if (Get.isRegistered<TableSessionController>()) {
+      tableController = Get.find<TableSessionController>();
+    }
 
     return Scaffold(
+      backgroundColor: isDark ? AppColors.darkBg : AppColors.lightBg,
       body: SafeArea(
         child: CustomScrollView(
           physics: const BouncingScrollPhysics(),
           slivers: [
-            // Top App Header
+            // 1. Top App Header & Profile Greeting
             SliverPadding(
-              padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+              padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
               sliver: SliverToBoxAdapter(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -38,19 +46,20 @@ class HomePage extends StatelessWidget {
                     Row(
                       children: [
                         Container(
-                          width: 44,
-                          height: 44,
+                          width: 42,
+                          height: 42,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            color: AppColors.caramel.withOpacity(0.2),
+                            color: goldColor.withValues(alpha: 0.18),
                             border: Border.all(
-                              color: AppColors.caramel,
+                              color: goldColor,
                               width: 1.5,
                             ),
                           ),
-                          child: const Icon(
+                          child: Icon(
                             Icons.person_rounded,
-                            color: AppColors.caramel,
+                            color: goldColor,
+                            size: 24,
                           ),
                         ),
                         const SizedBox(width: 12),
@@ -60,33 +69,32 @@ class HomePage extends StatelessWidget {
                             Obx(
                               () => Text(
                                 'Good day, ${profileController.user.value.name.split(' ').first} ☕',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .titleMedium
-                                    ?.copyWith(
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                                style: TextStyle(
+                                  color: isDark
+                                      ? AppColors.darkTextPrimary
+                                      : AppColors.lightTextPrimary,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                ),
                               ),
                             ),
                             const SizedBox(height: 2),
                             Row(
                               children: [
-                                const Icon(
+                                Icon(
                                   Icons.location_on_rounded,
-                                  size: 14,
-                                  color: AppColors.caramel,
+                                  size: 13,
+                                  color: goldColor,
                                 ),
                                 const SizedBox(width: 4),
                                 Text(
-                                  '5th Avenue Store, NYC',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodySmall
-                                      ?.copyWith(
-                                        color: AppColors.getTextMutedColor(
-                                          Theme.of(context).brightness,
-                                        ),
-                                      ),
+                                  'Brewora Artisan Café • Branch 1',
+                                  style: TextStyle(
+                                    color: isDark
+                                        ? AppColors.darkTextSecondary
+                                        : AppColors.lightTextSecondary,
+                                    fontSize: 11,
+                                  ),
                                 ),
                               ],
                             ),
@@ -99,9 +107,14 @@ class HomePage extends StatelessWidget {
                         Container(
                           decoration: BoxDecoration(
                             color: isDark
-                                ? AppColors.darkCardBg
+                                ? AppColors.darkCardElevated
                                 : AppColors.lightSecondaryBg,
                             shape: BoxShape.circle,
+                            border: Border.all(
+                              color: isDark
+                                  ? AppColors.darkBorder
+                                  : AppColors.lightBorder,
+                            ),
                           ),
                           child: const CartBadgeIconButton(),
                         ),
@@ -109,16 +122,22 @@ class HomePage extends StatelessWidget {
                         Container(
                           decoration: BoxDecoration(
                             color: isDark
-                                ? AppColors.darkCardBg
+                                ? AppColors.darkCardElevated
                                 : AppColors.lightSecondaryBg,
                             shape: BoxShape.circle,
+                            border: Border.all(
+                              color: isDark
+                                  ? AppColors.darkBorder
+                                  : AppColors.lightBorder,
+                            ),
                           ),
                           child: IconButton(
-                            icon: const Icon(Icons.notifications_none_rounded),
-                            color: AppColors.getTextColor(
-                              Theme.of(context).brightness,
-                            ),
-                            onPressed: () => Get.toNamed('/notifications'),
+                            icon: const Icon(Icons.notifications_none_rounded,
+                                size: 20),
+                            color: isDark
+                                ? AppColors.darkTextPrimary
+                                : AppColors.lightTextPrimary,
+                            onPressed: () => Get.toNamed(Routes.NOTIFICATIONS),
                           ),
                         ),
                       ],
@@ -128,216 +147,40 @@ class HomePage extends StatelessWidget {
               ),
             ),
 
-            // Table Session Banner
-            const SliverToBoxAdapter(
-              child: TableSessionBanner(),
-            ),
-
-            // Search Bar
-            SliverPadding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              sliver: SliverToBoxAdapter(
-                child: SearchField(
-                  hintText: 'Search your favorite coffee...',
-                  onChanged: (val) => productsController.setSearchQuery(val),
-                  onClear: () => productsController.setSearchQuery(''),
-                ),
-              ),
-            ),
-
-            // Hero Promo Banner
+            // 2. Rounded Search Bar with Filter/Mic action
             SliverPadding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               sliver: SliverToBoxAdapter(
-                child: Container(
-                  height: 160,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    gradient: const LinearGradient(
-                      colors: [AppColors.espressoDark, Color(0xFF4A2E20)],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: AppColors.espressoDark.withOpacity(0.3),
-                        blurRadius: 12,
-                        offset: const Offset(0, 4),
-                      ),
-                    ],
-                  ),
-                  child: Stack(
-                    children: [
-                      Positioned(
-                        right: -20,
-                        bottom: -20,
-                        child: Icon(
-                          Icons.local_cafe_rounded,
-                          size: 180,
-                          color: Colors.white.withOpacity(0.08),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(20),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 10,
-                                vertical: 4,
-                              ),
-                              decoration: BoxDecoration(
-                                color: AppColors.caramel,
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: const Text(
-                                'PROMO 20% OFF',
-                                style: TextStyle(
-                                  color: AppColors.espressoDark,
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                            const SizedBox(height: 8),
-                            const Text(
-                              'Get 20% off your\nCold Brew order',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                height: 1.2,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-
-            // Category Selector with Uniform Image Cards
-            SliverPadding(
-              padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
-              sliver: SliverToBoxAdapter(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                child: Row(
                   children: [
-                    Text(
-                      'Categories',
-                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
+                    Expanded(
+                      child: SearchField(
+                        hintText:
+                            'Search your favorite drink / ابحث عن مشروبك...',
+                        onChanged: (val) =>
+                            productsController.setSearchQuery(val),
+                        onClear: () => productsController.setSearchQuery(''),
+                      ),
                     ),
-                    const SizedBox(height: 12),
-                    SizedBox(
-                      height: 96,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        physics: const BouncingScrollPhysics(),
-                        itemCount: productsController.categories.length,
-                        itemBuilder: (context, index) {
-                          final cat = productsController.categories[index];
-                          final imagePath = _getCategoryImage(cat);
-                          final catIcon = _getCategoryIcon(cat);
-
-                          return Obx(() {
-                            final isSelected =
-                                productsController.selectedCategory.value ==
-                                    cat;
-
-                            return GestureDetector(
-                              onTap: () => productsController.setCategory(cat),
-                              behavior: HitTestBehavior.opaque,
-                              child: AnimatedContainer(
-                                duration: const Duration(milliseconds: 200),
-                                margin: const EdgeInsets.only(right: 12),
-                                width: 72,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    // Fixed 56x56 uniform image container
-                                    Container(
-                                      width: 56,
-                                      height: 56,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(16),
-                                        border: Border.all(
-                                          color: isSelected
-                                              ? AppColors.caramel
-                                              : (isDark
-                                                  ? Colors.white
-                                                      .withValues(alpha: 0.12)
-                                                  : Colors.black
-                                                      .withValues(alpha: 0.08)),
-                                          width: isSelected ? 2.0 : 1.0,
-                                        ),
-                                        boxShadow: isSelected
-                                            ? [
-                                                BoxShadow(
-                                                  color: AppColors.caramel
-                                                      .withValues(alpha: 0.30),
-                                                  blurRadius: 10,
-                                                  offset: const Offset(0, 4),
-                                                ),
-                                              ]
-                                            : null,
-                                      ),
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(14),
-                                        child: imagePath != null
-                                            ? Image.asset(
-                                                imagePath,
-                                                fit: BoxFit.cover,
-                                                alignment: Alignment.center,
-                                                errorBuilder: (context, error,
-                                                    stackTrace) {
-                                                  return _buildFallbackIconContainer(
-                                                    context,
-                                                    catIcon,
-                                                    isSelected,
-                                                    isDark,
-                                                  );
-                                                },
-                                              )
-                                            : _buildFallbackIconContainer(
-                                                context,
-                                                catIcon,
-                                                isSelected,
-                                                isDark,
-                                              ),
-                                      ),
-                                    ),
-                                    const SizedBox(height: 6),
-                                    Text(
-                                      cat,
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: isSelected
-                                            ? FontWeight.bold
-                                            : FontWeight.w500,
-                                        color: isSelected
-                                            ? (isDark
-                                                ? AppColors.caramel
-                                                : AppColors.espressoDark)
-                                            : AppColors.getTextColor(
-                                                Theme.of(context).brightness),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            );
-                          });
-                        },
+                    const SizedBox(width: 10),
+                    Container(
+                      height: 48,
+                      width: 48,
+                      decoration: BoxDecoration(
+                        color: isDark
+                            ? AppColors.darkCardElevated
+                            : AppColors.lightSecondaryBg,
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(
+                          color: isDark
+                              ? AppColors.darkBorder
+                              : AppColors.lightBorder,
+                        ),
+                      ),
+                      child: IconButton(
+                        icon: Icon(Icons.tune_rounded,
+                            color: goldColor, size: 20),
+                        onPressed: () => Get.toNamed(Routes.EXPLORE),
                       ),
                     ),
                   ],
@@ -345,118 +188,356 @@ class HomePage extends StatelessWidget {
               ),
             ),
 
-            // Featured Products Horizontal List
-            SliverPadding(
-              padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
-              sliver: SliverToBoxAdapter(
-                child: Text(
-                  'Featured Coffee',
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
-                ),
-              ),
-            ),
-            SliverToBoxAdapter(
-              child: SizedBox(
-                height: 280,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  clipBehavior: Clip.none,
-                  padding: const EdgeInsets.fromLTRB(16, 8, 16, 12),
-                  itemCount: productsController.popularProducts.length,
-                  itemBuilder: (context, index) {
-                    final product = productsController.popularProducts[index];
-                    return Obx(() {
-                      final isFav = favoritesController.isFavorite(product.id);
-                      return Container(
-                        width: 175,
-                        margin: const EdgeInsets.only(right: 14),
-                        child: HomeProductCard(
-                          product: product,
-                          isFavorite: isFav,
-                          showSubtleShadow: true,
-                          onFavoritePressed: () =>
-                              favoritesController.toggleFavorite(product.id),
-                          onTap: () {
-                            Get.find<ProductDetailsController>()
-                                .initProduct(product);
-                            Get.to(
-                              () => ProductsPage(productId: product.id),
-                            );
-                          },
+            // 3. Current Table Chip directly below search bar
+            if (tableController != null)
+              SliverPadding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                sliver: SliverToBoxAdapter(
+                  child: Obx(() {
+                    final hasSession = tableController!.hasActiveSession;
+                    final tableNum = tableController.tableNumber;
+                    final pCount = tableController.participantCount;
+
+                    return GestureDetector(
+                      onTap: () {
+                        if (hasSession) {
+                          Get.toNamed(Routes.TABLE_OVERVIEW);
+                        } else {
+                          Get.toNamed(Routes.SCANNER);
+                        }
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 14, vertical: 8),
+                        decoration: BoxDecoration(
+                          color: hasSession
+                              ? greenColor.withValues(
+                                  alpha: isDark ? 0.16 : 0.12)
+                              : (isDark
+                                  ? AppColors.darkCardElevated
+                                  : AppColors.lightSecondaryBg),
+                          borderRadius: BorderRadius.circular(14),
+                          border: Border.all(
+                            color: hasSession
+                                ? greenColor
+                                : (isDark
+                                    ? AppColors.darkBorder
+                                    : AppColors.lightBorder),
+                            width: 1.2,
+                          ),
                         ),
-                      );
-                    });
-                  },
-                ),
-              ),
-            ),
-
-            // Filtered Products Section Title
-            SliverPadding(
-              padding: const EdgeInsets.fromLTRB(16, 24, 16, 8),
-              sliver: SliverToBoxAdapter(
-                child: Text(
-                  'All Coffee Menu',
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                        fontWeight: FontWeight.bold,
+                        child: Row(
+                          children: [
+                            Icon(
+                              hasSession
+                                  ? Icons.table_restaurant_rounded
+                                  : Icons.qr_code_scanner_rounded,
+                              size: 18,
+                              color: hasSession ? greenColor : goldColor,
+                            ),
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child: Text(
+                                hasSession
+                                    ? 'Table $tableNum • $pCount Members Connected • طاولة $tableNum'
+                                    : 'No Active Table Session • Scan QR to Join Table',
+                                style: TextStyle(
+                                  color: isDark
+                                      ? AppColors.darkTextPrimary
+                                      : AppColors.lightTextPrimary,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 8, vertical: 3),
+                              decoration: BoxDecoration(
+                                color: hasSession ? greenColor : goldColor,
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Text(
+                                hasSession ? 'ACTIVE' : 'SCAN',
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
+                    );
+                  }),
+                ),
+              ),
+
+            // 4. Horizontal Categories with Gold Surface / Border when selected
+            SliverPadding(
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              sliver: SliverToBoxAdapter(
+                child: SizedBox(
+                  height: 44,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    physics: const BouncingScrollPhysics(),
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    itemCount: productsController.categories.length,
+                    itemBuilder: (context, index) {
+                      final category = productsController.categories[index];
+                      return Obx(() {
+                        final isSelected =
+                            productsController.selectedCategory.value ==
+                                category;
+
+                        return Padding(
+                          padding: const EdgeInsets.only(right: 8),
+                          child: GestureDetector(
+                            onTap: () =>
+                                productsController.setCategory(category),
+                            child: AnimatedContainer(
+                              duration: const Duration(milliseconds: 200),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: 10,
+                              ),
+                              decoration: BoxDecoration(
+                                color: isSelected
+                                    ? goldColor.withValues(
+                                        alpha: isDark ? 0.22 : 0.16)
+                                    : (isDark
+                                        ? AppColors.darkCardBg
+                                        : AppColors.lightCardBg),
+                                borderRadius: BorderRadius.circular(14),
+                                border: Border.all(
+                                  color: isSelected
+                                      ? goldColor
+                                      : (isDark
+                                          ? AppColors.darkBorder
+                                          : AppColors.lightBorder),
+                                  width: isSelected ? 1.5 : 1.0,
+                                ),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  category,
+                                  style: TextStyle(
+                                    color: isSelected
+                                        ? (isDark
+                                            ? AppColors.goldBright
+                                            : goldColor)
+                                        : (isDark
+                                            ? AppColors.darkTextSecondary
+                                            : AppColors.lightTextSecondary),
+                                    fontWeight: isSelected
+                                        ? FontWeight.bold
+                                        : FontWeight.w500,
+                                    fontSize: 13,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      });
+                    },
+                  ),
                 ),
               ),
             ),
 
-            // Main Product Grid
+            // 5. AI Suggestion Card with subtle green border
+            SliverPadding(
+              padding: const EdgeInsets.fromLTRB(16, 4, 16, 12),
+              sliver: SliverToBoxAdapter(
+                child: Container(
+                  padding: const EdgeInsets.all(14),
+                  decoration: BoxDecoration(
+                    color: isDark
+                        ? AppColors.darkCardElevated
+                        : AppColors.lightCardElevated,
+                    borderRadius: BorderRadius.circular(18),
+                    border: Border.all(
+                      color: greenColor.withValues(alpha: isDark ? 0.6 : 0.5),
+                      width: 1.2,
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color:
+                            greenColor.withValues(alpha: isDark ? 0.12 : 0.08),
+                        blurRadius: 12,
+                        offset: const Offset(0, 4),
+                      ),
+                    ],
+                  ),
+                  child: Row(
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(12),
+                        child: Image.asset(
+                          'assets/images/coffee/caramel_latte.jpg',
+                          width: 58,
+                          height: 58,
+                          fit: BoxFit.cover,
+                          errorBuilder: (_, __, ___) => Container(
+                            width: 58,
+                            height: 58,
+                            color: goldColor.withValues(alpha: 0.2),
+                            child: const Icon(Icons.auto_awesome_rounded,
+                                color: AppColors.gold),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Icon(Icons.auto_awesome_rounded,
+                                    size: 14, color: goldColor),
+                                const SizedBox(width: 4),
+                                Text(
+                                  'AI BARISTA PICK • اقتراح الذكاء',
+                                  style: TextStyle(
+                                    color: goldColor,
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.bold,
+                                    letterSpacing: 0.5,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 2),
+                            Text(
+                              'Specialty Caramel Macchiato',
+                              style: TextStyle(
+                                color: isDark
+                                    ? AppColors.darkTextPrimary
+                                    : AppColors.lightTextPrimary,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 13,
+                              ),
+                            ),
+                            Text(
+                              'Perfect companion for afternoon energy',
+                              style: TextStyle(
+                                color: isDark
+                                    ? AppColors.darkTextSecondary
+                                    : AppColors.lightTextSecondary,
+                                fontSize: 11,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(width: 6),
+                      ElevatedButton(
+                        onPressed: () {
+                          final popular = productsController.popularProducts;
+                          if (popular.isNotEmpty) {
+                            Get.find<ProductDetailsController>()
+                                .initProduct(popular.first);
+                            Get.to(() =>
+                                ProductsPage(productId: popular.first.id));
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: greenColor,
+                          foregroundColor: Colors.white,
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 12, vertical: 8),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                          minimumSize: const Size(60, 34),
+                        ),
+                        child: const Text('Try',
+                            style: TextStyle(
+                                fontSize: 12, fontWeight: FontWeight.bold)),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+
+            // 6. Section Header with "View All"
+            SliverPadding(
+              padding: const EdgeInsets.fromLTRB(16, 6, 16, 8),
+              sliver: SliverToBoxAdapter(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Featured Coffee Menu',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: isDark
+                            ? AppColors.darkTextPrimary
+                            : AppColors.lightTextPrimary,
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () => Get.toNamed(Routes.EXPLORE),
+                      child: Text(
+                        'View All',
+                        style: TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.bold,
+                          color: goldColor,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+
+            // 7. Main 2-Column Product Grid
             Obx(() {
               final products = productsController.filteredProducts;
               if (products.isEmpty) {
                 return SliverToBoxAdapter(
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 24),
+                    padding: const EdgeInsets.symmetric(vertical: 32),
                     child: EmptyState(
                       icon: Icons.search_off_rounded,
                       title: 'No coffee found',
-                      description:
+                      message:
                           'Try searching for another coffee or choose a different category.',
                       actionLabel: 'Reset Filters',
-                      onAction: () {
-                        productsController.resetFilters();
-                      },
+                      onAction: () => productsController.resetFilters(),
                     ),
                   ),
                 );
               }
 
               return SliverPadding(
-                padding: const EdgeInsets.fromLTRB(16, 8, 16, 110),
+                padding: const EdgeInsets.fromLTRB(16, 4, 16, 96),
                 sliver: SliverGrid(
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     crossAxisSpacing: 12,
                     mainAxisSpacing: 12,
-                    childAspectRatio: 0.68,
+                    childAspectRatio: 0.72,
                   ),
                   delegate: SliverChildBuilderDelegate(
                     (context, index) {
                       final product = products[index];
-                      return Obx(() {
-                        final isFav =
-                            favoritesController.isFavorite(product.id);
-                        return HomeProductCard(
-                          product: product,
-                          isFavorite: isFav,
-                          showSubtleShadow: true,
-                          onFavoritePressed: () =>
-                              favoritesController.toggleFavorite(product.id),
-                          onTap: () {
-                            Get.find<ProductDetailsController>()
-                                .initProduct(product);
-                            Get.to(
-                              () => ProductsPage(productId: product.id),
-                            );
-                          },
-                        );
-                      });
+                      return HomeProductCard(
+                        product: product,
+                        showSubtleShadow: true,
+                        onTap: () {
+                          Get.find<ProductDetailsController>()
+                              .initProduct(product);
+                          Get.to(() => ProductsPage(productId: product.id));
+                        },
+                      );
                     },
                     childCount: products.length,
                   ),
@@ -464,62 +545,6 @@ class HomePage extends StatelessWidget {
               );
             }),
           ],
-        ),
-      ),
-    );
-  }
-
-  String? _getCategoryImage(String category) {
-    switch (category) {
-      case 'Hot Coffee':
-        return 'assets/images/coffee/cappuccino.jpg';
-      case 'Iced Coffee':
-        return 'assets/images/coffee/iced_latte.jpg';
-      case 'Specialty':
-        return 'assets/images/coffee/caramel_latte.jpg';
-      case 'Non-Coffee':
-        return 'assets/images/coffee/matcha_latte.jpg';
-      default:
-        return null;
-    }
-  }
-
-  IconData _getCategoryIcon(String category) {
-    switch (category) {
-      case 'All':
-        return Icons.coffee_rounded;
-      case 'Hot Coffee':
-        return Icons.local_cafe_rounded;
-      case 'Iced Coffee':
-        return Icons.ac_unit_rounded;
-      case 'Specialty':
-        return Icons.star_rounded;
-      case 'Non-Coffee':
-        return Icons.eco_rounded;
-      default:
-        return Icons.coffee_rounded;
-    }
-  }
-
-  Widget _buildFallbackIconContainer(
-    BuildContext context,
-    IconData icon,
-    bool isSelected,
-    bool isDark,
-  ) {
-    return Container(
-      decoration: BoxDecoration(
-        color: isSelected
-            ? AppColors.caramel.withValues(alpha: 0.20)
-            : (isDark ? AppColors.darkCardBg : AppColors.lightSecondaryBg),
-      ),
-      child: Center(
-        child: Icon(
-          icon,
-          size: 24,
-          color: isSelected
-              ? (isDark ? AppColors.caramel : AppColors.espressoDark)
-              : AppColors.getTextMutedColor(Theme.of(context).brightness),
         ),
       ),
     );

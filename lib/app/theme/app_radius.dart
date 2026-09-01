@@ -16,11 +16,10 @@ class AppRadius {
   static final BorderRadius mediumRadius = BorderRadius.circular(medium);
   static final BorderRadius largeRadius = BorderRadius.circular(large);
   static final BorderRadius cardRadius = BorderRadius.circular(card);
-  static final BorderRadius bottomSheetRadius =
-      const BorderRadius.only(
-        topLeft: Radius.circular(bottomSheet),
-        topRight: Radius.circular(bottomSheet),
-      );
+  static final BorderRadius bottomSheetRadius = const BorderRadius.only(
+    topLeft: Radius.circular(bottomSheet),
+    topRight: Radius.circular(bottomSheet),
+  );
   static final BorderRadius buttonRadius = BorderRadius.circular(button);
   static final BorderRadius circleRadius = BorderRadius.circular(circle);
 

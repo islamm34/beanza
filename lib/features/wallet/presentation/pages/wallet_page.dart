@@ -83,7 +83,8 @@ class WalletPage extends StatelessWidget {
                       ),
                       ElevatedButton.icon(
                         onPressed: () => walletController.topUp(20.00),
-                        icon: const Icon(Icons.add_rounded, size: 16, color: AppColors.espressoDark),
+                        icon: const Icon(Icons.add_rounded,
+                            size: 16, color: AppColors.espressoDark),
                         label: const Text(
                           'Top Up \$20',
                           style: TextStyle(
@@ -127,9 +128,8 @@ class WalletPage extends StatelessWidget {
                     margin: const EdgeInsets.only(bottom: 12),
                     padding: const EdgeInsets.all(14),
                     decoration: BoxDecoration(
-                      color: isDark
-                          ? AppColors.darkCardBg
-                          : AppColors.lightCardBg,
+                      color:
+                          isDark ? AppColors.darkCardBg : AppColors.lightCardBg,
                       borderRadius: BorderRadius.circular(16),
                       border: Border.all(
                         color: isDark

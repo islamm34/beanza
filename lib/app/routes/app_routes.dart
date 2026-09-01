@@ -27,4 +27,6 @@ abstract class Routes {
   static const SETTINGS = '/settings';
   static const NAME_ENTRY = '/name-entry';
   static const TABLE_OVERVIEW = '/table-overview';
+  static const HOSPITALITY_HUB = '/hospitality-hub';
+  static const CAFE_DASHBOARD = '/cafe-dashboard';
 }

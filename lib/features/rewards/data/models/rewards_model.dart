@@ -27,13 +27,13 @@ class LoyaltyPointsModel {
   }
 
   Map<String, dynamic> toJson() => {
-    'totalPoints': totalPoints,
-    'usedPoints': usedPoints,
-    'availablePoints': availablePoints,
-    'membershipTier': membershipTier,
-    'pointsToNextTier': pointsToNextTier,
-    'multiplier': multiplier,
-  };
+        'totalPoints': totalPoints,
+        'usedPoints': usedPoints,
+        'availablePoints': availablePoints,
+        'membershipTier': membershipTier,
+        'pointsToNextTier': pointsToNextTier,
+        'multiplier': multiplier,
+      };
 }
 
 class RewardModel {
@@ -71,13 +71,13 @@ class RewardModel {
   }
 
   Map<String, dynamic> toJson() => {
-    'id': id,
-    'title': title,
-    'description': description,
-    'pointsRequired': pointsRequired,
-    'imageUrl': imageUrl,
-    'type': type,
-    'value': value,
-    'isAvailable': isAvailable,
-  };
+        'id': id,
+        'title': title,
+        'description': description,
+        'pointsRequired': pointsRequired,
+        'imageUrl': imageUrl,
+        'type': type,
+        'value': value,
+        'isAvailable': isAvailable,
+      };
 }

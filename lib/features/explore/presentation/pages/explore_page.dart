@@ -214,19 +214,16 @@ class _ExplorePageState extends State<ExplorePage> {
                 ),
                 itemBuilder: (context, index) {
                   final product = products[index];
-                  final isFav = favoritesController.isFavorite(product.id);
 
                   return ProductCard(
+                    productId: product.id,
                     imageUrl: product.image,
                     name: product.name,
                     category: product.category,
                     price: product.basePrice,
                     rating: product.rating,
                     reviewCount: product.reviewsCount,
-                    isFavorite: isFav,
                     showSubtleShadow: true,
-                    onFavoritePressed: () =>
-                        favoritesController.toggleFavorite(product.id),
                     onTap: () {
                       Get.find<ProductDetailsController>().initProduct(product);
                       Get.to(() => ProductsPage(productId: product.id));

@@ -27,21 +27,22 @@ class CartItemModel {
       price: (json['price'] as num?)?.toDouble() ?? 0.0,
       quantity: json['quantity'] as int? ?? 1,
       selectedSize: json['selectedSize'] as String? ?? '',
-      customizations: List<String>.from(json['customizations'] as List<dynamic>? ?? []),
+      customizations:
+          List<String>.from(json['customizations'] as List<dynamic>? ?? []),
       imageUrl: json['imageUrl'] as String? ?? '',
     );
   }
 
   Map<String, dynamic> toJson() => {
-    'id': id,
-    'productId': productId,
-    'productName': productName,
-    'price': price,
-    'quantity': quantity,
-    'selectedSize': selectedSize,
-    'customizations': customizations,
-    'imageUrl': imageUrl,
-  };
+        'id': id,
+        'productId': productId,
+        'productName': productName,
+        'price': price,
+        'quantity': quantity,
+        'selectedSize': selectedSize,
+        'customizations': customizations,
+        'imageUrl': imageUrl,
+      };
 
   double get totalPrice => price * quantity;
 }
@@ -77,11 +78,11 @@ class CartSummaryModel {
   }
 
   Map<String, dynamic> toJson() => {
-    'items': items.map((item) => item.toJson()).toList(),
-    'subtotal': subtotal,
-    'tax': tax,
-    'deliveryFee': deliveryFee,
-    'discount': discount,
-    'total': total,
-  };
+        'items': items.map((item) => item.toJson()).toList(),
+        'subtotal': subtotal,
+        'tax': tax,
+        'deliveryFee': deliveryFee,
+        'discount': discount,
+        'total': total,
+      };
 }

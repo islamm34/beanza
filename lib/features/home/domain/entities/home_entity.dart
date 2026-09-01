@@ -1,5 +1,5 @@
-import '../../../products/domain/entities/products_entity.dart';
-export '../../../products/domain/entities/products_entity.dart' show ProductEntity;
+export '../../../products/domain/entities/products_entity.dart'
+    show ProductEntity;
 
 class HeroBannerEntity {
   final String id;

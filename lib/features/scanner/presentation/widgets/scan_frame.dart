@@ -14,9 +14,9 @@ class ScanFrame extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const cornerLength = 24.0;
-    const cornerWidth = 4.0;
-    const borderRadius = 16.0;
+    const cornerLength = 32.0;
+    const cornerWidth = 4.5;
+    const borderRadius = 20.0;
 
     return Container(
       width: size,
@@ -99,23 +99,25 @@ class ScanFrame extends StatelessWidget {
       decoration: BoxDecoration(
         border: Border(
           top: isTop
-              ? const BorderSide(color: AppColors.caramel, width: 4)
+              ? const BorderSide(color: AppColors.brightGreen, width: 4.5)
               : BorderSide.none,
           bottom: !isTop
-              ? const BorderSide(color: AppColors.caramel, width: 4)
+              ? const BorderSide(color: AppColors.brightGreen, width: 4.5)
               : BorderSide.none,
           left: isLeft
-              ? const BorderSide(color: AppColors.caramel, width: 4)
+              ? const BorderSide(color: AppColors.brightGreen, width: 4.5)
               : BorderSide.none,
           right: !isLeft
-              ? const BorderSide(color: AppColors.caramel, width: 4)
+              ? const BorderSide(color: AppColors.brightGreen, width: 4.5)
               : BorderSide.none,
         ),
         borderRadius: BorderRadius.only(
           topLeft: (isTop && isLeft) ? Radius.circular(radius) : Radius.zero,
           topRight: (isTop && !isLeft) ? Radius.circular(radius) : Radius.zero,
-          bottomLeft: (!isTop && isLeft) ? Radius.circular(radius) : Radius.zero,
-          bottomRight: (!isTop && !isLeft) ? Radius.circular(radius) : Radius.zero,
+          bottomLeft:
+              (!isTop && isLeft) ? Radius.circular(radius) : Radius.zero,
+          bottomRight:
+              (!isTop && !isLeft) ? Radius.circular(radius) : Radius.zero,
         ),
       ),
     );

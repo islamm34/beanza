@@ -27,13 +27,13 @@ class FavoriteCafeModel {
   }
 
   Map<String, dynamic> toJson() => {
-    'id': id,
-    'name': name,
-    'imageUrl': imageUrl,
-    'rating': rating,
-    'address': address,
-    'distance': distance,
-  };
+        'id': id,
+        'name': name,
+        'imageUrl': imageUrl,
+        'rating': rating,
+        'address': address,
+        'distance': distance,
+      };
 }
 
 class FavoriteProductModel {
@@ -62,10 +62,10 @@ class FavoriteProductModel {
   }
 
   Map<String, dynamic> toJson() => {
-    'id': id,
-    'name': name,
-    'price': price,
-    'imageUrl': imageUrl,
-    'cafeId': cafeId,
-  };
+        'id': id,
+        'name': name,
+        'price': price,
+        'imageUrl': imageUrl,
+        'cafeId': cafeId,
+      };
 }

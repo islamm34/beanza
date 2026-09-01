@@ -28,7 +28,7 @@ class AppIconButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final bgColor = backgroundColor ?? 
+    final bgColor = backgroundColor ??
         (isDark ? AppColors.darkCardBg : AppColors.lightCardBg);
     final color = iconColor ?? AppColors.espressoDark;
 

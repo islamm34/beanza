@@ -24,6 +24,8 @@ import '../../features/settings/presentation/pages/settings_page.dart';
 import '../../features/splash/presentation/pages/splash_page.dart';
 import '../../features/table_session/presentation/pages/name_entry_page.dart';
 import '../../features/table_session/presentation/pages/table_overview_page.dart';
+import '../../features/table_session/presentation/pages/hospitality_hub_page.dart';
+import '../../features/table_session/presentation/pages/cafe_dashboard_page.dart';
 import '../../features/wallet/presentation/pages/wallet_page.dart';
 import 'app_routes.dart';
 
@@ -137,6 +139,14 @@ class AppPages {
     GetPage(
       name: Routes.TABLE_OVERVIEW,
       page: () => const TableOverviewPage(),
+    ),
+    GetPage(
+      name: Routes.HOSPITALITY_HUB,
+      page: () => const HospitalityHubPage(),
+    ),
+    GetPage(
+      name: Routes.CAFE_DASHBOARD,
+      page: () => const CafeDashboardPage(),
     ),
   ];
 }

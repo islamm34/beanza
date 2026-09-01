@@ -3,8 +3,6 @@ import '../../../app/theme/app_colors.dart';
 import '../../../app/theme/app_radius.dart';
 import '../../../app/theme/app_spacing.dart';
 
-
-
 class AppTextField extends StatefulWidget {
   final String? label;
   final String? hint;

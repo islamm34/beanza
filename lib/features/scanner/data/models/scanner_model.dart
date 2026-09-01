@@ -22,16 +22,17 @@ class ScanResultModel {
       title: json['title'] as String? ?? '',
       description: json['description'] as String? ?? '',
       imageUrl: json['imageUrl'] as String?,
-      data: Map<String, dynamic>.from(json['data'] as Map<String, dynamic>? ?? {}),
+      data: Map<String, dynamic>.from(
+          json['data'] as Map<String, dynamic>? ?? {}),
     );
   }
 
   Map<String, dynamic> toJson() => {
-    'type': type,
-    'id': id,
-    'title': title,
-    'description': description,
-    'imageUrl': imageUrl,
-    'data': data,
-  };
+        'type': type,
+        'id': id,
+        'title': title,
+        'description': description,
+        'imageUrl': imageUrl,
+        'data': data,
+      };
 }

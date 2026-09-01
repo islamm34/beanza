@@ -1,12 +1,12 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import '../../../../app/controllers/table_session_controller.dart';
 import '../../../../app/routes/app_routes.dart';
 import '../../../../app/theme/app_colors.dart';
+import '../../../../core/widgets/common/adaptive_cafe_logo.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({Key? key}) : super(key: key);
@@ -28,7 +28,7 @@ class _SplashPageState extends State<SplashPage>
 
     _animController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 600),
+      duration: const Duration(milliseconds: 1500),
     );
 
     _fadeAnimation = CurvedAnimation(
@@ -88,10 +88,8 @@ class _SplashPageState extends State<SplashPage>
     // Responsive logo width: 45% of screen width, clamped between 160.0 and 260.0
     final logoWidth = (screenWidth * 0.45).clamp(160.0, 260.0);
 
-    final logoWidget = SvgPicture.asset(
-      'assets/branding/brewora_splash_logo.svg',
-      width: logoWidth,
-      fit: BoxFit.contain,
+    final logoWidget = AdaptiveCafeLogo(
+      size: logoWidth,
       semanticsLabel: 'Brewora logo',
     );
 

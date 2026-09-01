@@ -36,16 +36,17 @@ class PermissionDeniedView extends StatelessWidget {
             Text(
               'Camera Access Required',
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
+                    fontWeight: FontWeight.bold,
+                  ),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 12),
             Text(
               'Camera access is required to scan QR codes and barcodes. Please grant permission to continue.',
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: AppColors.getTextMutedColor(Theme.of(context).brightness),
-              ),
+                    color: AppColors.getTextMutedColor(
+                        Theme.of(context).brightness),
+                  ),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 32),

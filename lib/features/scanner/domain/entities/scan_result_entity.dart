@@ -16,7 +16,9 @@ class ScanResultEntity {
   static ScanType classifyType(String format, String value) {
     if (value.trim().isEmpty) return ScanType.unknown;
     final lowerFormat = format.toLowerCase();
-    if (lowerFormat.contains('qr') || lowerFormat.contains('aztec') || lowerFormat.contains('matrix')) {
+    if (lowerFormat.contains('qr') ||
+        lowerFormat.contains('aztec') ||
+        lowerFormat.contains('matrix')) {
       return ScanType.qr;
     } else if (lowerFormat.contains('code') ||
         lowerFormat.contains('ean') ||

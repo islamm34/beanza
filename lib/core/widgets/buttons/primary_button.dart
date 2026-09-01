@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../../app/theme/app_colors.dart';
-import '../../../app/theme/app_radius.dart';
-import '../../../app/theme/app_shadows.dart';
-import '../../../app/theme/app_spacing.dart';
 
 class PrimaryButton extends StatelessWidget {
   final String label;
@@ -14,6 +11,9 @@ class PrimaryButton extends StatelessWidget {
   final TextStyle? textStyle;
   final Widget? icon;
   final bool isEnabled;
+  final Color? backgroundColor;
+  final Color? foregroundColor;
+  final double borderRadius;
 
   const PrimaryButton({
     Key? key,
@@ -25,10 +25,19 @@ class PrimaryButton extends StatelessWidget {
     this.textStyle,
     this.icon,
     this.isEnabled = true,
+    this.backgroundColor,
+    this.foregroundColor,
+    this.borderRadius = 16,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final greenColor =
+        isDark ? AppColors.primaryGreen : AppColors.primaryGreenLight;
+    final activeBg = backgroundColor ?? greenColor;
+    final activeFg = foregroundColor ?? Colors.white;
+
     return SizedBox(
       width: width ?? double.infinity,
       height: height,
@@ -36,38 +45,57 @@ class PrimaryButton extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           onTap: isEnabled && !isLoading ? onPressed : null,
-          borderRadius: AppRadius.buttonRadius,
+          borderRadius: BorderRadius.circular(borderRadius),
           child: Container(
             decoration: BoxDecoration(
-              color: isEnabled ? AppColors.espressoDark : Colors.grey,
-              borderRadius: AppRadius.buttonRadius,
-              boxShadow: AppShadows.shadowMd,
+              color: isEnabled
+                  ? activeBg
+                  : (isDark
+                      ? const Color(0xFF222622)
+                      : const Color(0xFFDDD8CE)),
+              borderRadius: BorderRadius.circular(borderRadius),
+              boxShadow: isEnabled
+                  ? [
+                      BoxShadow(
+                        color: activeBg.withValues(alpha: isDark ? 0.35 : 0.25),
+                        blurRadius: 12,
+                        offset: const Offset(0, 4),
+                      ),
+                    ]
+                  : null,
             ),
             child: isLoading
-                ? const Center(
+                ? Center(
                     child: SizedBox(
-                      width: 24,
-                      height: 24,
+                      width: 22,
+                      height: 22,
                       child: CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation(AppColors.cream),
-                        strokeWidth: 2,
+                        valueColor: AlwaysStoppedAnimation(activeFg),
+                        strokeWidth: 2.2,
                       ),
                     ),
                   )
                 : Row(
                     mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       if (icon != null) ...[
                         icon!,
-                        const SizedBox(width: AppSpacing.sm),
+                        const SizedBox(width: 8),
                       ],
                       Text(
                         label,
                         style: textStyle ??
-                            Theme.of(context).textTheme.labelLarge?.copyWith(
-                                  color: AppColors.cream,
-                                  fontWeight: FontWeight.w600,
-                                ),
+                            TextStyle(
+                              color: isEnabled
+                                  ? activeFg
+                                  : (isDark
+                                      ? AppColors.darkTextSecondary
+                                      : AppColors.lightTextSecondary),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
+                              letterSpacing: 0.3,
+                            ),
                       ),
                     ],
                   ),

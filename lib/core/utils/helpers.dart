@@ -68,7 +68,8 @@ class AppHelpers {
     }
   }
 
-  static Map<String, dynamic> flattenMap(Map<String, dynamic> map, {String prefix = ''}) {
+  static Map<String, dynamic> flattenMap(Map<String, dynamic> map,
+      {String prefix = ''}) {
     final result = <String, dynamic>{};
     map.forEach((key, value) {
       final newKey = prefix.isEmpty ? key : '$prefix.$key';

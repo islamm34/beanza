@@ -16,9 +16,9 @@ class NetworkFailure extends Failure {
     required String message,
     String? code,
   }) : super(
-    message: message,
-    code: code ?? 'network_error',
-  );
+          message: message,
+          code: code ?? 'network_error',
+        );
 }
 
 class ServerFailure extends Failure {
@@ -29,9 +29,9 @@ class ServerFailure extends Failure {
     this.statusCode,
     String? code,
   }) : super(
-    message: message,
-    code: code ?? 'server_error',
-  );
+          message: message,
+          code: code ?? 'server_error',
+        );
 }
 
 class AuthenticationFailure extends Failure {
@@ -39,9 +39,9 @@ class AuthenticationFailure extends Failure {
     required String message,
     String? code,
   }) : super(
-    message: message,
-    code: code ?? 'auth_error',
-  );
+          message: message,
+          code: code ?? 'auth_error',
+        );
 }
 
 class ValidationFailure extends Failure {
@@ -52,9 +52,9 @@ class ValidationFailure extends Failure {
     this.field,
     String? code,
   }) : super(
-    message: message,
-    code: code ?? 'validation_error',
-  );
+          message: message,
+          code: code ?? 'validation_error',
+        );
 }
 
 class NotFoundFailure extends Failure {
@@ -62,9 +62,9 @@ class NotFoundFailure extends Failure {
     required String message,
     String? code,
   }) : super(
-    message: message,
-    code: code ?? 'not_found',
-  );
+          message: message,
+          code: code ?? 'not_found',
+        );
 }
 
 class CacheFailure extends Failure {
@@ -72,9 +72,9 @@ class CacheFailure extends Failure {
     required String message,
     String? code,
   }) : super(
-    message: message,
-    code: code ?? 'cache_error',
-  );
+          message: message,
+          code: code ?? 'cache_error',
+        );
 }
 
 class LocationFailure extends Failure {
@@ -82,9 +82,9 @@ class LocationFailure extends Failure {
     required String message,
     String? code,
   }) : super(
-    message: message,
-    code: code ?? 'location_error',
-  );
+          message: message,
+          code: code ?? 'location_error',
+        );
 }
 
 class CameraFailure extends Failure {
@@ -92,9 +92,9 @@ class CameraFailure extends Failure {
     required String message,
     String? code,
   }) : super(
-    message: message,
-    code: code ?? 'camera_error',
-  );
+          message: message,
+          code: code ?? 'camera_error',
+        );
 }
 
 class ScanFailure extends Failure {
@@ -102,9 +102,9 @@ class ScanFailure extends Failure {
     required String message,
     String? code,
   }) : super(
-    message: message,
-    code: code ?? 'scan_error',
-  );
+          message: message,
+          code: code ?? 'scan_error',
+        );
 }
 
 class UnknownFailure extends Failure {
@@ -112,7 +112,7 @@ class UnknownFailure extends Failure {
     required String message,
     String? code,
   }) : super(
-    message: message,
-    code: code ?? 'unknown_error',
-  );
+          message: message,
+          code: code ?? 'unknown_error',
+        );
 }

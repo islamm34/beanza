@@ -29,15 +29,15 @@ class WalletRepositoryImpl implements WalletRepository {
       final transactions = await remoteDataSource.getTransactions();
       return transactions
           .map((txn) => TransactionEntity(
-            id: txn['id'] as String? ?? '',
-            type: txn['type'] as String? ?? 'debit',
-            amount: (txn['amount'] as num?)?.toDouble() ?? 0.0,
-            description: txn['description'] as String? ?? '',
-            timestamp: txn['timestamp'] as String? ?? '',
-            status: txn['status'] as String? ?? 'completed',
-            cafeId: txn['cafeId'] as String?,
-            orderId: txn['orderId'] as String?,
-          ))
+                id: txn['id'] as String? ?? '',
+                type: txn['type'] as String? ?? 'debit',
+                amount: (txn['amount'] as num?)?.toDouble() ?? 0.0,
+                description: txn['description'] as String? ?? '',
+                timestamp: txn['timestamp'] as String? ?? '',
+                status: txn['status'] as String? ?? 'completed',
+                cafeId: txn['cafeId'] as String?,
+                orderId: txn['orderId'] as String?,
+              ))
           .toList();
     } catch (e) {
       throw Exception('Failed to get transactions: $e');

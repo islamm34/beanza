@@ -6,13 +6,14 @@ class AssetPaths {
   static const String animationsPath = 'assets/animations';
 
   // Logos
+  static const String mainCafeLogo = 'assets/premium_cafe_3d_logo.svg';
   static const String caffeineLogoLight = '$logosPath/caffeine_logo_light.png';
   static const String caffeineLogoDark = '$logosPath/caffeine_logo_dark.png';
   static const String appIcon = '$logosPath/app_icon.png';
 
   // Splash
   static const String splashBackground = '$imagesPath/splash_background.png';
-  static const String splashLogo = 'assets/branding/brewora_splash_logo.svg';
+  static const String splashLogo = 'assets/premium_cafe_3d_logo.svg';
 
   // Onboarding
   static const String onboarding1 = '$imagesPath/onboarding/onboarding_1.png';
@@ -33,15 +34,18 @@ class AssetPaths {
   static const String cafe3 = '$imagesPath/cafes/cafe_3.png';
 
   // Products
-  static const String productDefault = '$imagesPath/products/product_default.png';
+  static const String productDefault =
+      '$imagesPath/products/product_default.png';
 
   // Avatars
   static const String avatarDefault = '$imagesPath/avatars/avatar_default.png';
   static const String avatar1 = '$imagesPath/avatars/avatar_1.png';
 
   // Placeholders
-  static const String placeholderImage = '$imagesPath/placeholders/placeholder.png';
-  static const String placeholderCafe = '$imagesPath/placeholders/placeholder_cafe.png';
+  static const String placeholderImage =
+      '$imagesPath/placeholders/placeholder.png';
+  static const String placeholderCafe =
+      '$imagesPath/placeholders/placeholder_cafe.png';
 
   // Icons (SVG)
   static const String homeIcon = '$iconsPath/home.svg';
