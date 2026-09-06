@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" fill="none" role="img" aria-labelledby="title desc">
+  <title id="title">Premium 3D cafe logo</title>
+  <desc id="desc">A dimensional brown and gold coffee cup with golden steam and a roasted coffee bean, on a transparent background.</desc>
+
+  <defs>
+    <linearGradient id="gold" x1="230" y1="176" x2="756" y2="813" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFF0A8"/>
+      <stop offset="0.18" stop-color="#E7B94E"/>
+      <stop offset="0.48" stop-color="#A96A12"/>
+      <stop offset="0.72" stop-color="#F4D477"/>
+      <stop offset="1" stop-color="#7A4308"/>
+    </linearGradient>
+    <linearGradient id="cupBody" x1="306" y1="393" x2="707" y2="760" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#8A512D"/>
+      <stop offset="0.18" stop-color="#5B2C19"/>
+      <stop offset="0.5" stop-color="#2A120B"/>
+      <stop offset="0.76" stop-color="#4A2112"/>
+      <stop offset="1" stop-color="#180A06"/>
+    </linearGradient>
+    <linearGradient id="cupGlow" x1="335" y1="433" x2="518" y2="693" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#D08B53" stop-opacity="0.72"/>
+      <stop offset="0.58" stop-color="#7D3E21" stop-opacity="0.16"/>
+      <stop offset="1" stop-color="#2B120A" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="coffee" cx="0" cy="0" r="1" gradientTransform="translate(481 421) rotate(10) scale(238 93)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#8F4D20"/>
+      <stop offset="0.42" stop-color="#51240F"/>
+      <stop offset="0.82" stop-color="#241007"/>
+      <stop offset="1" stop-color="#120704"/>
+    </radialGradient>
+    <linearGradient id="handle" x1="667" y1="438" x2="837" y2="660" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#6C351F"/>
+      <stop offset="0.38" stop-color="#2B120C"/>
+      <stop offset="0.68" stop-color="#1B0B07"/>
+      <stop offset="1" stop-color="#64301B"/>
+    </linearGradient>
+    <linearGradient id="bean" x1="558" y1="660" x2="784" y2="884" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#B46D35"/>
+      <stop offset="0.18" stop-color="#744020"/>
+      <stop offset="0.56" stop-color="#35170D"/>
+      <stop offset="0.83" stop-color="#5B2B16"/>
+      <stop offset="1" stop-color="#1E0C07"/>
+    </linearGradient>
+    <radialGradient id="saucer" cx="0" cy="0" r="1" gradientTransform="translate(495 778) rotate(90) scale(104 340)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#6E351C"/>
+      <stop offset="0.5" stop-color="#32150C"/>
+      <stop offset="0.85" stop-color="#160906"/>
+      <stop offset="1" stop-color="#0B0403"/>
+    </radialGradient>
+    <clipPath id="cupClip">
+      <path d="M277 421C285 388 365 364 486 364C607 364 687 389 695 421L664 669C657 725 584 761 486 761C388 761 315 725 308 669L277 421Z"/>
+    </clipPath>
+  </defs>
+
+  <!-- Soft grounding shadow -->
+  <ellipse cx="503" cy="817" rx="286" ry="53" fill="#2A1007" fill-opacity="0.38"/>
+
+  <!-- Steam -->
+  <g stroke="url(#gold)" stroke-linecap="round" fill="none">
+    <path d="M390 337C329 281 431 251 377 189C351 158 367 127 394 109" stroke-width="22"/>
+    <path d="M500 333C449 277 546 245 500 185C477 155 490 120 519 91" stroke-width="25"/>
+    <path d="M603 345C558 297 642 268 607 220C584 189 595 160 620 137" stroke-width="18"/>
+  </g>
+  <g stroke="#FFF1B1" stroke-linecap="round" fill="none" opacity="0.68">
+    <path d="M383 329C339 282 422 251 383 203" stroke-width="5"/>
+    <path d="M494 323C459 278 531 244 502 202" stroke-width="6"/>
+    <path d="M599 337C567 298 626 270 605 236" stroke-width="4"/>
+  </g>
+
+  <g>
+    <!-- Saucer -->
+    <path d="M182 751C191 690 325 651 492 651C660 651 795 691 803 751C814 827 675 884 492 884C310 884 171 827 182 751Z" fill="url(#saucer)" stroke="url(#gold)" stroke-width="13"/>
+    <ellipse cx="492" cy="755" rx="247" ry="65" fill="#120704" fill-opacity="0.7" stroke="#B97824" stroke-width="8"/>
+    <path d="M260 800C348 845 643 849 743 795" stroke="#F1CD70" stroke-opacity="0.34" stroke-width="8" stroke-linecap="round"/>
+
+    <!-- Cup handle behind body -->
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M660 446C721 410 804 430 836 491C870 556 844 639 782 679C742 705 696 707 657 690L668 607C691 627 722 631 748 614C779 594 791 553 774 521C759 493 722 482 691 497L660 446ZM696 511C716 500 743 509 753 529C766 554 757 583 734 598C715 610 692 608 675 595L685 524C688 519 692 515 696 511Z" fill="url(#handle)" stroke="url(#gold)" stroke-width="13"/>
+
+    <!-- Cup body -->
+    <path d="M277 421C285 388 365 364 486 364C607 364 687 389 695 421L664 669C657 725 584 761 486 761C388 761 315 725 308 669L277 421Z" fill="url(#cupBody)" stroke="url(#gold)" stroke-width="15" stroke-linejoin="round"/>
+    <g clip-path="url(#cupClip)">
+      <ellipse cx="357" cy="540" rx="144" ry="254" fill="url(#cupGlow)"/>
+      <path d="M328 463C337 576 342 664 386 703" stroke="#E6A66D" stroke-opacity="0.3" stroke-width="18" stroke-linecap="round"/>
+      <path d="M617 464C607 576 603 656 568 702" stroke="#110604" stroke-opacity="0.58" stroke-width="34" stroke-linecap="round"/>
+    </g>
+
+    <!-- Rim and coffee -->
+    <ellipse cx="486" cy="414" rx="210" ry="75" fill="#2C130B" stroke="url(#gold)" stroke-width="15"/>
+    <ellipse cx="486" cy="414" rx="185" ry="57" fill="url(#coffee)"/>
+    <path d="M339 404C385 368 524 359 620 392" stroke="#F4D77B" stroke-opacity="0.62" stroke-width="8" stroke-linecap="round"/>
+    <path d="M361 414C405 385 511 379 585 399" stroke="#D88942" stroke-opacity="0.5" stroke-width="8" stroke-linecap="round"/>
+    <ellipse cx="425" cy="394" rx="54" ry="12" transform="rotate(-7 425 394)" fill="#FFE6A0" fill-opacity="0.24"/>
+
+    <!-- Gold crest accent -->
+    <path d="M411 573C411 531 445 497 487 497C529 497 563 531 563 573C563 616 529 650 487 650C445 650 411 616 411 573Z" fill="#1C0A06" fill-opacity="0.5" stroke="url(#gold)" stroke-width="9"/>
+    <path d="M487 518C463 543 462 583 487 626C512 583 511 543 487 518Z" fill="url(#gold)"/>
+    <path d="M487 529C481 556 482 588 487 615" stroke="#6D3909" stroke-width="6" stroke-linecap="round"/>
+  </g>
+
+  <!-- Foreground coffee bean -->
+  <g transform="rotate(-24 688 766)">
+    <path d="M784 731C812 806 764 874 686 886C607 898 546 855 549 786C552 715 622 643 700 650C741 654 769 690 784 731Z" fill="url(#bean)" stroke="url(#gold)" stroke-width="12"/>
+    <path d="M713 666C677 703 677 743 704 778C732 815 718 853 681 881" stroke="#180905" stroke-width="22" stroke-linecap="round"/>
+    <path d="M708 667C687 707 691 741 717 773C738 801 729 840 695 874" stroke="#C07C3C" stroke-opacity="0.56" stroke-width="7" stroke-linecap="round"/>
+    <path d="M611 717C634 683 670 668 695 667" stroke="#E5A35E" stroke-opacity="0.48" stroke-width="11" stroke-linecap="round"/>
+    <ellipse cx="618" cy="741" rx="25" ry="58" transform="rotate(35 618 741)" fill="#F5BD71" fill-opacity="0.13"/>
+  </g>
+
+  <!-- Final metallic highlights -->
+  <path d="M302 402C327 372 380 357 421 351" stroke="#FFF2B5" stroke-opacity="0.72" stroke-width="6" stroke-linecap="round"/>
+  <path d="M208 744C230 710 276 687 329 674" stroke="#FFF0AD" stroke-opacity="0.5" stroke-width="7" stroke-linecap="round"/>
+</svg>
