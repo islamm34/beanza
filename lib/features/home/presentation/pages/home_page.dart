@@ -12,9 +12,27 @@ import '../../../../core/widgets/common/empty_state.dart';
 import '../../../../core/widgets/inputs/search_field.dart';
 import '../../../products/presentation/pages/products_page.dart';
 import '../widgets/home_product_card.dart';
+import '../widgets/home_profile_header.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  DateTime? _lastProfileTap;
+
+  void _handleProfileTap() {
+    final now = DateTime.now();
+    if (_lastProfileTap != null &&
+        now.difference(_lastProfileTap!) < const Duration(milliseconds: 600)) {
+      return;
+    }
+    _lastProfileTap = now;
+    Get.toNamed(Routes.PROFILE);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,114 +55,21 @@ class HomePage extends StatelessWidget {
           physics: const BouncingScrollPhysics(),
           slivers: [
             // 1. Top App Header & Profile Greeting
-            SliverPadding(
-              padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
-              sliver: SliverToBoxAdapter(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        Container(
-                          width: 42,
-                          height: 42,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: goldColor.withValues(alpha: 0.18),
-                            border: Border.all(
-                              color: goldColor,
-                              width: 1.5,
-                            ),
-                          ),
-                          child: Icon(
-                            Icons.person_rounded,
-                            color: goldColor,
-                            size: 24,
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Obx(
-                              () => Text(
-                                'Good day, ${profileController.user.value.name.split(' ').first} ☕',
-                                style: TextStyle(
-                                  color: isDark
-                                      ? AppColors.darkTextPrimary
-                                      : AppColors.lightTextPrimary,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16,
-                                ),
-                              ),
-                            ),
-                            const SizedBox(height: 2),
-                            Row(
-                              children: [
-                                Icon(
-                                  Icons.location_on_rounded,
-                                  size: 13,
-                                  color: goldColor,
-                                ),
-                                const SizedBox(width: 4),
-                                Text(
-                                  'Brewora Artisan Café • Branch 1',
-                                  style: TextStyle(
-                                    color: isDark
-                                        ? AppColors.darkTextSecondary
-                                        : AppColors.lightTextSecondary,
-                                    fontSize: 11,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            color: isDark
-                                ? AppColors.darkCardElevated
-                                : AppColors.lightSecondaryBg,
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                              color: isDark
-                                  ? AppColors.darkBorder
-                                  : AppColors.lightBorder,
-                            ),
-                          ),
-                          child: const CartBadgeIconButton(),
-                        ),
-                        const SizedBox(width: 8),
-                        Container(
-                          decoration: BoxDecoration(
-                            color: isDark
-                                ? AppColors.darkCardElevated
-                                : AppColors.lightSecondaryBg,
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                              color: isDark
-                                  ? AppColors.darkBorder
-                                  : AppColors.lightBorder,
-                            ),
-                          ),
-                          child: IconButton(
-                            icon: const Icon(Icons.notifications_none_rounded,
-                                size: 20),
-                            color: isDark
-                                ? AppColors.darkTextPrimary
-                                : AppColors.lightTextPrimary,
-                            onPressed: () => Get.toNamed(Routes.NOTIFICATIONS),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
+            SliverToBoxAdapter(
+              child: Obx(() {
+                final user = profileController.user.value;
+                final tableActive = tableController?.hasActiveSession ?? false;
+                final tableNum = tableController?.tableNumber;
+
+                return HomeProfileHeader(
+                  name: user.name,
+                  avatarPath: user.profileImage,
+                  tableNumber: tableNum,
+                  hasActiveTableSession: tableActive,
+                  onProfileTap: _handleProfileTap,
+                  onNotificationsTap: () => Get.toNamed(Routes.NOTIFICATIONS),
+                );
+              }),
             ),
 
             // 2. Rounded Search Bar with Filter/Mic action

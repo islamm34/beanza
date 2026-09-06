@@ -1,113 +1,161 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" fill="none" role="img" aria-labelledby="title desc">
-  <title id="title">Premium 3D cafe logo</title>
-  <desc id="desc">A dimensional brown and gold coffee cup with golden steam and a roasted coffee bean, on a transparent background.</desc>
-
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" fill="none" role="img" aria-label="Premium Cafe Logo">
   <defs>
-    <linearGradient id="gold" x1="230" y1="176" x2="756" y2="813" gradientUnits="userSpaceOnUse">
+    <!-- Metallic Gold Gradients -->
+    <linearGradient id="goldMetallic" x1="220" y1="200" x2="800" y2="820" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#FFF0A8"/>
-      <stop offset="0.18" stop-color="#E7B94E"/>
-      <stop offset="0.48" stop-color="#A96A12"/>
-      <stop offset="0.72" stop-color="#F4D477"/>
-      <stop offset="1" stop-color="#7A4308"/>
+      <stop offset="0.18" stop-color="#F3C765"/>
+      <stop offset="0.48" stop-color="#D39A35"/>
+      <stop offset="0.75" stop-color="#E8BC58"/>
+      <stop offset="1" stop-color="#9A5528"/>
     </linearGradient>
-    <linearGradient id="cupBody" x1="306" y1="393" x2="707" y2="760" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#8A512D"/>
-      <stop offset="0.18" stop-color="#5B2C19"/>
-      <stop offset="0.5" stop-color="#2A120B"/>
-      <stop offset="0.76" stop-color="#4A2112"/>
-      <stop offset="1" stop-color="#180A06"/>
+
+    <linearGradient id="goldBright" x1="300" y1="350" x2="720" y2="750" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.8"/>
+      <stop offset="0.25" stop-color="#F3C765"/>
+      <stop offset="0.65" stop-color="#D39A35"/>
+      <stop offset="1" stop-color="#8F4D20"/>
     </linearGradient>
-    <linearGradient id="cupGlow" x1="335" y1="433" x2="518" y2="693" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#D08B53" stop-opacity="0.72"/>
-      <stop offset="0.58" stop-color="#7D3E21" stop-opacity="0.16"/>
-      <stop offset="1" stop-color="#2B120A" stop-opacity="0"/>
+
+    <!-- Coffee Cup Ceramic Body (Rich 3D Warm & Dark Browns) -->
+    <linearGradient id="cupCeramic" x1="280" y1="410" x2="740" y2="760" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#9A5528"/>
+      <stop offset="0.22" stop-color="#5A2D18"/>
+      <stop offset="0.55" stop-color="#1D0D07"/>
+      <stop offset="0.8" stop-color="#3A1A0F"/>
+      <stop offset="1" stop-color="#080B09"/>
     </linearGradient>
-    <radialGradient id="coffee" cx="0" cy="0" r="1" gradientTransform="translate(481 421) rotate(10) scale(238 93)" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#8F4D20"/>
-      <stop offset="0.42" stop-color="#51240F"/>
-      <stop offset="0.82" stop-color="#241007"/>
-      <stop offset="1" stop-color="#120704"/>
+
+    <!-- Cup Front Specular Sheen -->
+    <linearGradient id="cupSheen" x1="320" y1="440" x2="520" y2="700" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#F3C765" stop-opacity="0.45"/>
+      <stop offset="0.4" stop-color="#9A5528" stop-opacity="0.2"/>
+      <stop offset="1" stop-color="#1D0D07" stop-opacity="0"/>
+    </linearGradient>
+
+    <!-- Rich Coffee Crema Liquid Surface -->
+    <radialGradient id="coffeeSurface" cx="0" cy="0" r="1" gradientTransform="translate(512 430) scale(200 68)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#9A5528"/>
+      <stop offset="0.45" stop-color="#5A2D18"/>
+      <stop offset="0.8" stop-color="#1D0D07"/>
+      <stop offset="1" stop-color="#080B09"/>
     </radialGradient>
-    <linearGradient id="handle" x1="667" y1="438" x2="837" y2="660" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#6C351F"/>
-      <stop offset="0.38" stop-color="#2B120C"/>
-      <stop offset="0.68" stop-color="#1B0B07"/>
-      <stop offset="1" stop-color="#64301B"/>
+
+    <!-- Cup Handle 3D Gradient -->
+    <linearGradient id="handleGrad" x1="680" y1="450" x2="830" y2="670" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#9A5528"/>
+      <stop offset="0.35" stop-color="#5A2D18"/>
+      <stop offset="0.7" stop-color="#1D0D07"/>
+      <stop offset="1" stop-color="#D39A35"/>
     </linearGradient>
-    <linearGradient id="bean" x1="558" y1="660" x2="784" y2="884" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#B46D35"/>
-      <stop offset="0.18" stop-color="#744020"/>
-      <stop offset="0.56" stop-color="#35170D"/>
-      <stop offset="0.83" stop-color="#5B2B16"/>
-      <stop offset="1" stop-color="#1E0C07"/>
+
+    <!-- Roasted Coffee Bean 3D Gradients -->
+    <linearGradient id="beanBody" x1="560" y1="670" x2="770" y2="870" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#9A5528"/>
+      <stop offset="0.25" stop-color="#5A2D18"/>
+      <stop offset="0.65" stop-color="#1D0D07"/>
+      <stop offset="0.9" stop-color="#3D1C0F"/>
+      <stop offset="1" stop-color="#080B09"/>
     </linearGradient>
-    <radialGradient id="saucer" cx="0" cy="0" r="1" gradientTransform="translate(495 778) rotate(90) scale(104 340)" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#6E351C"/>
-      <stop offset="0.5" stop-color="#32150C"/>
-      <stop offset="0.85" stop-color="#160906"/>
-      <stop offset="1" stop-color="#0B0403"/>
+
+    <!-- Saucer Plate Gradient -->
+    <radialGradient id="saucerGrad" cx="0" cy="0" r="1" gradientTransform="translate(512 770) scale(320 85)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#5A2D18"/>
+      <stop offset="0.55" stop-color="#1D0D07"/>
+      <stop offset="0.88" stop-color="#080B09"/>
+      <stop offset="1" stop-color="#1D0D07"/>
     </radialGradient>
-    <clipPath id="cupClip">
-      <path d="M277 421C285 388 365 364 486 364C607 364 687 389 695 421L664 669C657 725 584 761 486 761C388 761 315 725 308 669L277 421Z"/>
+
+    <!-- Premium Green Accent Leaf -->
+    <linearGradient id="greenLeaf" x1="480" y1="520" x2="550" y2="610" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#4CE85B"/>
+      <stop offset="0.4" stop-color="#31A93D"/>
+      <stop offset="1" stop-color="#1B6323"/>
+    </linearGradient>
+
+    <!-- Cup Body Clip -->
+    <clipPath id="cupClipPath">
+      <path d="M304 430C312 400 395 376 512 376C629 376 712 400 720 430L690 660C682 715 605 750 512 750C419 750 342 715 334 660L304 430Z"/>
     </clipPath>
   </defs>
 
-  <!-- Soft grounding shadow -->
-  <ellipse cx="503" cy="817" rx="286" ry="53" fill="#2A1007" fill-opacity="0.38"/>
+  <!-- 1. Ground Shadow (Subtle dark-coffee base) -->
+  <ellipse cx="512" cy="815" rx="275" ry="48" fill="#1D0D07" fill-opacity="0.32"/>
 
-  <!-- Steam -->
-  <g stroke="url(#gold)" stroke-linecap="round" fill="none">
-    <path d="M390 337C329 281 431 251 377 189C351 158 367 127 394 109" stroke-width="22"/>
-    <path d="M500 333C449 277 546 245 500 185C477 155 490 120 519 91" stroke-width="25"/>
-    <path d="M603 345C558 297 642 268 607 220C584 189 595 160 620 137" stroke-width="18"/>
+  <!-- 2. Golden Aromatic Steam Waves -->
+  <g stroke="url(#goldMetallic)" stroke-linecap="round" fill="none">
+    <path d="M420 345C365 292 460 258 410 198C385 168 400 138 424 118" stroke-width="20"/>
+    <path d="M524 340C475 285 570 252 525 192C502 162 516 128 542 98" stroke-width="24"/>
+    <path d="M624 350C580 304 660 274 628 226C606 196 618 168 640 144" stroke-width="17"/>
   </g>
-  <g stroke="#FFF1B1" stroke-linecap="round" fill="none" opacity="0.68">
-    <path d="M383 329C339 282 422 251 383 203" stroke-width="5"/>
-    <path d="M494 323C459 278 531 244 502 202" stroke-width="6"/>
-    <path d="M599 337C567 298 626 270 605 236" stroke-width="4"/>
+  <!-- Steam Core Highlight Glows -->
+  <g stroke="#FFF0A8" stroke-linecap="round" fill="none" opacity="0.65">
+    <path d="M414 338C372 293 451 260 414 210" stroke-width="5"/>
+    <path d="M518 330C484 285 555 250 526 208" stroke-width="6"/>
+    <path d="M620 342C589 304 645 276 625 242" stroke-width="4"/>
   </g>
 
-  <g>
-    <!-- Saucer -->
-    <path d="M182 751C191 690 325 651 492 651C660 651 795 691 803 751C814 827 675 884 492 884C310 884 171 827 182 751Z" fill="url(#saucer)" stroke="url(#gold)" stroke-width="13"/>
-    <ellipse cx="492" cy="755" rx="247" ry="65" fill="#120704" fill-opacity="0.7" stroke="#B97824" stroke-width="8"/>
-    <path d="M260 800C348 845 643 849 743 795" stroke="#F1CD70" stroke-opacity="0.34" stroke-width="8" stroke-linecap="round"/>
+  <!-- 3. Saucer Base -->
+  <g id="saucer">
+    <!-- Outer Saucer Ellipse with Metallic Gold Rim -->
+    <path d="M210 750C218 692 348 654 512 654C676 654 806 692 814 750C824 822 688 876 512 876C336 876 200 822 210 750Z" fill="url(#saucerGrad)" stroke="url(#goldMetallic)" stroke-width="12"/>
+    <!-- Inner Saucer Well -->
+    <ellipse cx="512" cy="754" rx="236" ry="60" fill="#080B09" fill-opacity="0.6" stroke="#D39A35" stroke-opacity="0.45" stroke-width="6"/>
+    <!-- Saucer Front Gold Rim Arc Highlight -->
+    <path d="M285 794C370 838 650 842 745 790" stroke="#FFF0A8" stroke-opacity="0.4" stroke-width="7" stroke-linecap="round"/>
+  </g>
 
-    <!-- Cup handle behind body -->
-    <path fill-rule="evenodd" clip-rule="evenodd" d="M660 446C721 410 804 430 836 491C870 556 844 639 782 679C742 705 696 707 657 690L668 607C691 627 722 631 748 614C779 594 791 553 774 521C759 493 722 482 691 497L660 446ZM696 511C716 500 743 509 753 529C766 554 757 583 734 598C715 610 692 608 675 595L685 524C688 519 692 515 696 511Z" fill="url(#handle)" stroke="url(#gold)" stroke-width="13"/>
+  <!-- 4. Coffee Cup Handle (3D Curved Arch) -->
+  <g id="handle">
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M678 454C736 418 816 438 846 498C878 560 852 640 794 678C756 702 710 704 674 688L684 608C706 626 736 630 760 614C790 594 802 554 786 524C772 496 736 486 706 500L678 454ZM712 516C730 506 756 514 766 534C778 558 770 586 748 600C730 612 708 610 692 598L702 528C705 523 708 519 712 516Z" fill="url(#handleGrad)" stroke="url(#goldMetallic)" stroke-width="12"/>
+  </g>
 
-    <!-- Cup body -->
-    <path d="M277 421C285 388 365 364 486 364C607 364 687 389 695 421L664 669C657 725 584 761 486 761C388 761 315 725 308 669L277 421Z" fill="url(#cupBody)" stroke="url(#gold)" stroke-width="15" stroke-linejoin="round"/>
-    <g clip-path="url(#cupClip)">
-      <ellipse cx="357" cy="540" rx="144" ry="254" fill="url(#cupGlow)"/>
-      <path d="M328 463C337 576 342 664 386 703" stroke="#E6A66D" stroke-opacity="0.3" stroke-width="18" stroke-linecap="round"/>
-      <path d="M617 464C607 576 603 656 568 702" stroke="#110604" stroke-opacity="0.58" stroke-width="34" stroke-linecap="round"/>
+  <!-- 5. Cup Main Body -->
+  <g id="cup">
+    <!-- Ceramic Hull -->
+    <path d="M304 430C312 400 395 376 512 376C629 376 712 400 720 430L690 660C682 715 605 750 512 750C419 750 342 715 334 660L304 430Z" fill="url(#cupCeramic)" stroke="url(#goldMetallic)" stroke-width="14" stroke-linejoin="round"/>
+
+    <!-- Inner Highlights and Shading via clip -->
+    <g clip-path="url(#cupClipPath)">
+      <!-- Left Warm Specular Sheen -->
+      <ellipse cx="380" cy="545" rx="140" ry="240" fill="url(#cupSheen)"/>
+      <!-- Soft Vertical Highlight Beam -->
+      <path d="M352 470C360 575 365 658 406 695" stroke="#F3C765" stroke-opacity="0.32" stroke-width="16" stroke-linecap="round"/>
+      <!-- Right Deep Shade Shadow -->
+      <path d="M640 470C630 575 626 650 592 694" stroke="#080B09" stroke-opacity="0.65" stroke-width="32" stroke-linecap="round"/>
     </g>
 
-    <!-- Rim and coffee -->
-    <ellipse cx="486" cy="414" rx="210" ry="75" fill="#2C130B" stroke="url(#gold)" stroke-width="15"/>
-    <ellipse cx="486" cy="414" rx="185" ry="57" fill="url(#coffee)"/>
-    <path d="M339 404C385 368 524 359 620 392" stroke="#F4D77B" stroke-opacity="0.62" stroke-width="8" stroke-linecap="round"/>
-    <path d="M361 414C405 385 511 379 585 399" stroke="#D88942" stroke-opacity="0.5" stroke-width="8" stroke-linecap="round"/>
-    <ellipse cx="425" cy="394" rx="54" ry="12" transform="rotate(-7 425 394)" fill="#FFE6A0" fill-opacity="0.24"/>
+    <!-- Top Rim & Coffee Liquid -->
+    <ellipse cx="512" cy="424" rx="204" ry="70" fill="#1D0D07" stroke="url(#goldMetallic)" stroke-width="14"/>
+    <ellipse cx="512" cy="424" rx="178" ry="54" fill="url(#coffeeSurface)"/>
+    <!-- Crema Swirl Reflection & Shimmer Arc -->
+    <path d="M370 414C412 380 546 372 638 402" stroke="#FFF0A8" stroke-opacity="0.65" stroke-width="7" stroke-linecap="round"/>
+    <path d="M390 424C432 396 534 390 606 410" stroke="#D39A35" stroke-opacity="0.55" stroke-width="7" stroke-linecap="round"/>
+    <ellipse cx="452" cy="405" rx="50" ry="11" transform="rotate(-6 452 405)" fill="#FFF0A8" fill-opacity="0.22"/>
 
-    <!-- Gold crest accent -->
-    <path d="M411 573C411 531 445 497 487 497C529 497 563 531 563 573C563 616 529 650 487 650C445 650 411 616 411 573Z" fill="#1C0A06" fill-opacity="0.5" stroke="url(#gold)" stroke-width="9"/>
-    <path d="M487 518C463 543 462 583 487 626C512 583 511 543 487 518Z" fill="url(#gold)"/>
-    <path d="M487 529C481 556 482 588 487 615" stroke="#6D3909" stroke-width="6" stroke-linecap="round"/>
+    <!-- Center Emblem Crest: Coffee Bean & Emerald Accent within Gold Medallion -->
+    <ellipse cx="512" cy="578" rx="72" ry="72" fill="#1D0D07" fill-opacity="0.55" stroke="url(#goldMetallic)" stroke-width="8"/>
+    <!-- Central Coffee Bean Icon inside Crest -->
+    <path d="M512 524C488 548 486 586 512 630C538 586 536 548 512 524Z" fill="url(#goldMetallic)"/>
+    <path d="M512 534C506 560 507 592 512 618" stroke="#5A2D18" stroke-width="5" stroke-linecap="round"/>
+    <!-- Subtle Green Leaf Accent above Crest for brand visual identity -->
+    <path d="M512 524C526 508 548 506 558 514C558 528 544 544 526 538L512 524Z" fill="url(#greenLeaf)"/>
   </g>
 
-  <!-- Foreground coffee bean -->
-  <g transform="rotate(-24 688 766)">
-    <path d="M784 731C812 806 764 874 686 886C607 898 546 855 549 786C552 715 622 643 700 650C741 654 769 690 784 731Z" fill="url(#bean)" stroke="url(#gold)" stroke-width="12"/>
-    <path d="M713 666C677 703 677 743 704 778C732 815 718 853 681 881" stroke="#180905" stroke-width="22" stroke-linecap="round"/>
-    <path d="M708 667C687 707 691 741 717 773C738 801 729 840 695 874" stroke="#C07C3C" stroke-opacity="0.56" stroke-width="7" stroke-linecap="round"/>
-    <path d="M611 717C634 683 670 668 695 667" stroke="#E5A35E" stroke-opacity="0.48" stroke-width="11" stroke-linecap="round"/>
-    <ellipse cx="618" cy="741" rx="25" ry="58" transform="rotate(35 618 741)" fill="#F5BD71" fill-opacity="0.13"/>
+  <!-- 6. Foreground Premium Roasted Coffee Bean (Tilted 3D Dimension) -->
+  <g id="frontBean" transform="rotate(-22 700 755)">
+    <!-- Roasted Bean Outer Shell with Gold Edge -->
+    <path d="M790 720C818 792 770 858 694 870C618 882 558 840 562 774C565 706 632 636 708 642C748 646 776 680 790 720Z" fill="url(#beanBody)" stroke="url(#goldMetallic)" stroke-width="12"/>
+    <!-- Signature S-Curve Roast Crease (Deep Dark Groove) -->
+    <path d="M722 658C686 694 686 732 712 766C740 802 726 838 690 866" stroke="#080B09" stroke-width="20" stroke-linecap="round"/>
+    <!-- Crease Gold Light Edge -->
+    <path d="M718 660C698 698 702 730 726 762C746 788 738 826 704 858" stroke="#F3C765" stroke-opacity="0.6" stroke-width="6" stroke-linecap="round"/>
+    <!-- Warm Roast Glossy Highlight -->
+    <path d="M624 708C646 676 680 660 706 660" stroke="#F3C765" stroke-opacity="0.5" stroke-width="10" stroke-linecap="round"/>
+    <ellipse cx="630" cy="730" rx="22" ry="52" transform="rotate(35 630 730)" fill="#FFF0A8" fill-opacity="0.16"/>
   </g>
 
-  <!-- Final metallic highlights -->
-  <path d="M302 402C327 372 380 357 421 351" stroke="#FFF2B5" stroke-opacity="0.72" stroke-width="6" stroke-linecap="round"/>
-  <path d="M208 744C230 710 276 687 329 674" stroke="#FFF0AD" stroke-opacity="0.5" stroke-width="7" stroke-linecap="round"/>
+  <!-- 7. Crisp Metallic Rim Highlights -->
+  <path d="M330 412C354 384 406 370 446 364" stroke="#FFF0A8" stroke-opacity="0.75" stroke-width="6" stroke-linecap="round"/>
+  <path d="M236 742C258 710 302 688 354 676" stroke="#FFF0A8" stroke-opacity="0.55" stroke-width="7" stroke-linecap="round"/>
 </svg>

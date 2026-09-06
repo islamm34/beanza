@@ -56,7 +56,7 @@ class TableFlowNavigation extends StatelessWidget {
             icon: Icons.shopping_cart_rounded,
             title: 'Cart & Split',
             arabicTitle: 'السلة',
-            onTap: () {},
+            onTap: () => Get.toNamed(Routes.CART),
           ),
           _buildNavItem(
             context,
@@ -64,15 +64,7 @@ class TableFlowNavigation extends StatelessWidget {
             icon: Icons.admin_panel_settings_rounded,
             title: 'Manager',
             arabicTitle: 'المدير',
-            onTap: () {
-              Get.snackbar(
-                'Manager View',
-                'Manager View is restricted to café staff.',
-                snackPosition: SnackPosition.BOTTOM,
-                backgroundColor: AppColors.espressoDark,
-                colorText: Colors.white,
-              );
-            },
+            onTap: () => Get.toNamed(Routes.CAFE_DASHBOARD),
           ),
         ],
       ),

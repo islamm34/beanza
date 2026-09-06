@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -11,6 +12,7 @@ import '../../../../core/widgets/table/combined_table_total_card.dart';
 import '../../../../core/widgets/table/participant_order_card.dart';
 import '../../../../core/widgets/table/send_table_order_button.dart';
 import '../../../../core/widgets/table/split_bill_toggle_card.dart';
+import '../widgets/join_approval_bottom_sheet.dart';
 
 class TableOverviewPage extends StatefulWidget {
   const TableOverviewPage({Key? key}) : super(key: key);
@@ -289,6 +291,49 @@ class _TableOverviewPageState extends State<TableOverviewPage> {
                         ],
                       ),
                     ),
+                    if (kDebugMode)
+                      IconButton(
+                        key: const Key('trigger_incoming_request_debug_button'),
+                        icon: Container(
+                          padding: const EdgeInsets.all(6),
+                          decoration: BoxDecoration(
+                            color: goldColor.withValues(alpha: 0.15),
+                            shape: BoxShape.circle,
+                            border: Border.all(color: goldColor, width: 1.2),
+                          ),
+                          child: Icon(
+                            Icons.person_add_alt_1_rounded,
+                            color: goldColor,
+                            size: 16,
+                          ),
+                        ),
+                        tooltip: 'Prototype: Preview Join Request',
+                        onPressed: () {
+                          JoinApprovalBottomSheet.show(
+                            context: context,
+                            requesterName: 'Youssef',
+                            tableNumber: tableCtrl.tableNumber,
+                            onApprove: () {
+                              Get.snackbar(
+                                'Request Approved • تمت الموافقة',
+                                'Youssef has been approved to join Table ${tableCtrl.tableNumber}.',
+                                snackPosition: SnackPosition.BOTTOM,
+                                backgroundColor: const Color(0xFF31A93D),
+                                colorText: Colors.white,
+                              );
+                            },
+                            onReject: () {
+                              Get.snackbar(
+                                'Request Declined • تم الرفض',
+                                'Youssef was not approved.',
+                                snackPosition: SnackPosition.BOTTOM,
+                                backgroundColor: const Color(0xFFD95656),
+                                colorText: Colors.white,
+                              );
+                            },
+                          );
+                        },
+                      ),
                     // QR / Share Icon
                     Container(
                       padding: const EdgeInsets.all(8),

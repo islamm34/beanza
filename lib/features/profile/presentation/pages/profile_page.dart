@@ -6,9 +6,125 @@ import '../../../../app/routes/app_routes.dart';
 import '../../../../app/theme/app_colors.dart';
 import '../../../../core/widgets/common/app_app_bar.dart';
 import '../../../../core/widgets/common/cafe_card.dart';
+import '../../../../core/widgets/common/user_avatar.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({Key? key}) : super(key: key);
+
+  void _showHelpSupportSheet(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final goldColor = isDark ? AppColors.gold : AppColors.goldLight;
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: isDark ? AppColors.darkCardBg : AppColors.lightCardBg,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      builder: (ctx) {
+        return SafeArea(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Center(
+                  child: Container(
+                    width: 40,
+                    height: 4,
+                    margin: const EdgeInsets.only(bottom: 16),
+                    decoration: BoxDecoration(
+                      color: (isDark ? Colors.white : Colors.black)
+                          .withValues(alpha: 0.2),
+                      borderRadius: BorderRadius.circular(2),
+                    ),
+                  ),
+                ),
+                Text(
+                  'Help & Support / المساعدة والدعم',
+                  style: TextStyle(
+                    fontSize: 17,
+                    fontWeight: FontWeight.bold,
+                    color: isDark
+                        ? AppColors.darkTextPrimary
+                        : AppColors.lightTextPrimary,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                ListTile(
+                  leading: CircleAvatar(
+                    backgroundColor: goldColor.withValues(alpha: 0.15),
+                    child: Icon(Icons.email_outlined, color: goldColor),
+                  ),
+                  title: const Text('Email Support'),
+                  subtitle: const Text('support@brewora.co'),
+                  onTap: () {
+                    Navigator.pop(ctx);
+                    Get.snackbar(
+                      'Support Email',
+                      'Support team will reach out at support@brewora.co',
+                      snackPosition: SnackPosition.BOTTOM,
+                      backgroundColor: goldColor,
+                      colorText: AppColors.espressoDark,
+                    );
+                  },
+                ),
+                ListTile(
+                  leading: CircleAvatar(
+                    backgroundColor: goldColor.withValues(alpha: 0.15),
+                    child: Icon(Icons.chat_bubble_outline_rounded,
+                        color: goldColor),
+                  ),
+                  title: const Text('Live Café Concierge'),
+                  subtitle: const Text('Available 8:00 AM - 11:00 PM'),
+                  onTap: () {
+                    Navigator.pop(ctx);
+                    Get.toNamed(Routes.HOSPITALITY_HUB);
+                  },
+                ),
+                ListTile(
+                  leading: CircleAvatar(
+                    backgroundColor: goldColor.withValues(alpha: 0.15),
+                    child: Icon(Icons.menu_book_rounded, color: goldColor),
+                  ),
+                  title: const Text('FAQ & Ordering Guide'),
+                  subtitle: const Text('Learn about tables, rounds & rewards'),
+                  onTap: () {
+                    Navigator.pop(ctx);
+                    Get.snackbar(
+                      'Brewora Guide',
+                      'Scan a table QR to start a session and invite friends!',
+                      snackPosition: SnackPosition.BOTTOM,
+                      backgroundColor: goldColor,
+                      colorText: AppColors.espressoDark,
+                    );
+                  },
+                ),
+                const SizedBox(height: 12),
+                Center(
+                  child: TextButton(
+                    key: const Key('close_help_support_button'),
+                    onPressed: () => Navigator.pop(ctx),
+                    child: Text(
+                      'Close / إغلاق',
+                      style: TextStyle(
+                        color: isDark
+                            ? AppColors.darkTextSecondary
+                            : AppColors.lightTextSecondary,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
 
   void _showLogoutDialog(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
@@ -92,75 +208,69 @@ class ProfilePage extends StatelessWidget {
                   padding: const EdgeInsets.all(18),
                   child: Row(
                     children: [
-                      Container(
-                        width: 64,
-                        height: 64,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color:
-                              goldColor.withValues(alpha: isDark ? 0.22 : 0.14),
-                          border: Border.all(
-                            color: goldColor,
-                            width: 1.8,
-                          ),
-                        ),
-                        child: Icon(
-                          Icons.person_rounded,
-                          size: 36,
-                          color: goldColor,
-                        ),
+                      UserAvatar(
+                        size: 64,
+                        customImagePath: user.profileImage,
+                        userName: user.name,
+                        onTap: () => Get.toNamed(Routes.EDIT_PROFILE),
                       ),
                       const SizedBox(width: 16),
                       Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              user.name,
-                              style: TextStyle(
-                                fontSize: 17,
-                                fontWeight: FontWeight.bold,
-                                color: isDark
-                                    ? AppColors.darkTextPrimary
-                                    : AppColors.lightTextPrimary,
-                              ),
-                            ),
-                            const SizedBox(height: 2),
-                            Text(
-                              user.email,
-                              style: TextStyle(
-                                color: isDark
-                                    ? AppColors.darkTextSecondary
-                                    : AppColors.lightTextSecondary,
-                                fontSize: 12.5,
-                              ),
-                            ),
-                            const SizedBox(height: 6),
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 8, vertical: 3),
-                              decoration: BoxDecoration(
-                                color: goldColor.withValues(
-                                    alpha: isDark ? 0.18 : 0.12),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: Text(
-                                'Silver Tier Member',
+                        child: GestureDetector(
+                          onTap: () => Get.toNamed(Routes.EDIT_PROFILE),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                user.name,
                                 style: TextStyle(
-                                  color:
-                                      isDark ? AppColors.goldBright : goldColor,
-                                  fontSize: 10.5,
+                                  fontSize: 17,
                                   fontWeight: FontWeight.bold,
+                                  color: isDark
+                                      ? AppColors.darkTextPrimary
+                                      : AppColors.lightTextPrimary,
                                 ),
                               ),
-                            ),
-                          ],
+                              const SizedBox(height: 2),
+                              Text(
+                                user.email,
+                                style: TextStyle(
+                                  color: isDark
+                                      ? AppColors.darkTextSecondary
+                                      : AppColors.lightTextSecondary,
+                                  fontSize: 12.5,
+                                ),
+                              ),
+                              const SizedBox(height: 6),
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 8, vertical: 3),
+                                decoration: BoxDecoration(
+                                  color: goldColor.withValues(
+                                      alpha: isDark ? 0.18 : 0.12),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Text(
+                                  'Silver Tier Member',
+                                  style: TextStyle(
+                                    color: isDark
+                                        ? AppColors.goldBright
+                                        : goldColor,
+                                    fontSize: 10.5,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                       IconButton(
+                        key: const Key('edit_profile_button'),
                         icon: Icon(Icons.edit_outlined,
                             size: 20, color: goldColor),
-                        onPressed: () {},
+                        tooltip: 'Edit Profile',
+                        onPressed: () => Get.toNamed(Routes.EDIT_PROFILE),
                       ),
                     ],
                   ),
@@ -229,9 +339,10 @@ class ProfilePage extends StatelessWidget {
                     _buildDivider(isDark),
                     _buildMenuItem(
                       context,
+                      itemKey: const Key('help_support_tile'),
                       icon: Icons.help_outline_rounded,
                       title: 'Help & Support / المساعدة والدعم',
-                      onTap: () {},
+                      onTap: () => _showHelpSupportSheet(context),
                       isDark: isDark,
                       goldColor: goldColor,
                     ),
@@ -276,6 +387,7 @@ class ProfilePage extends StatelessWidget {
 
   Widget _buildMenuItem(
     BuildContext context, {
+    Key? itemKey,
     required IconData icon,
     required String title,
     required VoidCallback onTap,
@@ -283,6 +395,7 @@ class ProfilePage extends StatelessWidget {
     required Color goldColor,
   }) {
     return ListTile(
+      key: itemKey,
       leading: Container(
         padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../../app/controllers/table_session_controller.dart';
 import '../../../../app/routes/app_routes.dart';
 import '../../../../app/theme/app_colors.dart';
 import '../../../../core/widgets/buttons/primary_button.dart';
@@ -38,15 +37,15 @@ class _NameEntryPageState extends State<NameEntryPage> {
   void _submitName() {
     if (_formKey.currentState?.validate() ?? false) {
       final name = _nameController.text.trim();
-      final tableSessionController = Get.find<TableSessionController>();
 
-      tableSessionController.joinTableSession(
-        tableId: tableId,
-        tableNumber: tableNumber,
-        participantName: name,
+      Get.toNamed(
+        Routes.WAITING_APPROVAL,
+        arguments: {
+          'tableId': tableId,
+          'tableNumber': tableNumber,
+          'participantName': name,
+        },
       );
-
-      Get.offAllNamed(Routes.HOME);
     }
   }
 

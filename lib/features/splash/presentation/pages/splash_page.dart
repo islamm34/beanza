@@ -1,12 +1,12 @@
 import 'dart:async';
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import '../../../../app/controllers/table_session_controller.dart';
 import '../../../../app/routes/app_routes.dart';
-import '../../../../app/theme/app_colors.dart';
-import '../../../../core/widgets/common/adaptive_cafe_logo.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({Key? key}) : super(key: key);
@@ -28,7 +28,7 @@ class _SplashPageState extends State<SplashPage>
 
     _animController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 1500),
+      duration: const Duration(milliseconds: 1200),
     );
 
     _fadeAnimation = CurvedAnimation(
@@ -36,7 +36,7 @@ class _SplashPageState extends State<SplashPage>
       curve: Curves.easeOut,
     );
 
-    _scaleAnimation = Tween<double>(begin: 0.96, end: 1.0).animate(
+    _scaleAnimation = Tween<double>(begin: 0.94, end: 1.0).animate(
       CurvedAnimation(
         parent: _animController,
         curve: Curves.easeOutCubic,
@@ -59,7 +59,7 @@ class _SplashPageState extends State<SplashPage>
 
   Future<void> _initializeAppAndNavigate() async {
     // Perform essential initialization / minimum brand duration
-    await Future.delayed(const Duration(milliseconds: 1000));
+    await Future.delayed(const Duration(milliseconds: 3500));
 
     if (mounted && !_navigationTriggered) {
       _navigationTriggered = true;
@@ -82,79 +82,59 @@ class _SplashPageState extends State<SplashPage>
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     final isReducedMotion = mediaQuery.disableAnimations;
-    final screenWidth = mediaQuery.size.width;
-    final screenHeight = mediaQuery.size.height;
+    final shortestSide =
+        math.min(mediaQuery.size.width, mediaQuery.size.height);
 
-    // Responsive logo width: 45% of screen width, clamped between 160.0 and 260.0
-    final logoWidth = (screenWidth * 0.45).clamp(160.0, 260.0);
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final backgroundColor =
+        isDarkMode ? const Color(0xFF080B09) : const Color(0xFFF6F1E7);
 
-    final logoWidget = AdaptiveCafeLogo(
-      size: logoWidth,
-      semanticsLabel: 'Brewora logo',
-    );
+    // Responsive width: approximately 34%–42% of shortest screen side
+    final logoSize = (shortestSide * 0.38).clamp(130.0, 240.0);
 
-    final contentWidget = Stack(
-      children: [
-        // Centered logo matching native splash alignment exactly
-        Align(
-          alignment: Alignment.center,
-          child: isReducedMotion
-              ? logoWidget
-              : ScaleTransition(
-                  scale: _scaleAnimation,
-                  child: logoWidget,
-                ),
-        ),
-        // Branding text and progress indicator positioned below the logo
-        Positioned(
-          left: 0,
-          right: 0,
-          bottom: screenHeight * 0.15,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Text(
-                'BREWORA',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 28,
-                  fontWeight: FontWeight.w900,
-                  letterSpacing: 4.0,
-                ),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                'Artisan Coffee, Delivered Fresh',
-                style: TextStyle(
-                  color: AppColors.caramel.withValues(alpha: 0.90),
-                  fontSize: 13,
-                  fontWeight: FontWeight.w500,
-                  letterSpacing: 0.5,
-                ),
-              ),
-              const SizedBox(height: 36),
-              const SizedBox(
-                width: 22,
-                height: 22,
-                child: CircularProgressIndicator(
-                  color: AppColors.caramel,
-                  strokeWidth: 2.2,
-                ),
-              ),
-            ],
+    final logoWidget = Container(
+      width: logoSize,
+      height: logoSize,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: isDarkMode
+            ? Colors.white.withValues(alpha: 0.03)
+            : Colors.transparent,
+        boxShadow: [
+          BoxShadow(
+            color: isDarkMode
+                ? const Color(0xFFD39A35).withValues(alpha: 0.22)
+                : const Color(0xFF5A2D18).withValues(alpha: 0.16),
+            blurRadius: isDarkMode ? 28 : 20,
+            spreadRadius: isDarkMode ? 2 : 0,
+            offset: const Offset(0, 4),
           ),
-        ),
-      ],
+        ],
+      ),
+      child: SvgPicture.asset(
+        'assets/premium_cafe_3d_logo.svg',
+        fit: BoxFit.contain,
+        semanticsLabel: 'Cafe logo',
+      ),
     );
+
+    final animatedLogo = isReducedMotion
+        ? logoWidget
+        : ScaleTransition(
+            scale: _scaleAnimation,
+            child: logoWidget,
+          );
 
     return Scaffold(
-      backgroundColor: AppColors.espressoDark,
-      body: isReducedMotion
-          ? contentWidget
-          : FadeTransition(
-              opacity: _fadeAnimation,
-              child: contentWidget,
-            ),
+      backgroundColor: backgroundColor,
+      body: Center(
+        child: isReducedMotion
+            ? animatedLogo
+            : FadeTransition(
+                opacity: _fadeAnimation,
+                child: animatedLogo,
+              ),
+      ),
     );
   }
 }

@@ -15,6 +15,7 @@ import '../../features/order_tracking/presentation/pages/order_tracking_page.dar
 import '../../features/orders/presentation/pages/orders_page.dart';
 import '../../features/products/presentation/pages/products_page.dart';
 import '../../features/profile/presentation/pages/addresses_page.dart';
+import '../../features/profile/presentation/pages/edit_profile_page.dart';
 import '../../features/profile/presentation/pages/payment_methods_page.dart';
 import '../../features/profile/presentation/pages/profile_page.dart';
 import '../../features/rewards/presentation/pages/rewards_page.dart';
@@ -23,6 +24,7 @@ import '../../features/scanner/presentation/pages/scanner_page.dart';
 import '../../features/settings/presentation/pages/settings_page.dart';
 import '../../features/splash/presentation/pages/splash_page.dart';
 import '../../features/table_session/presentation/pages/name_entry_page.dart';
+import '../../features/table_session/presentation/pages/waiting_approval_page.dart';
 import '../../features/table_session/presentation/pages/table_overview_page.dart';
 import '../../features/table_session/presentation/pages/hospitality_hub_page.dart';
 import '../../features/table_session/presentation/pages/cafe_dashboard_page.dart';
@@ -117,6 +119,10 @@ class AppPages {
       page: () => const ProfilePage(),
     ),
     GetPage(
+      name: Routes.EDIT_PROFILE,
+      page: () => const EditProfilePage(),
+    ),
+    GetPage(
       name: Routes.MY_QR,
       page: () => const MyQrPage(),
     ),
@@ -135,6 +141,10 @@ class AppPages {
     GetPage(
       name: Routes.NAME_ENTRY,
       page: () => const NameEntryPage(),
+    ),
+    GetPage(
+      name: Routes.WAITING_APPROVAL,
+      page: () => const WaitingApprovalPage(),
     ),
     GetPage(
       name: Routes.TABLE_OVERVIEW,

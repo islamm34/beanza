@@ -21,11 +21,13 @@ abstract class Routes {
   static const WALLET = '/wallet';
   static const NOTIFICATIONS = '/notifications';
   static const PROFILE = '/profile';
+  static const EDIT_PROFILE = '/edit-profile';
   static const MY_QR = '/my-qr';
   static const ADDRESSES = '/addresses';
   static const PAYMENT_METHODS = '/payment-methods';
   static const SETTINGS = '/settings';
   static const NAME_ENTRY = '/name-entry';
+  static const WAITING_APPROVAL = '/waiting-approval';
   static const TABLE_OVERVIEW = '/table-overview';
   static const HOSPITALITY_HUB = '/hospitality-hub';
   static const CAFE_DASHBOARD = '/cafe-dashboard';
