@@ -27,38 +27,31 @@ class OrderTrackingPage extends StatelessWidget {
 
     final stages = [
       {
-        'title': 'Order Received',
-        'arabic': 'تم استلام الطلب',
+        'key': 'stage_order_received',
         'status': 'completed'
       },
       {
-        'title': 'Barista Assigned',
-        'arabic': 'تم تعيين الباريستا',
+        'key': 'stage_barista_assigned',
         'status': 'completed'
       },
       {
-        'title': 'Grinding Beans',
-        'arabic': 'طحن حبوب القهوة الطازجة',
+        'key': 'stage_grinding_beans',
         'status': 'completed'
       },
       {
-        'title': 'Brewing Espresso',
-        'arabic': 'استخلاص الإسبريسو الفاخر',
+        'key': 'stage_brewing_espresso',
         'status': 'current'
       },
       {
-        'title': 'Steaming Milk & Preparing',
-        'arabic': 'تبخير الحليب والتحضير',
+        'key': 'stage_steaming_milk',
         'status': 'pending'
       },
       {
-        'title': 'Serving at Table',
-        'arabic': 'التقديم على الطاولة',
+        'key': 'stage_serving_table',
         'status': 'pending'
       },
       {
-        'title': 'Delivered & Enjoy',
-        'arabic': 'تم التوصيل • بالهناء والشفاء',
+        'key': 'stage_delivered',
         'status': 'pending'
       },
     ];
@@ -66,7 +59,7 @@ class OrderTrackingPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: isDark ? AppColors.darkBg : AppColors.lightBg,
       appBar: AppAppBar(
-        title: 'Live Order Tracking',
+        title: 'live_order_tracking'.tr,
         showCartAction: false,
       ),
       body: SafeArea(
@@ -115,7 +108,7 @@ class OrderTrackingPage extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            'mins remaining',
+                            'mins_remaining'.tr,
                             style: TextStyle(
                               fontSize: 11,
                               color: isDark
@@ -134,7 +127,7 @@ class OrderTrackingPage extends StatelessWidget {
 
               // Status Headline
               Text(
-                'Brewing in Progress ☕',
+                'brewing_in_progress'.tr,
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -145,7 +138,10 @@ class OrderTrackingPage extends StatelessWidget {
               ),
               const SizedBox(height: 4),
               Text(
-                'Order #${order?.id ?? orderId} • Table 12',
+                'order_tracking_header'.trParams({
+                  'id': order?.id ?? orderId,
+                  'table': '12',
+                }),
                 style: TextStyle(
                   fontSize: 13,
                   color: goldColor,
@@ -234,7 +230,7 @@ class OrderTrackingPage extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    stage['title']!,
+                                    stage['key']!.tr,
                                     style: TextStyle(
                                       color: isCurrent
                                           ? (isDark
@@ -252,15 +248,6 @@ class OrderTrackingPage extends StatelessWidget {
                                           ? FontWeight.bold
                                           : FontWeight.normal,
                                       fontSize: 13.5,
-                                    ),
-                                  ),
-                                  Text(
-                                    stage['arabic']!,
-                                    style: TextStyle(
-                                      color: isDark
-                                          ? AppColors.darkTextSecondary
-                                          : AppColors.lightTextSecondary,
-                                      fontSize: 11,
                                     ),
                                   ),
                                 ],
@@ -292,7 +279,7 @@ class OrderTrackingPage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Master Barista Youssef',
+                            'master_barista_name'.trParams({'name': 'Youssef'}),
                             style: TextStyle(
                               color: isDark
                                   ? AppColors.darkTextPrimary
@@ -302,7 +289,7 @@ class OrderTrackingPage extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            'Crafting your specialty brews • خبير القهوة',
+                            'barista_role_subtitle'.tr,
                             style: TextStyle(
                               color: isDark
                                   ? AppColors.darkTextSecondary
@@ -325,8 +312,8 @@ class OrderTrackingPage extends StatelessWidget {
                       ),
                       onPressed: () {
                         Get.snackbar(
-                          'Barista Chat',
-                          'Barista Youssef is preparing your order with care.',
+                          'barista_chat_title'.tr,
+                          'barista_chat_msg'.trParams({'name': 'Youssef'}),
                           backgroundColor: isDark
                               ? AppColors.darkCardBg
                               : AppColors.lightCardBg,

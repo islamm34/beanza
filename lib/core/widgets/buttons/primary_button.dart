@@ -83,19 +83,23 @@ class PrimaryButton extends StatelessWidget {
                         icon!,
                         const SizedBox(width: 8),
                       ],
-                      Text(
-                        label,
-                        style: textStyle ??
-                            TextStyle(
-                              color: isEnabled
-                                  ? activeFg
-                                  : (isDark
-                                      ? AppColors.darkTextSecondary
-                                      : AppColors.lightTextSecondary),
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15,
-                              letterSpacing: 0.3,
-                            ),
+                      Flexible(
+                        child: Text(
+                          label,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                          style: textStyle ??
+                              TextStyle(
+                                color: isEnabled
+                                    ? activeFg
+                                    : (isDark
+                                        ? AppColors.darkTextSecondary
+                                        : AppColors.lightTextSecondary),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                                letterSpacing: 0.3,
+                              ),
+                        ),
                       ),
                     ],
                   ),

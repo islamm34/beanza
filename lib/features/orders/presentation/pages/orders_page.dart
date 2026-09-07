@@ -27,8 +27,8 @@ class _OrdersPageState extends State<OrdersPage> {
 
     return Scaffold(
       backgroundColor: isDark ? AppColors.darkBg : AppColors.lightBg,
-      appBar: const AppAppBar(
-        title: 'Order History & Rounds',
+      appBar: AppAppBar(
+        title: 'orders_page_title'.tr,
       ),
       body: SafeArea(
         child: Column(
@@ -67,7 +67,7 @@ class _OrdersPageState extends State<OrdersPage> {
                           ),
                           child: Center(
                             child: Text(
-                              'Table Rounds (الجولات)',
+                              'table_rounds_tab'.tr,
                               style: TextStyle(
                                 color: _selectedTab == 0
                                     ? (isDark
@@ -103,7 +103,7 @@ class _OrdersPageState extends State<OrdersPage> {
                           ),
                           child: Center(
                             child: Text(
-                              'All Orders (جميع الطلبات)',
+                              'all_orders_tab'.tr,
                               style: TextStyle(
                                 color: _selectedTab == 1
                                     ? (isDark
@@ -135,9 +135,9 @@ class _OrdersPageState extends State<OrdersPage> {
                 if (orders.isEmpty) {
                   return EmptyState(
                     icon: Icons.receipt_long_outlined,
-                    title: 'No Orders Yet',
-                    message: 'You haven\'t placed any coffee orders yet.',
-                    actionLabel: 'Order Coffee Now',
+                    title: 'no_orders_yet'.tr,
+                    message: 'no_orders_subtitle'.tr,
+                    actionLabel: 'order_coffee_now'.tr,
                     onAction: () => Get.toNamed(Routes.HOME),
                   );
                 }
@@ -168,8 +168,11 @@ class _OrdersPageState extends State<OrdersPage> {
                             children: [
                               Text(
                                 _selectedTab == 0
-                                    ? 'Round ${index + 1} • Table 12'
-                                    : 'Order #${order.id}',
+                                    ? 'round_table_header'.trParams({
+                                        'round': '${index + 1}',
+                                        'table': '12',
+                                      })
+                                    : 'order_ref'.trParams({'id': order.id}),
                                 style: TextStyle(
                                   fontSize: 15,
                                   fontWeight: FontWeight.bold,
@@ -179,7 +182,9 @@ class _OrdersPageState extends State<OrdersPage> {
                                 ),
                               ),
                               CafeBadge(
-                                text: isCompleted ? 'Completed' : 'Preparing',
+                                text: isCompleted
+                                    ? 'status_completed'.tr
+                                    : 'status_preparing'.tr,
                                 isGreen: isCompleted,
                                 isGold: !isCompleted,
                                 icon: isCompleted
@@ -195,9 +200,9 @@ class _OrdersPageState extends State<OrdersPage> {
                             order.items.isNotEmpty
                                 ? order.items
                                     .map((i) =>
-                                        '${i.quantity}x ${i.product.name}')
+                                        '${i.quantity}x ${i.product.localizedName}')
                                     .join(', ')
-                                : 'Artisan Espresso, Cappuccino, Flat White',
+                                : 'Artisan Coffee',
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
@@ -222,7 +227,7 @@ class _OrdersPageState extends State<OrdersPage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    '$totalItems Items • ${order.orderDate.hour}:${order.orderDate.minute.toString().padLeft(2, '0')}',
+                                    '${'items_count'.trParams({'count': '$totalItems'})} • ${order.orderDate.hour}:${order.orderDate.minute.toString().padLeft(2, '0')}',
                                     style: TextStyle(
                                       color: isDark
                                           ? AppColors.darkTextSecondary
@@ -231,7 +236,7 @@ class _OrdersPageState extends State<OrdersPage> {
                                     ),
                                   ),
                                   Text(
-                                    '${order.total.toStringAsFixed(2)} EGP',
+                                    '${order.total.toStringAsFixed(2)} ${'egp'.tr}',
                                     style: TextStyle(
                                       color: goldColor,
                                       fontWeight: FontWeight.bold,
@@ -246,7 +251,7 @@ class _OrdersPageState extends State<OrdersPage> {
                                 icon: Icon(Icons.radar_rounded,
                                     size: 16, color: goldColor),
                                 label: Text(
-                                  'Track Live',
+                                  'track_live_btn'.tr,
                                   style: TextStyle(
                                       color: goldColor,
                                       fontWeight: FontWeight.bold),
@@ -288,7 +293,7 @@ class _OrdersPageState extends State<OrdersPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Total Spent / إجمالي الإنفاق',
+                          'total_spent'.tr,
                           style: TextStyle(
                             color: isDark
                                 ? AppColors.darkTextSecondary
@@ -297,7 +302,7 @@ class _OrdersPageState extends State<OrdersPage> {
                           ),
                         ),
                         Text(
-                          '${totalSpent.toStringAsFixed(2)} EGP',
+                          '${totalSpent.toStringAsFixed(2)} ${'egp'.tr}',
                           style: TextStyle(
                             color: isDark
                                 ? AppColors.darkTextPrimary
@@ -323,7 +328,8 @@ class _OrdersPageState extends State<OrdersPage> {
                               color: goldColor, size: 18),
                           const SizedBox(width: 8),
                           Text(
-                            '+$beansEarned Beans Earned',
+                            'beans_earned_badge'
+                                .trParams({'count': '$beansEarned'}),
                             style: TextStyle(
                               color: isDark ? AppColors.goldBright : goldColor,
                               fontWeight: FontWeight.bold,

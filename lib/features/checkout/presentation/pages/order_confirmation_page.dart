@@ -70,7 +70,7 @@ class OrderConfirmationPage extends StatelessWidget {
                     border: Border.all(color: goldColor, width: 1.2),
                   ),
                   child: Text(
-                    'ROUND 1 COMPLETED • الجولة الأولى مكتملة',
+                    'round_completed_badge'.trParams({'round': '1'}),
                     style: TextStyle(
                       color: isDark ? AppColors.goldBright : goldColor,
                       fontWeight: FontWeight.bold,
@@ -82,7 +82,7 @@ class OrderConfirmationPage extends StatelessWidget {
                 const SizedBox(height: 14),
 
                 Text(
-                  'Order Sent to Barista! ☕',
+                  'order_sent_to_barista'.tr,
                   style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
@@ -93,7 +93,7 @@ class OrderConfirmationPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 6),
                 Text(
-                  'Thank you for ordering at Brewora. Your handcrafted drinks are now being freshly brewed.',
+                  'order_sent_subtitle'.tr,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: isDark
@@ -113,7 +113,7 @@ class OrderConfirmationPage extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('Order Reference',
+                          Text('order_reference'.tr,
                               style: TextStyle(
                                   color: isDark
                                       ? AppColors.darkTextSecondary
@@ -131,27 +131,28 @@ class OrderConfirmationPage extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('Table Number',
+                          Text('table_number'.tr,
                               style: TextStyle(
                                   color: isDark
                                       ? AppColors.darkTextSecondary
                                       : AppColors.lightTextSecondary,
                                   fontSize: 13)),
-                          const Text('Table 12',
-                              style: TextStyle(fontWeight: FontWeight.bold)),
+                          Text('table_badge'.trParams({'table': '12'}),
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.bold)),
                         ],
                       ),
                       const SizedBox(height: 10),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('Estimated Prep',
+                          Text('estimated_prep'.tr,
                               style: TextStyle(
                                   color: isDark
                                       ? AppColors.darkTextSecondary
                                       : AppColors.lightTextSecondary,
                                   fontSize: 13)),
-                          Text('10 - 15 mins',
+                          Text('mins_unit'.trParams({'count': '10 - 15'}),
                               style: TextStyle(
                                   color: goldColor,
                                   fontWeight: FontWeight.bold)),
@@ -166,14 +167,14 @@ class OrderConfirmationPage extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('Total Paid / الإجمالي',
+                          Text('total_paid'.tr,
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: isDark
                                       ? AppColors.darkTextPrimary
                                       : AppColors.lightTextPrimary)),
                           Text(
-                            '${totalAmount.toStringAsFixed(2)} EGP',
+                            '${totalAmount.toStringAsFixed(2)} ${'egp'.tr}',
                             style: TextStyle(
                               color: goldColor,
                               fontWeight: FontWeight.w900,
@@ -189,7 +190,7 @@ class OrderConfirmationPage extends StatelessWidget {
 
                 // 3. Main Action: Start Round 2
                 PrimaryButton(
-                  label: 'Start Round 2 (Order More Drinks) ☕',
+                  label: 'start_round_order_more'.trParams({'round': '2'}),
                   onPressed: () => Get.offAllNamed(Routes.HOME),
                 ),
                 const SizedBox(height: 12),
@@ -203,7 +204,7 @@ class OrderConfirmationPage extends StatelessWidget {
                         Get.to(() => OrderTrackingPage(orderId: orderId)),
                     icon: Icon(Icons.radar_rounded, color: goldColor, size: 18),
                     label: Text(
-                      'Live Order Tracking',
+                      'live_order_tracking'.tr,
                       style: TextStyle(
                           color: isDark
                               ? AppColors.darkTextPrimary
@@ -217,7 +218,7 @@ class OrderConfirmationPage extends StatelessWidget {
                 TextButton.icon(
                   onPressed: () => Get.offAllNamed(Routes.ORDERS),
                   icon: Icon(Icons.history_rounded, size: 16, color: goldColor),
-                  label: Text('View Order History',
+                  label: Text('view_order_history'.tr,
                       style: TextStyle(
                           color: goldColor, fontWeight: FontWeight.bold)),
                 ),

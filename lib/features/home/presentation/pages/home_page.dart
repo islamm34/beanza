@@ -80,8 +80,7 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     Expanded(
                       child: SearchField(
-                        hintText:
-                            'Search your favorite drink / ابحث عن مشروبك...',
+                        hintText: 'search_drinks_hint'.tr,
                         onChanged: (val) =>
                             productsController.setSearchQuery(val),
                         onClear: () => productsController.setSearchQuery(''),
@@ -165,8 +164,11 @@ class _HomePageState extends State<HomePage> {
                             Expanded(
                               child: Text(
                                 hasSession
-                                    ? 'Table $tableNum • $pCount Members Connected • طاولة $tableNum'
-                                    : 'No Active Table Session • Scan QR to Join Table',
+                                    ? 'table_connected_banner'.trParams({
+                                        'table': tableNum,
+                                        'count': pCount.toString(),
+                                      })
+                                    : 'no_active_table_banner'.tr,
                                 style: TextStyle(
                                   color: isDark
                                       ? AppColors.darkTextPrimary
@@ -184,7 +186,7 @@ class _HomePageState extends State<HomePage> {
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child: Text(
-                                hasSession ? 'ACTIVE' : 'SCAN',
+                                hasSession ? 'active_badge'.tr : 'scan_badge'.tr,
                                 style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 10,
@@ -327,7 +329,7 @@ class _HomePageState extends State<HomePage> {
                                     size: 14, color: goldColor),
                                 const SizedBox(width: 4),
                                 Text(
-                                  'AI BARISTA PICK • اقتراح الذكاء',
+                                  'ai_barista_pick'.tr,
                                   style: TextStyle(
                                     color: goldColor,
                                     fontSize: 10,
@@ -339,7 +341,7 @@ class _HomePageState extends State<HomePage> {
                             ),
                             const SizedBox(height: 2),
                             Text(
-                              'Specialty Caramel Macchiato',
+                              'ai_barista_pick_name'.tr,
                               style: TextStyle(
                                 color: isDark
                                     ? AppColors.darkTextPrimary
@@ -349,7 +351,7 @@ class _HomePageState extends State<HomePage> {
                               ),
                             ),
                             Text(
-                              'Perfect companion for afternoon energy',
+                              'ai_barista_pick_desc'.tr,
                               style: TextStyle(
                                 color: isDark
                                     ? AppColors.darkTextSecondary
@@ -380,8 +382,8 @@ class _HomePageState extends State<HomePage> {
                               borderRadius: BorderRadius.circular(10)),
                           minimumSize: const Size(60, 34),
                         ),
-                        child: const Text('Try',
-                            style: TextStyle(
+                        child: Text('try_btn'.tr,
+                            style: const TextStyle(
                                 fontSize: 12, fontWeight: FontWeight.bold)),
                       ),
                     ],
@@ -398,7 +400,7 @@ class _HomePageState extends State<HomePage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Featured Coffee Menu',
+                      'featured_coffee_menu'.tr,
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -410,7 +412,7 @@ class _HomePageState extends State<HomePage> {
                     GestureDetector(
                       onTap: () => Get.toNamed(Routes.EXPLORE),
                       child: Text(
-                        'View All',
+                        'view_all'.tr,
                         style: TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.bold,
@@ -432,10 +434,9 @@ class _HomePageState extends State<HomePage> {
                     padding: const EdgeInsets.symmetric(vertical: 32),
                     child: EmptyState(
                       icon: Icons.search_off_rounded,
-                      title: 'No coffee found',
-                      message:
-                          'Try searching for another coffee or choose a different category.',
-                      actionLabel: 'Reset Filters',
+                      title: 'no_coffee_found_title'.tr,
+                      message: 'no_coffee_found_msg'.tr,
+                      actionLabel: 'reset_filters_btn'.tr,
                       onAction: () => productsController.resetFilters(),
                     ),
                   ),

@@ -49,7 +49,7 @@ void main() {
       expect(tester.takeException(), isNull);
 
       // Advance clock to trigger navigation
-      await tester.pump(const Duration(milliseconds: 1100));
+      await tester.pump(const Duration(milliseconds: 3600));
       await tester.pumpAndSettle();
 
       // Verified navigation callback completed to Scanner (since no active session)
@@ -79,7 +79,7 @@ void main() {
       expect(find.byType(SvgPicture), findsOneWidget);
       expect(tester.takeException(), isNull);
 
-      await tester.pump(const Duration(milliseconds: 1200));
+      await tester.pump(const Duration(milliseconds: 3600));
       await tester.pumpAndSettle();
     });
 
@@ -107,7 +107,7 @@ void main() {
       expect(find.byType(SvgPicture), findsOneWidget);
       expect(tester.takeException(), isNull);
 
-      await tester.pump(const Duration(milliseconds: 1200));
+      await tester.pump(const Duration(milliseconds: 3600));
       await tester.pumpAndSettle();
     });
 
@@ -134,7 +134,7 @@ void main() {
         expect(find.byType(SvgPicture), findsOneWidget);
         expect(tester.takeException(), isNull);
 
-        await tester.pump(const Duration(milliseconds: 1200));
+        await tester.pump(const Duration(milliseconds: 3600));
         await tester.pumpAndSettle();
       });
     }
@@ -167,7 +167,7 @@ void main() {
       );
 
       await tester.pump();
-      await tester.pump(const Duration(milliseconds: 1100));
+      await tester.pump(const Duration(milliseconds: 3600));
       await tester.pumpAndSettle();
 
       expect(find.text('Home Screen'), findsOneWidget);

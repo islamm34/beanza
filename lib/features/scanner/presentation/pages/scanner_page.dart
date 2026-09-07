@@ -202,7 +202,7 @@ class _ScannerPageState extends State<ScannerPage> with WidgetsBindingObserver {
                 color: isDark ? AppColors.darkBorder : AppColors.lightBorder),
           ),
           title: Text(
-            'Enter Table Number',
+            'enter_table_number'.tr,
             style: TextStyle(
               color: isDark
                   ? AppColors.darkTextPrimary
@@ -220,8 +220,8 @@ class _ScannerPageState extends State<ScannerPage> with WidgetsBindingObserver {
                   : AppColors.lightTextPrimary,
             ),
             decoration: InputDecoration(
-              labelText: 'Table Number',
-              hintText: 'e.g. 12',
+              labelText: 'table_number_label'.tr,
+              hintText: 'table_number_hint'.tr,
               prefixIcon: Icon(Icons.table_restaurant_rounded,
                   color: isDark ? AppColors.gold : AppColors.goldLight),
             ),
@@ -229,7 +229,7 @@ class _ScannerPageState extends State<ScannerPage> with WidgetsBindingObserver {
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: const Text('Cancel'),
+              child: Text('cancel'.tr),
             ),
             ElevatedButton(
               onPressed: () {
@@ -248,7 +248,7 @@ class _ScannerPageState extends State<ScannerPage> with WidgetsBindingObserver {
                   },
                 );
               },
-              child: const Text('Continue'),
+              child: Text('continue_button'.tr),
             ),
           ],
         );
@@ -260,8 +260,8 @@ class _ScannerPageState extends State<ScannerPage> with WidgetsBindingObserver {
     if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: const Text(
-          "Couldn't read this code. Position code inside frame.",
+        content: Text(
+          'couldnt_read_qr'.tr,
         ),
         backgroundColor: Theme.of(context).colorScheme.error,
         duration: const Duration(seconds: 2),
@@ -282,7 +282,7 @@ class _ScannerPageState extends State<ScannerPage> with WidgetsBindingObserver {
     if (!_hasPermission) {
       return Scaffold(
         appBar: AppBar(
-          title: const Text('Scanner'),
+          title: Text('qr_scanner_title'.tr),
           elevation: 0,
         ),
         body: PermissionDeniedView(
@@ -321,13 +321,13 @@ class _ScannerPageState extends State<ScannerPage> with WidgetsBindingObserver {
                       ),
                       const SizedBox(height: 12),
                       Text(
-                        'Camera Error: ${error.errorCode.name}',
+                        'camera_error'.trParams({'error': error.errorCode.name}),
                         style: const TextStyle(color: Colors.white),
                       ),
                       const SizedBox(height: 16),
                       ElevatedButton(
                         onPressed: _safeStartCamera,
-                        child: const Text('Retry'),
+                        child: Text('retry_btn'.tr),
                       ),
                     ],
                   ),
@@ -363,16 +363,16 @@ class _ScannerPageState extends State<ScannerPage> with WidgetsBindingObserver {
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
-                    children: const [
-                      Icon(
+                    children: [
+                      const Icon(
                         Icons.check_circle_rounded,
                         color: AppColors.brightGreen,
                         size: 16,
                       ),
-                      SizedBox(width: 8),
+                      const SizedBox(width: 8),
                       Text(
-                        'Point at Table QR to Join Session',
-                        style: TextStyle(
+                        'point_at_table_qr_instruction'.tr,
+                        style: const TextStyle(
                           color: Colors.white,
                           fontSize: 13,
                           fontWeight: FontWeight.w600,
@@ -427,13 +427,13 @@ class _ScannerPageState extends State<ScannerPage> with WidgetsBindingObserver {
                           border: Border.all(color: Colors.white24, width: 1),
                         ),
                         child: Row(
-                          children: const [
-                            Icon(Icons.edit_note_rounded,
+                          children: [
+                            const Icon(Icons.edit_note_rounded,
                                 color: AppColors.goldBright, size: 18),
-                            SizedBox(width: 6),
+                            const SizedBox(width: 6),
                             Text(
-                              'Enter Table #',
-                              style: TextStyle(
+                              'enter_table_manual_btn'.tr,
+                              style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 13,
                                 fontWeight: FontWeight.bold,
@@ -500,13 +500,13 @@ class _ScannerPageState extends State<ScannerPage> with WidgetsBindingObserver {
                     ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
-                      children: const [
-                        Icon(Icons.restaurant_menu_rounded,
+                      children: [
+                        const Icon(Icons.restaurant_menu_rounded,
                             color: Colors.white, size: 18),
-                        SizedBox(width: 8),
+                        const SizedBox(width: 8),
                         Text(
-                          'Open Menu Directly',
-                          style: TextStyle(
+                          'open_menu_directly_btn'.tr,
+                          style: const TextStyle(
                             color: Colors.white,
                             fontSize: 14,
                             fontWeight: FontWeight.bold,

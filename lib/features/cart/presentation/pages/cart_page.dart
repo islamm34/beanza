@@ -47,8 +47,9 @@ class _CartPageState extends State<CartPage> {
       backgroundColor: isDark ? AppColors.darkBg : AppColors.lightBg,
       appBar: AppAppBar(
         title: hasTableSession && tableCtrl != null
-            ? 'Table ${tableCtrl.tableNumber} Cart'
-            : 'Your Coffee Cart',
+            ? 'table_cart_title'
+                .trParams({'table': tableCtrl.tableNumber.toString()})
+            : 'my_cart_title'.tr,
         showCartAction: false,
       ),
       body: SafeArea(
@@ -100,7 +101,8 @@ class _CartPageState extends State<CartPage> {
                               ),
                               child: Center(
                                 child: Text(
-                                  'All Items (${tableCtrl.totalItemCount})',
+                                  'all_items_tab'.trParams(
+                                      {'count': '${tableCtrl.totalItemCount}'}),
                                   style: TextStyle(
                                     color: _selectedFilterIndex == 0
                                         ? (isDark
@@ -137,7 +139,8 @@ class _CartPageState extends State<CartPage> {
                               ),
                               child: Center(
                                 child: Text(
-                                  'By Person (${participants.length})',
+                                  'by_person_tab'.trParams(
+                                      {'count': '${participants.length}'}),
                                   style: TextStyle(
                                     color: _selectedFilterIndex == 1
                                         ? (isDark
@@ -181,7 +184,8 @@ class _CartPageState extends State<CartPage> {
                         const SizedBox(width: 8),
                         Expanded(
                           child: Text(
-                            'Live Table Updates: ${participants.length} members connected • Synced',
+                            'live_table_updates'.trParams(
+                                {'count': '${participants.length}'}),
                             style: TextStyle(
                               color: isDark
                                   ? AppColors.darkTextPrimary
@@ -250,7 +254,8 @@ class _CartPageState extends State<CartPage> {
                                     ),
                                   ),
                                   CafeBadge(
-                                    text: '${items.length} items',
+                                    text: 'items_count'.trParams(
+                                        {'count': '${items.length}'}),
                                     isGold: true,
                                   ),
                                 ],
@@ -267,7 +272,7 @@ class _CartPageState extends State<CartPage> {
                                   padding:
                                       const EdgeInsets.symmetric(vertical: 8),
                                   child: Text(
-                                    'No drinks added yet',
+                                    'no_drinks_added_yet'.tr,
                                     style: TextStyle(
                                       color: isDark
                                           ? AppColors.darkTextSecondary
@@ -332,7 +337,7 @@ class _CartPageState extends State<CartPage> {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                item.product.name,
+                                                item.product.localizedName,
                                                 style: TextStyle(
                                                   color: isDark
                                                       ? AppColors
@@ -344,7 +349,7 @@ class _CartPageState extends State<CartPage> {
                                                 ),
                                               ),
                                               Text(
-                                                '${item.selectedSize.name} • ${item.selectedMilk.name}',
+                                                '${item.selectedSize.localizedName} • ${item.selectedMilk.localizedName}',
                                                 style: TextStyle(
                                                   color: isDark
                                                       ? AppColors
@@ -355,7 +360,7 @@ class _CartPageState extends State<CartPage> {
                                                 ),
                                               ),
                                               Text(
-                                                '${item.totalPrice.toStringAsFixed(2)} EGP x ${item.quantity}',
+                                                '${item.totalPrice.toStringAsFixed(2)} ${'egp'.tr} x ${item.quantity}',
                                                 style: TextStyle(
                                                   color: goldColor,
                                                   fontWeight: FontWeight.bold,
@@ -439,13 +444,13 @@ class _CartPageState extends State<CartPage> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text(
-                            'Table Total Amount:',
-                            style: TextStyle(
+                          Text(
+                            'table_bill_total'.tr,
+                            style: const TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 14),
                           ),
                           Text(
-                            '${totalAmount.toStringAsFixed(2)} EGP',
+                            '${totalAmount.toStringAsFixed(2)} ${'egp'.tr}',
                             style: TextStyle(
                               color: goldColor,
                               fontWeight: FontWeight.bold,
@@ -460,13 +465,13 @@ class _CartPageState extends State<CartPage> {
                           Expanded(
                             child: OutlinedButton(
                               onPressed: () => Get.toNamed(Routes.HOME),
-                              child: const Text('Add Another Item'),
+                              child: Text('add_another_item'.tr),
                             ),
                           ),
                           const SizedBox(width: 12),
                           Expanded(
                             child: PrimaryButton(
-                              label: 'Review Order ☕',
+                              label: 'review_order_title'.tr,
                               onPressed: () => Get.toNamed(Routes.CHECKOUT),
                             ),
                           ),
@@ -484,10 +489,9 @@ class _CartPageState extends State<CartPage> {
           if (cartItems.isEmpty) {
             return EmptyState(
               icon: Icons.shopping_bag_outlined,
-              title: 'Your Cart is Empty',
-              message:
-                  'Discover our premium handcrafted coffee selections and add items to your cart.',
-              actionLabel: 'Browse Menu',
+              title: 'empty_cart_title'.tr,
+              message: 'empty_cart_message'.tr,
+              actionLabel: 'start_ordering'.tr,
               onAction: () => Get.toNamed(Routes.HOME),
             );
           }
@@ -542,7 +546,7 @@ class _CartPageState extends State<CartPage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  item.product.name,
+                                  item.product.localizedName,
                                   style: TextStyle(
                                     color: isDark
                                         ? AppColors.darkTextPrimary
@@ -552,7 +556,7 @@ class _CartPageState extends State<CartPage> {
                                   ),
                                 ),
                                 Text(
-                                  '${item.selectedSize.name} • ${item.selectedMilk.name}',
+                                  '${item.selectedSize.localizedName} • ${item.selectedMilk.localizedName}',
                                   style: TextStyle(
                                     color: isDark
                                         ? AppColors.darkTextSecondary
@@ -561,7 +565,7 @@ class _CartPageState extends State<CartPage> {
                                   ),
                                 ),
                                 Text(
-                                  '${item.totalPrice.toStringAsFixed(2)} EGP',
+                                  '${item.totalPrice.toStringAsFixed(2)} ${'egp'.tr}',
                                   style: TextStyle(
                                     color: goldColor,
                                     fontWeight: FontWeight.bold,
@@ -626,11 +630,11 @@ class _CartPageState extends State<CartPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text('Total Amount:',
-                            style: TextStyle(
+                        Text('total'.tr,
+                            style: const TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 15)),
                         Text(
-                          '${cartController.total.toStringAsFixed(2)} EGP',
+                          '${cartController.total.toStringAsFixed(2)} ${'egp'.tr}',
                           style: TextStyle(
                               color: goldColor,
                               fontWeight: FontWeight.bold,
@@ -640,7 +644,7 @@ class _CartPageState extends State<CartPage> {
                     ),
                     const SizedBox(height: 12),
                     PrimaryButton(
-                      label: 'Proceed to Checkout ☕',
+                      label: 'proceed_to_checkout'.tr,
                       onPressed: () => Get.toNamed(Routes.CHECKOUT),
                     ),
                   ],

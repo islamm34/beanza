@@ -18,7 +18,7 @@ class ScanHistoryPage extends StatelessWidget {
         backgroundColor: isDark ? AppColors.darkCardBg : AppColors.lightCardBg,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         title: Text(
-          'Clear Scan History?',
+          'clear_history_title'.tr,
           style: TextStyle(
             color:
                 isDark ? AppColors.darkTextPrimary : AppColors.lightTextPrimary,
@@ -26,7 +26,7 @@ class ScanHistoryPage extends StatelessWidget {
           ),
         ),
         content: Text(
-          'Are you sure you want to clear all your saved scans?',
+          'clear_history_msg'.tr,
           style: TextStyle(
             color: isDark
                 ? AppColors.darkTextSecondary
@@ -36,7 +36,7 @@ class ScanHistoryPage extends StatelessWidget {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: const Text('Cancel'),
+            child: Text('cancel'.tr),
           ),
           ElevatedButton(
             key: const Key('confirm_clear_history'),
@@ -48,7 +48,7 @@ class ScanHistoryPage extends StatelessWidget {
               backgroundColor: AppColors.error,
               foregroundColor: Colors.white,
             ),
-            child: const Text('Clear All'),
+            child: Text('clear_all'.tr),
           ),
         ],
       ),
@@ -67,12 +67,12 @@ class ScanHistoryPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: isDark ? AppColors.darkBg : AppColors.lightBg,
       appBar: AppAppBar(
-        title: 'Scan History / سجل المسح',
+        title: 'scan_history_title'.tr,
         showCartAction: false,
         actions: [
           IconButton(
             icon: Icon(Icons.delete_sweep_rounded, color: goldColor),
-            tooltip: 'Clear History',
+            tooltip: 'clear_history_btn'.tr,
             onPressed: () => _confirmClearAll(context, scanHistoryController),
           ),
         ],
@@ -81,11 +81,10 @@ class ScanHistoryPage extends StatelessWidget {
         final records = scanHistoryController.scanHistory;
 
         if (records.isEmpty) {
-          return const EmptyState(
+          return EmptyState(
             icon: Icons.qr_code_scanner_rounded,
-            title: 'No Scans Yet',
-            description:
-                'Your scanned tables, orders, and café codes will appear here.',
+            title: 'no_scan_history'.tr,
+            message: 'no_scan_history_subtitle'.tr,
           );
         }
 

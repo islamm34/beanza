@@ -44,7 +44,7 @@ class _TableOverviewPageState extends State<TableOverviewPage> {
               color: isDark ? AppColors.darkBorder : AppColors.lightBorder),
         ),
         title: Text(
-          'Leave Table Session?',
+          'leave_table_dialog_title'.tr,
           style: TextStyle(
             color:
                 isDark ? AppColors.darkTextPrimary : AppColors.lightTextPrimary,
@@ -52,7 +52,7 @@ class _TableOverviewPageState extends State<TableOverviewPage> {
           ),
         ),
         content: Text(
-          'Leaving will remove you from this table session. Your items will remain in the group order until submitted.',
+          'leave_table_dialog_desc'.tr,
           style: TextStyle(
             color: isDark
                 ? AppColors.darkTextSecondary
@@ -62,7 +62,7 @@ class _TableOverviewPageState extends State<TableOverviewPage> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: Text('cancel'.tr),
           ),
           ElevatedButton(
             onPressed: () {
@@ -74,7 +74,7 @@ class _TableOverviewPageState extends State<TableOverviewPage> {
               backgroundColor: AppColors.error,
               foregroundColor: Colors.white,
             ),
-            child: const Text('Leave Table'),
+            child: Text('leave_table_btn'.tr),
           ),
         ],
       ),
@@ -114,26 +114,19 @@ class _TableOverviewPageState extends State<TableOverviewPage> {
               ),
               const SizedBox(height: 16),
               Text(
-                'Confirm Table ${tableCtrl.tableNumber} Order',
+                'confirm_table_order_title'
+                    .trParams({'table': tableCtrl.tableNumber}),
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
               ),
-              const SizedBox(height: 4),
-              Text(
-                'تأكيد طلب طاولة ${tableCtrl.tableNumber}',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: isDark
-                      ? AppColors.darkTextSecondary
-                      : AppColors.lightTextSecondary,
-                  fontSize: 12,
-                ),
-              ),
               const SizedBox(height: 16),
               Text(
-                'Submitting group order for ${tableCtrl.participantCount} participants (${tableCtrl.totalItemCount} drinks).',
+                'submitting_group_order_desc'.trParams({
+                  'count': tableCtrl.participantCount.toString(),
+                  'drinks': tableCtrl.totalItemCount.toString(),
+                }),
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: isDark
@@ -158,12 +151,12 @@ class _TableOverviewPageState extends State<TableOverviewPage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
-                      'Total Table Amount:',
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                    Text(
+                      'table_bill_total'.tr,
+                      style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                     Text(
-                      '${tableCtrl.total.toStringAsFixed(2)} EGP',
+                      '${tableCtrl.total.toStringAsFixed(2)} ${'egp'.tr}',
                       style: const TextStyle(
                         color: AppColors.gold,
                         fontWeight: FontWeight.bold,
@@ -177,7 +170,7 @@ class _TableOverviewPageState extends State<TableOverviewPage> {
               Obx(
                 () => PrimaryButton(
                   isLoading: tableCtrl.isSubmittingOrder.value,
-                  label: 'Confirm and Send Order ☕',
+                  label: 'confirm_and_send_order'.tr,
                   onPressed: () async {
                     final success = await tableCtrl.submitTableOrder();
                     if (success && context.mounted) {
@@ -210,10 +203,9 @@ class _TableOverviewPageState extends State<TableOverviewPage> {
           if (session == null) {
             return EmptyState(
               icon: Icons.table_restaurant_outlined,
-              title: 'No Active Table Session',
-              message:
-                  'Scan a table QR code to start or join a shared group table order!',
-              actionLabel: 'Scan Table QR',
+              title: 'no_active_session_title'.tr,
+              message: 'no_active_session_msg'.tr,
+              actionLabel: 'scan_table_qr_instruction'.tr,
               onAction: () => Get.offAllNamed(Routes.SCANNER),
             );
           }
@@ -270,7 +262,8 @@ class _TableOverviewPageState extends State<TableOverviewPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Table ${tableCtrl.tableNumber}',
+                            'table_with_num'
+                                .trParams({'table': tableCtrl.tableNumber}),
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
@@ -280,7 +273,9 @@ class _TableOverviewPageState extends State<TableOverviewPage> {
                             ),
                           ),
                           Text(
-                            '${tableCtrl.participantCount} Connected Members • أعضاء متصلون',
+                            'connected_members_count'.trParams({
+                              'count': tableCtrl.participantCount.toString(),
+                            }),
                             style: TextStyle(
                               fontSize: 12,
                               color: isDark
@@ -307,7 +302,7 @@ class _TableOverviewPageState extends State<TableOverviewPage> {
                             size: 16,
                           ),
                         ),
-                        tooltip: 'Prototype: Preview Join Request',
+                        tooltip: 'join_request_card_title'.tr,
                         onPressed: () {
                           JoinApprovalBottomSheet.show(
                             context: context,
@@ -315,8 +310,11 @@ class _TableOverviewPageState extends State<TableOverviewPage> {
                             tableNumber: tableCtrl.tableNumber,
                             onApprove: () {
                               Get.snackbar(
-                                'Request Approved • تمت الموافقة',
-                                'Youssef has been approved to join Table ${tableCtrl.tableNumber}.',
+                                'request_approved_title'.tr,
+                                'request_approved_content'.trParams({
+                                  'name': 'Youssef',
+                                  'table': tableCtrl.tableNumber,
+                                }),
                                 snackPosition: SnackPosition.BOTTOM,
                                 backgroundColor: const Color(0xFF31A93D),
                                 colorText: Colors.white,
@@ -324,8 +322,10 @@ class _TableOverviewPageState extends State<TableOverviewPage> {
                             },
                             onReject: () {
                               Get.snackbar(
-                                'Request Declined • تم الرفض',
-                                'Youssef was not approved.',
+                                'request_declined_title'.tr,
+                                'request_declined_content'.trParams({
+                                  'name': 'Youssef',
+                                }),
                                 snackPosition: SnackPosition.BOTTOM,
                                 backgroundColor: const Color(0xFFD95656),
                                 colorText: Colors.white,
@@ -355,77 +355,99 @@ class _TableOverviewPageState extends State<TableOverviewPage> {
               ),
 
               // 2. Member Avatars Horizontally with Names
-              SizedBox(
-                height: 84,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  itemCount: orderedParticipants.length,
-                  itemBuilder: (context, index) {
-                    final p = orderedParticipants[index];
-                    final isMe = p.participantId == meId;
-
-                    return Padding(
-                      padding: const EdgeInsets.only(right: 14),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Stack(
-                            children: [
-                              CircleAvatar(
-                                radius: 24,
-                                backgroundColor: isMe
-                                    ? AppColors.primaryGreen
-                                    : _companionAccentColors[
-                                        index % _companionAccentColors.length],
-                                child: Text(
-                                  p.displayName.isNotEmpty
-                                      ? p.displayName[0].toUpperCase()
-                                      : 'U',
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16,
-                                  ),
-                                ),
-                              ),
-                              if (p.isDone)
-                                Positioned(
-                                  right: 0,
-                                  bottom: 0,
-                                  child: Container(
-                                    padding: const EdgeInsets.all(2),
-                                    decoration: const BoxDecoration(
-                                      color: Colors.white,
-                                      shape: BoxShape.circle,
-                                    ),
-                                    child: const Icon(
-                                      Icons.check_circle_rounded,
-                                      color: AppColors.primaryGreen,
-                                      size: 14,
-                                    ),
-                                  ),
-                                ),
-                            ],
-                          ),
-                          const SizedBox(height: 4),
-                          Text(
-                            isMe ? '${p.displayName} (You)' : p.displayName,
-                            style: TextStyle(
-                              color: isDark
-                                  ? AppColors.darkTextPrimary
-                                  : AppColors.lightTextPrimary,
-                              fontSize: 11,
-                              fontWeight:
-                                  isMe ? FontWeight.bold : FontWeight.w500,
-                            ),
-                          ),
-                        ],
+              if (orderedParticipants.isEmpty)
+                Container(
+                  width: double.infinity,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  child: Center(
+                    child: Text(
+                      'no_one_joined_table_yet'.tr,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: isDark
+                            ? AppColors.darkTextSecondary
+                            : AppColors.lightTextSecondary,
+                        fontSize: 12,
+                        fontStyle: FontStyle.italic,
                       ),
-                    );
-                  },
+                    ),
+                  ),
+                )
+              else
+                SizedBox(
+                  height: 84,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    itemCount: orderedParticipants.length,
+                    itemBuilder: (context, index) {
+                      final p = orderedParticipants[index];
+                      final isMe = p.participantId == meId;
+
+                      return Padding(
+                        padding: const EdgeInsets.only(right: 14),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Stack(
+                              children: [
+                                CircleAvatar(
+                                  radius: 24,
+                                  backgroundColor: isMe
+                                      ? AppColors.primaryGreen
+                                      : _companionAccentColors[index %
+                                          _companionAccentColors.length],
+                                  child: Text(
+                                    p.displayName.isNotEmpty
+                                        ? p.displayName[0].toUpperCase()
+                                        : 'U',
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ),
+                                if (p.isDone)
+                                  Positioned(
+                                    right: 0,
+                                    bottom: 0,
+                                    child: Container(
+                                      padding: const EdgeInsets.all(2),
+                                      decoration: const BoxDecoration(
+                                        color: Colors.white,
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: const Icon(
+                                        Icons.check_circle_rounded,
+                                        color: AppColors.primaryGreen,
+                                        size: 14,
+                                      ),
+                                    ),
+                                  ),
+                              ],
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              isMe
+                                  ? '${p.displayName} (${'you_badge'.tr})'
+                                  : p.displayName,
+                              style: TextStyle(
+                                color: isDark
+                                    ? AppColors.darkTextPrimary
+                                    : AppColors.lightTextPrimary,
+                                fontSize: 11,
+                                fontWeight:
+                                    isMe ? FontWeight.bold : FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
                 ),
-              ),
 
               // 3. Live Activity & Group Orders List
               Expanded(
@@ -456,7 +478,10 @@ class _TableOverviewPageState extends State<TableOverviewPage> {
                           const SizedBox(width: 10),
                           Expanded(
                             child: Text(
-                              'Live: ${orderedParticipants.first.displayName} is viewing menu • ${tableCtrl.totalItemCount} items in cart',
+                              'live_member_viewing_menu'.trParams({
+                                'name': orderedParticipants.first.displayName,
+                                'count': tableCtrl.totalItemCount.toString(),
+                              }),
                               style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w500,
@@ -515,7 +540,7 @@ class _TableOverviewPageState extends State<TableOverviewPage> {
 
                     // Navigation Action: View Menu & Secondary Actions
                     PrimaryButton(
-                      label: 'View Menu & Add Drinks ☕',
+                      label: 'view_menu_and_add_drinks'.tr,
                       icon: const Icon(Icons.menu_book_rounded,
                           color: Colors.white, size: 18),
                       onPressed: () => Get.toNamed(Routes.HOME),
@@ -528,8 +553,10 @@ class _TableOverviewPageState extends State<TableOverviewPage> {
                           child: OutlinedButton.icon(
                             onPressed: () {
                               Get.snackbar(
-                                'Table Share',
-                                'Share QR or Table #${tableCtrl.tableNumber} with your friends!',
+                                'table_share_title'.tr,
+                                'share_table_info'.trParams({
+                                  'table': tableCtrl.tableNumber,
+                                }),
                                 backgroundColor: isDark
                                     ? AppColors.darkCardBg
                                     : AppColors.lightCardBg,
@@ -540,7 +567,7 @@ class _TableOverviewPageState extends State<TableOverviewPage> {
                             },
                             icon:
                                 const Icon(Icons.person_add_outlined, size: 16),
-                            label: const Text('Invite Friend'),
+                            label: Text('invite_friend'.tr),
                           ),
                         ),
                         const SizedBox(width: 10),
@@ -550,8 +577,9 @@ class _TableOverviewPageState extends State<TableOverviewPage> {
                                 _showLeaveTableDialog(context, tableCtrl),
                             icon: const Icon(Icons.logout_rounded,
                                 size: 16, color: AppColors.error),
-                            label: const Text('Leave Table',
-                                style: TextStyle(color: AppColors.error)),
+                            label: Text('leave_table_btn'.tr,
+                                style:
+                                    const TextStyle(color: AppColors.error)),
                           ),
                         ),
                       ],

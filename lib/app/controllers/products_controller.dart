@@ -54,4 +54,8 @@ class ProductsController extends GetxController {
     selectedCategory.value = 'All';
     searchQuery.value = '';
   }
+
+  String getLocalizedCategoryName(String category) {
+    return LocalProductCatalog.getCategoryDisplayName(category);
+  }
 }

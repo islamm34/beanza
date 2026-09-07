@@ -36,8 +36,8 @@ class _ExplorePageState extends State<ExplorePage> {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
-      appBar: const AppAppBar(
-        title: 'Explore Cafes & Menu',
+      appBar: AppAppBar(
+        title: 'explore_title'.tr,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.fromLTRB(16, 16, 16, 110),
@@ -49,7 +49,7 @@ class _ExplorePageState extends State<ExplorePage> {
 
             // Search Bar with Filter Button
             SearchField(
-              hintText: 'Search coffee, drinks, category...',
+              hintText: 'home_search_hint'.tr,
               onChanged: (val) => exploreController.setSearchQuery(val),
               onClear: () => exploreController.setSearchQuery(''),
               onFilterPressed: () => _showFilterBottomSheet(context),
@@ -166,7 +166,7 @@ class _ExplorePageState extends State<ExplorePage> {
 
             // Menu Items Grid Section
             Text(
-              'Café Menu Items',
+              'featured_coffee_menu'.tr,
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
@@ -193,10 +193,9 @@ class _ExplorePageState extends State<ExplorePage> {
                   padding: const EdgeInsets.symmetric(vertical: 24),
                   child: EmptyState(
                     icon: Icons.search_off_rounded,
-                    title: 'No coffee found',
-                    description:
-                        'Try searching for another coffee, changing category or resetting filters.',
-                    actionLabel: 'Reset All Filters',
+                    title: 'no_coffee_found_title'.tr,
+                    message: 'no_coffee_found_msg'.tr,
+                    actionLabel: 'reset_filters_btn'.tr,
                     onAction: () => exploreController.resetAll(),
                   ),
                 );
@@ -218,8 +217,8 @@ class _ExplorePageState extends State<ExplorePage> {
                   return ProductCard(
                     productId: product.id,
                     imageUrl: product.image,
-                    name: product.name,
-                    category: product.category,
+                    name: product.localizedName,
+                    category: product.localizedCategory,
                     price: product.basePrice,
                     rating: product.rating,
                     reviewCount: product.reviewsCount,
@@ -237,7 +236,7 @@ class _ExplorePageState extends State<ExplorePage> {
 
             // Nearby Cafes Section
             Text(
-              'Nearby Brewora Cafes',
+              'nearby_cafes_title'.tr,
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
@@ -300,7 +299,7 @@ class _ExplorePageState extends State<ExplorePage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Advanced Filters',
+                        'advanced_filters_title'.tr,
                         style: Theme.of(context).textTheme.titleLarge?.copyWith(
                               fontWeight: FontWeight.bold,
                             ),
@@ -314,9 +313,9 @@ class _ExplorePageState extends State<ExplorePage> {
                             tempOnlyIced = false;
                           });
                         },
-                        child: const Text(
-                          'Reset',
-                          style: TextStyle(
+                        child: Text(
+                          'reset_filters_btn'.tr,
+                          style: const TextStyle(
                             color: AppColors.caramel,
                             fontWeight: FontWeight.bold,
                           ),
@@ -329,16 +328,19 @@ class _ExplorePageState extends State<ExplorePage> {
 
                   // Max Price Slider
                   Text(
-                    'Max Price: \$${tempMaxPrice.toStringAsFixed(1)}',
+                    'max_price_label'.trParams({
+                      'price': tempMaxPrice.toStringAsFixed(1),
+                      'currency': 'egp'.tr,
+                    }),
                     style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                   Slider(
                     value: tempMaxPrice,
                     min: 3.0,
-                    max: 20.0,
-                    divisions: 17,
+                    max: 200.0,
+                    divisions: 20,
                     activeColor: AppColors.caramel,
-                    label: '\$${tempMaxPrice.toStringAsFixed(1)}',
+                    label: '${tempMaxPrice.toStringAsFixed(1)} ${'egp'.tr}',
                     onChanged: (val) {
                       setModalState(() => tempMaxPrice = val);
                     },
@@ -347,7 +349,10 @@ class _ExplorePageState extends State<ExplorePage> {
 
                   // Minimum Rating Choice
                   Text(
-                    'Minimum Rating: ${tempMinRating == 0.0 ? "Any" : "$tempMinRating+ ★"}',
+                    'min_rating_label'.trParams({
+                      'rating':
+                          tempMinRating == 0.0 ? 'all_category'.tr : "$tempMinRating+ ★"
+                    }),
                     style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 8),
@@ -357,7 +362,7 @@ class _ExplorePageState extends State<ExplorePage> {
                       final isSel = tempMinRating == ratingVal;
                       return ChoiceChip(
                         label: Text(
-                          ratingVal == 0.0 ? 'Any' : '$ratingVal+ ★',
+                          ratingVal == 0.0 ? 'all_category'.tr : '$ratingVal+ ★',
                         ),
                         selected: isSel,
                         selectedColor: AppColors.caramel,
@@ -375,7 +380,7 @@ class _ExplorePageState extends State<ExplorePage> {
 
                   // Coffee Type Switches
                   SwitchListTile(
-                    title: const Text('Hot Coffee Only'),
+                    title: Text('hot_only_label'.tr),
                     activeColor: AppColors.caramel,
                     value: tempOnlyHot,
                     onChanged: (val) {
@@ -386,7 +391,7 @@ class _ExplorePageState extends State<ExplorePage> {
                     },
                   ),
                   SwitchListTile(
-                    title: const Text('Iced / Cold Coffee Only'),
+                    title: Text('iced_only_label'.tr),
                     activeColor: AppColors.caramel,
                     value: tempOnlyIced,
                     onChanged: (val) {
@@ -410,7 +415,7 @@ class _ExplorePageState extends State<ExplorePage> {
                               borderRadius: BorderRadius.circular(12),
                             ),
                           ),
-                          child: const Text('Cancel'),
+                          child: Text('cancel'.tr),
                         ),
                       ),
                       const SizedBox(width: 12),
@@ -432,9 +437,9 @@ class _ExplorePageState extends State<ExplorePage> {
                               borderRadius: BorderRadius.circular(12),
                             ),
                           ),
-                          child: const Text(
-                            'Apply Filters',
-                            style: TextStyle(
+                          child: Text(
+                            'apply_filters_btn'.tr,
+                            style: const TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
                             ),

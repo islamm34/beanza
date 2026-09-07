@@ -58,6 +58,12 @@ class _WaitingApprovalPageState extends State<WaitingApprovalPage> {
 
     if (widget.initialMembers != null) {
       _currentMembers = widget.initialMembers!;
+    } else {
+      final activeNames =
+          _controller.activeApprovedMembers.map((m) => m.name).toList();
+      if (activeNames.isNotEmpty) {
+        _currentMembers = activeNames;
+      }
     }
 
     _controller.initRequest(
@@ -121,7 +127,7 @@ class _WaitingApprovalPageState extends State<WaitingApprovalPage> {
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           title: Text(
-            'Cancel Request? / إلغاء الطلب؟',
+            'cancel_request_title'.tr,
             style: TextStyle(
               color: isDark ? const Color(0xFFF5F2EA) : const Color(0xFF201611),
               fontWeight: FontWeight.bold,
@@ -129,7 +135,7 @@ class _WaitingApprovalPageState extends State<WaitingApprovalPage> {
             ),
           ),
           content: Text(
-            'Are you sure you want to cancel your request to join Table $tableNumber?\n\nهل أنت متأكد من رغبتك في إلغاء طلب الانضمام إلى الترابيزة $tableNumber؟',
+            'cancel_request_content'.trParams({'table': tableNumber}),
             style: TextStyle(
               color: isDark ? const Color(0xFFA6A69F) : const Color(0xFF746B63),
               fontSize: 13,
@@ -138,7 +144,7 @@ class _WaitingApprovalPageState extends State<WaitingApprovalPage> {
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(ctx),
-              child: const Text('Keep Waiting'),
+              child: Text('keep_waiting'.tr),
             ),
             ElevatedButton(
               key: const Key('confirm_cancel_request_button'),
@@ -151,7 +157,7 @@ class _WaitingApprovalPageState extends State<WaitingApprovalPage> {
                 backgroundColor: const Color(0xFFD95656),
                 foregroundColor: Colors.white,
               ),
-              child: const Text('Cancel Request'),
+              child: Text('cancel_request_button'.tr),
             ),
           ],
         );
@@ -233,7 +239,7 @@ class _WaitingApprovalPageState extends State<WaitingApprovalPage> {
                               ),
                             ),
                             child: Text(
-                              'Table $tableNumber • الترابيزة $tableNumber',
+                              'table_badge'.trParams({'table': tableNumber}),
                               style: TextStyle(
                                 color: isDark
                                     ? const Color(0xFFF1B447)
@@ -361,9 +367,9 @@ class _WaitingApprovalPageState extends State<WaitingApprovalPage> {
                     borderRadius: BorderRadius.circular(16),
                   ),
                 ),
-                child: const Text(
-                  'Cancel Request / إلغاء الطلب',
-                  style: TextStyle(
+                child: Text(
+                  'cancel_request_button'.tr,
+                  style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 14,
                   ),
@@ -377,7 +383,7 @@ class _WaitingApprovalPageState extends State<WaitingApprovalPage> {
               icon: Icon(Icons.qr_code_scanner_rounded,
                   size: 16, color: goldColor),
               label: Text(
-                'Scan Another Table / مسح طاولة أخرى',
+                'scan_another_table'.tr,
                 style: TextStyle(
                   color: goldColor,
                   fontWeight: FontWeight.w600,
@@ -403,14 +409,14 @@ class _WaitingApprovalPageState extends State<WaitingApprovalPage> {
                 borderRadius: BorderRadius.circular(16),
               ),
             ),
-            child: const Row(
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.login_rounded, size: 20),
-                SizedBox(width: 8),
+                const Icon(Icons.login_rounded, size: 20),
+                const SizedBox(width: 8),
                 Text(
-                  'Enter Table / دخول الترابيزة',
-                  style: TextStyle(
+                  'enter_table_button'.tr,
+                  style: const TextStyle(
                     fontSize: 15.5,
                     fontWeight: FontWeight.bold,
                   ),
@@ -436,9 +442,9 @@ class _WaitingApprovalPageState extends State<WaitingApprovalPage> {
                     borderRadius: BorderRadius.circular(16),
                   ),
                 ),
-                child: const Text(
-                  'Try Again / المحاولة مرة أخرى',
-                  style: TextStyle(
+                child: Text(
+                  'try_again'.tr,
+                  style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 14.5,
                   ),
@@ -451,7 +457,7 @@ class _WaitingApprovalPageState extends State<WaitingApprovalPage> {
               icon: Icon(Icons.qr_code_scanner_rounded,
                   size: 16, color: secondaryText),
               label: Text(
-                'Scan Another Table / مسح طاولة أخرى',
+                'scan_another_table'.tr,
                 style: TextStyle(
                   color: secondaryText,
                   fontWeight: FontWeight.w600,
@@ -478,9 +484,9 @@ class _WaitingApprovalPageState extends State<WaitingApprovalPage> {
                     borderRadius: BorderRadius.circular(16),
                   ),
                 ),
-                child: const Text(
-                  'Send Again / إعادة الإرسال',
-                  style: TextStyle(
+                child: Text(
+                  'try_again'.tr,
+                  style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 14.5,
                   ),
@@ -493,7 +499,7 @@ class _WaitingApprovalPageState extends State<WaitingApprovalPage> {
               icon: Icon(Icons.qr_code_scanner_rounded,
                   size: 16, color: secondaryText),
               label: Text(
-                'Scan Another Table / مسح طاولة أخرى',
+                'scan_another_table'.tr,
                 style: TextStyle(
                   color: secondaryText,
                   fontWeight: FontWeight.w600,
@@ -520,9 +526,9 @@ class _WaitingApprovalPageState extends State<WaitingApprovalPage> {
                     borderRadius: BorderRadius.circular(16),
                   ),
                 ),
-                child: const Text(
-                  'Request Again / طلب الانضمام مجدداً',
-                  style: TextStyle(
+                child: Text(
+                  'try_again'.tr,
+                  style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 14.5,
                   ),
@@ -535,7 +541,7 @@ class _WaitingApprovalPageState extends State<WaitingApprovalPage> {
               icon: Icon(Icons.qr_code_scanner_rounded,
                   size: 16, color: secondaryText),
               label: Text(
-                'Scan Another Table / مسح طاولة أخرى',
+                'scan_another_table'.tr,
                 style: TextStyle(
                   color: secondaryText,
                   fontWeight: FontWeight.w600,

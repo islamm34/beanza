@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../../../app/theme/app_colors.dart';
 import '../../../../core/widgets/common/app_app_bar.dart';
@@ -16,34 +17,34 @@ class _CafeDashboardPageState extends State<CafeDashboardPage> {
 
   final List<Map<String, dynamic>> _liveOrders = [
     {
-      'table': 'Table 12',
-      'round': 'Round 1',
+      'table': '12',
+      'round': '1',
       'time': '4 mins ago',
-      'status': 'Preparing',
+      'status': 'preparing_status',
       'isGold': true,
       'items': '2x Cappuccino, 1x V60'
     },
     {
-      'table': 'Table 08',
-      'round': 'Round 2',
+      'table': '08',
+      'round': '2',
       'time': '8 mins ago',
-      'status': 'Ready',
+      'status': 'ready_status',
       'isGreen': true,
       'items': '1x Flat White, 1x Croissant'
     },
     {
-      'table': 'Table 04',
-      'round': 'Round 1',
+      'table': '04',
+      'round': '1',
       'time': '12 mins ago',
-      'status': 'Ready',
+      'status': 'ready_status',
       'isGreen': true,
       'items': '2x Iced Latte, 1x Cheesecake'
     },
     {
-      'table': 'Table 15',
-      'round': 'Round 3',
+      'table': '15',
+      'round': '3',
       'time': '25 mins ago',
-      'status': 'Completed',
+      'status': 'status_completed',
       'isNeutral': true,
       'items': '3x Americano'
     },
@@ -59,7 +60,7 @@ class _CafeDashboardPageState extends State<CafeDashboardPage> {
     return Scaffold(
       backgroundColor: isDark ? AppColors.darkBg : AppColors.lightBg,
       appBar: AppAppBar(
-        title: 'Café Live Dashboard • لوحة التحكم',
+        title: 'cafe_dashboard_title'.tr,
         showCartAction: false,
       ),
       body: SafeArea(
@@ -77,7 +78,7 @@ class _CafeDashboardPageState extends State<CafeDashboardPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Brewora Artisan Branch 1',
+                        'branch_name_demo'.tr,
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -87,7 +88,7 @@ class _CafeDashboardPageState extends State<CafeDashboardPage> {
                         ),
                       ),
                       Text(
-                        'Live Shift Status • 8 Active Tables',
+                        'live_shift_status'.tr,
                         style: TextStyle(
                           fontSize: 12,
                           color: isDark
@@ -107,12 +108,12 @@ class _CafeDashboardPageState extends State<CafeDashboardPage> {
                           Border.all(color: greenColor.withValues(alpha: 0.5)),
                     ),
                     child: Row(
-                      children: const [
-                        Icon(Icons.circle,
+                      children: [
+                        const Icon(Icons.circle,
                             color: AppColors.brightGreen, size: 8),
-                        SizedBox(width: 6),
-                        Text('LIVE',
-                            style: TextStyle(
+                        const SizedBox(width: 6),
+                        Text('live_badge'.tr,
+                            style: const TextStyle(
                                 color: AppColors.brightGreen,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 11)),
@@ -142,13 +143,13 @@ class _CafeDashboardPageState extends State<CafeDashboardPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Preparing',
+                          Text('preparing_status'.tr,
                               style: TextStyle(
                                   color: goldColor,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 11.5)),
                           const SizedBox(height: 4),
-                          Text('4 Orders',
+                          Text('orders_count'.trParams({'count': '4'}),
                               style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.w900,
@@ -177,13 +178,13 @@ class _CafeDashboardPageState extends State<CafeDashboardPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Ready',
+                          Text('ready_status'.tr,
                               style: TextStyle(
                                   color: greenColor,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 11.5)),
                           const SizedBox(height: 4),
-                          Text('3 Orders',
+                          Text('orders_count'.trParams({'count': '3'}),
                               style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.w900,
@@ -215,7 +216,7 @@ class _CafeDashboardPageState extends State<CafeDashboardPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Completed Today',
+                          Text('completed_today'.tr,
                               style: TextStyle(
                                   color: isDark
                                       ? AppColors.darkTextSecondary
@@ -223,7 +224,7 @@ class _CafeDashboardPageState extends State<CafeDashboardPage> {
                                   fontWeight: FontWeight.bold,
                                   fontSize: 10)),
                           const SizedBox(height: 4),
-                          Text('48 Orders',
+                          Text('orders_count'.trParams({'count': '48'}),
                               style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.w900,
@@ -240,7 +241,7 @@ class _CafeDashboardPageState extends State<CafeDashboardPage> {
 
               // 3. Live Orders Section
               Text(
-                'Live Table Orders Queue / طابور الطلبات',
+                'live_orders_queue'.tr,
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
@@ -254,6 +255,7 @@ class _CafeDashboardPageState extends State<CafeDashboardPage> {
               ..._liveOrders.map((ord) {
                 final isG = ord['isGreen'] == true;
                 final isGold = ord['isGold'] == true;
+                final statusKey = ord['status'] as String;
 
                 return CafeCard(
                   margin: const EdgeInsets.only(bottom: 10),
@@ -267,7 +269,7 @@ class _CafeDashboardPageState extends State<CafeDashboardPage> {
                           Row(
                             children: [
                               Text(
-                                ord['table'] as String,
+                                'table_with_num'.trParams({'table': ord['table'] as String}),
                                 style: TextStyle(
                                   fontSize: 15,
                                   fontWeight: FontWeight.bold,
@@ -278,7 +280,7 @@ class _CafeDashboardPageState extends State<CafeDashboardPage> {
                               ),
                               const SizedBox(width: 8),
                               Text(
-                                '• ${ord['round']}',
+                                '• ${'round_number'.trParams({'num': ord['round'] as String})}',
                                 style: TextStyle(
                                   color: isDark
                                       ? AppColors.darkTextSecondary
@@ -289,7 +291,7 @@ class _CafeDashboardPageState extends State<CafeDashboardPage> {
                             ],
                           ),
                           CafeBadge(
-                            text: ord['status'] as String,
+                            text: statusKey.tr,
                             isGreen: isG,
                             isGold: isGold,
                           ),
@@ -339,15 +341,15 @@ class _CafeDashboardPageState extends State<CafeDashboardPage> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               _buildDashNavItem(
-                  0, Icons.dashboard_rounded, 'Dashboard', greenColor, isDark),
+                  0, Icons.dashboard_rounded, 'nav_dashboard'.tr, greenColor, isDark),
               _buildDashNavItem(
-                  1, Icons.receipt_long_rounded, 'Orders', greenColor, isDark),
+                  1, Icons.receipt_long_rounded, 'nav_orders'.tr, greenColor, isDark),
               _buildDashNavItem(
-                  2, Icons.restaurant_menu_rounded, 'Menu', greenColor, isDark),
+                  2, Icons.restaurant_menu_rounded, 'nav_menu'.tr, greenColor, isDark),
               _buildDashNavItem(
-                  3, Icons.analytics_outlined, 'Analytics', greenColor, isDark),
+                  3, Icons.analytics_outlined, 'nav_analytics'.tr, greenColor, isDark),
               _buildDashNavItem(
-                  4, Icons.more_horiz_rounded, 'More', greenColor, isDark),
+                  4, Icons.more_horiz_rounded, 'nav_more'.tr, greenColor, isDark),
             ],
           ),
         ),

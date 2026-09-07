@@ -91,8 +91,8 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
       case AuthViewMode.login:
       case AuthViewMode.register:
         Get.snackbar(
-          'Welcome to Brewora ☕',
-          'Successfully authenticated! Enjoy your coffee experience.',
+          'auth_welcome_snackbar_title'.tr,
+          'auth_welcome_snackbar_msg'.tr,
           snackPosition: SnackPosition.TOP,
           backgroundColor: AppColors.espressoDark,
           colorText: Colors.white,
@@ -106,8 +106,8 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
         _startResendTimer();
         setState(() => _viewMode = AuthViewMode.otpVerification);
         Get.snackbar(
-          'OTP Sent',
-          'Verification code sent to ${_emailController.text.trim()}',
+          'auth_otp_sent_title'.tr,
+          'auth_otp_sent_msg'.trParams({'email': _emailController.text.trim()}),
           snackPosition: SnackPosition.TOP,
           backgroundColor: AppColors.caramel,
           colorText: AppColors.espressoDark,
@@ -123,8 +123,8 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
       case AuthViewMode.resetPassword:
         setState(() => _viewMode = AuthViewMode.login);
         Get.snackbar(
-          'Password Reset',
-          'Your password has been reset successfully. Please login.',
+          'auth_password_reset_title'.tr,
+          'auth_password_reset_msg'.tr,
           snackPosition: SnackPosition.TOP,
           backgroundColor: AppColors.espressoDark,
           colorText: Colors.white,
@@ -161,13 +161,13 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     // Brand Header Logo
-                    const AdaptiveCafeLogo(
+                    AdaptiveCafeLogo(
                       size: 88,
-                      semanticsLabel: 'Brewora logo',
+                      semanticsLabel: 'brewora_logo_label'.tr,
                     ),
                     const SizedBox(height: 12),
                     Text(
-                      'BREWORA',
+                      'auth_welcome_title'.tr,
                       style: Theme.of(context)
                           .textTheme
                           .headlineMedium
@@ -226,7 +226,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                                 controller: _nameController,
                                 validator: AppValidators.validateName,
                                 decoration: InputDecoration(
-                                  labelText: 'Full Name',
+                                  labelText: 'auth_full_name_label'.tr,
                                   prefixIcon:
                                       const Icon(Icons.person_outline_rounded),
                                   border: OutlineInputBorder(
@@ -244,7 +244,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                                 keyboardType: TextInputType.emailAddress,
                                 validator: AppValidators.validateEmail,
                                 decoration: InputDecoration(
-                                  labelText: 'Email Address',
+                                  labelText: 'auth_email_label'.tr,
                                   prefixIcon: const Icon(Icons.email_outlined),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(14),
@@ -261,7 +261,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                                 obscureText: _obscurePassword,
                                 validator: AppValidators.validatePassword,
                                 decoration: InputDecoration(
-                                  labelText: 'Password',
+                                  labelText: 'auth_password_label'.tr,
                                   prefixIcon:
                                       const Icon(Icons.lock_outline_rounded),
                                   suffixIcon: IconButton(
@@ -291,9 +291,9 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                                     () =>
                                         _viewMode = AuthViewMode.forgotPassword,
                                   ),
-                                  child: const Text(
-                                    'Forgot Password?',
-                                    style: TextStyle(
+                                  child: Text(
+                                    'auth_forgot_password_btn'.tr,
+                                    style: const TextStyle(
                                       color: AppColors.caramel,
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -317,10 +317,10 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                                 ),
                                 validator: (val) =>
                                     (val == null || val.length < 6)
-                                        ? 'Enter 6-digit OTP code'
+                                        ? 'auth_otp_validation_error'.tr
                                         : null,
                                 decoration: InputDecoration(
-                                  labelText: '6-Digit OTP',
+                                  labelText: 'auth_otp_label'.tr,
                                   counterText: '',
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(14),
@@ -334,8 +334,8 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                                 children: [
                                   Text(
                                     _canResendOtp
-                                        ? 'Didn\'t receive code?'
-                                        : 'Resend code in ${_resendSeconds}s',
+                                        ? 'auth_didnt_receive_code'.tr
+                                        : 'auth_resend_in_seconds'.trParams({'seconds': '$_resendSeconds'}),
                                     style:
                                         Theme.of(context).textTheme.bodySmall,
                                   ),
@@ -343,9 +343,9 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                                     onPressed: _canResendOtp
                                         ? _startResendTimer
                                         : null,
-                                    child: const Text(
-                                      'Resend OTP',
-                                      style: TextStyle(
+                                    child: Text(
+                                      'auth_resend_otp_btn'.tr,
+                                      style: const TextStyle(
                                         color: AppColors.caramel,
                                         fontWeight: FontWeight.bold,
                                       ),
@@ -363,7 +363,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                                 obscureText: _obscurePassword,
                                 validator: AppValidators.validatePassword,
                                 decoration: InputDecoration(
-                                  labelText: 'New Password',
+                                  labelText: 'auth_new_password_label'.tr,
                                   prefixIcon:
                                       const Icon(Icons.lock_outline_rounded),
                                   suffixIcon: IconButton(
@@ -392,7 +392,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                                   _passwordController.text,
                                 ),
                                 decoration: InputDecoration(
-                                  labelText: 'Confirm New Password',
+                                  labelText: 'auth_confirm_new_password_label'.tr,
                                   prefixIcon:
                                       const Icon(Icons.lock_reset_rounded),
                                   suffixIcon: IconButton(
@@ -487,69 +487,69 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
   String _getTitle() {
     switch (_viewMode) {
       case AuthViewMode.login:
-        return 'Welcome Back';
+        return 'auth_welcome_back'.tr;
       case AuthViewMode.register:
-        return 'Create Account';
+        return 'auth_create_account'.tr;
       case AuthViewMode.forgotPassword:
-        return 'Forgot Password';
+        return 'auth_forgot_password'.tr;
       case AuthViewMode.otpVerification:
-        return 'Enter OTP Code';
+        return 'auth_enter_otp'.tr;
       case AuthViewMode.resetPassword:
-        return 'Reset Password';
+        return 'auth_reset_password'.tr;
     }
   }
 
   String _getSubtitle() {
     switch (_viewMode) {
       case AuthViewMode.login:
-        return 'Sign in to order artisan coffee and earn rewards';
+        return 'auth_login_subtitle'.tr;
       case AuthViewMode.register:
-        return 'Join Brewora for exclusive coffee perks and deals';
+        return 'auth_register_subtitle'.tr;
       case AuthViewMode.forgotPassword:
-        return 'Enter your email to receive a verification code';
+        return 'auth_forgot_password_subtitle'.tr;
       case AuthViewMode.otpVerification:
-        return 'Verify your identity to reset your password';
+        return 'auth_otp_subtitle'.tr;
       case AuthViewMode.resetPassword:
-        return 'Choose a strong new password for your account';
+        return 'auth_reset_password_subtitle'.tr;
     }
   }
 
   String _getButtonText() {
     switch (_viewMode) {
       case AuthViewMode.login:
-        return 'Sign In';
+        return 'auth_sign_in_btn'.tr;
       case AuthViewMode.register:
-        return 'Create Account';
+        return 'auth_create_account_btn'.tr;
       case AuthViewMode.forgotPassword:
-        return 'Send Verification Code';
+        return 'auth_send_verification_btn'.tr;
       case AuthViewMode.otpVerification:
-        return 'Verify OTP';
+        return 'auth_verify_otp_btn'.tr;
       case AuthViewMode.resetPassword:
-        return 'Save New Password';
+        return 'auth_save_new_password_btn'.tr;
     }
   }
 
   String _getTogglePrompt() {
     switch (_viewMode) {
       case AuthViewMode.login:
-        return "Don't have an account? ";
+        return 'auth_no_account_prompt'.tr;
       case AuthViewMode.register:
       case AuthViewMode.forgotPassword:
       case AuthViewMode.otpVerification:
       case AuthViewMode.resetPassword:
-        return "Remember your password? ";
+        return 'auth_have_account_prompt'.tr;
     }
   }
 
   String _getToggleAction() {
     switch (_viewMode) {
       case AuthViewMode.login:
-        return 'Sign Up';
+        return 'auth_sign_up_action'.tr;
       case AuthViewMode.register:
       case AuthViewMode.forgotPassword:
       case AuthViewMode.otpVerification:
       case AuthViewMode.resetPassword:
-        return 'Sign In';
+        return 'auth_sign_in_action'.tr;
     }
   }
 
@@ -563,3 +563,4 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
     });
   }
 }
+

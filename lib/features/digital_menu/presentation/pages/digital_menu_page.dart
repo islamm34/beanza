@@ -31,8 +31,8 @@ class _DigitalMenuPageState extends State<DigitalMenuPage> {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
-      appBar: const AppAppBar(
-        title: 'Brewora Digital Menu',
+      appBar: AppAppBar(
+        title: 'digital_menu_title'.tr,
         centerTitle: true,
       ),
       body: SafeArea(
@@ -42,7 +42,7 @@ class _DigitalMenuPageState extends State<DigitalMenuPage> {
             Padding(
               padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
               child: SearchField(
-                hintText: 'Search digital menu...',
+                hintText: 'search_digital_menu_hint'.tr,
                 onChanged: (val) => productsController.setSearchQuery(val),
                 onClear: () => productsController.setSearchQuery(''),
               ),
@@ -66,7 +66,7 @@ class _DigitalMenuPageState extends State<DigitalMenuPage> {
                     return Padding(
                       padding: const EdgeInsets.only(right: 8),
                       child: FilterChip(
-                        label: Text(category),
+                        label: Text(productsController.getLocalizedCategoryName(category)),
                         selected: isSelected,
                         selectedColor: AppColors.caramel,
                         backgroundColor: isDark
@@ -99,10 +99,9 @@ class _DigitalMenuPageState extends State<DigitalMenuPage> {
                 if (products.isEmpty) {
                   return EmptyState(
                     icon: Icons.search_off_rounded,
-                    title: 'No coffee found',
-                    description:
-                        'Try searching for another coffee or choose a different category.',
-                    actionLabel: 'Reset Filters',
+                    title: 'digital_menu_no_coffee'.tr,
+                    description: 'digital_menu_no_coffee_desc'.tr,
+                    actionLabel: 'reset_filters'.tr,
                     onAction: () {
                       productsController.resetFilters();
                     },
@@ -165,7 +164,7 @@ class _DigitalMenuPageState extends State<DigitalMenuPage> {
                                       children: [
                                         Expanded(
                                           child: Text(
-                                            product.name,
+                                            product.localizedName,
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
                                             style: const TextStyle(
@@ -184,7 +183,7 @@ class _DigitalMenuPageState extends State<DigitalMenuPage> {
                                     ),
                                     const SizedBox(height: 2),
                                     Text(
-                                      product.description,
+                                      product.localizedDescription,
                                       maxLines: 2,
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
@@ -200,7 +199,7 @@ class _DigitalMenuPageState extends State<DigitalMenuPage> {
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
-                                          '\$${product.basePrice.toStringAsFixed(2)}',
+                                          '${product.basePrice.toStringAsFixed(2)} ${'egp'.tr}',
                                           style: const TextStyle(
                                             fontSize: 15,
                                             fontWeight: FontWeight.bold,
@@ -211,8 +210,8 @@ class _DigitalMenuPageState extends State<DigitalMenuPage> {
                                           onPressed: () {
                                             cartController.addProduct(product);
                                             Get.snackbar(
-                                              'Added to Cart ☕',
-                                              '${product.name} added to your order.',
+                                              'added_to_cart'.tr,
+                                              'item_added_to_cart_desc'.trParams({'name': product.localizedName}),
                                               snackPosition:
                                                   SnackPosition.BOTTOM,
                                               backgroundColor:
@@ -243,9 +242,9 @@ class _DigitalMenuPageState extends State<DigitalMenuPage> {
                                             Icons.add_rounded,
                                             size: 16,
                                           ),
-                                          label: const Text(
-                                            'Add',
-                                            style: TextStyle(
+                                          label: Text(
+                                            'add'.tr,
+                                            style: const TextStyle(
                                               fontSize: 12,
                                               fontWeight: FontWeight.bold,
                                             ),

@@ -1,7 +1,10 @@
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
+import '../../../../app/controllers/table_session_controller.dart';
 import '../models/join_request_preview_status.dart';
 import '../models/preview_join_request.dart';
 import '../models/preview_table_member.dart';
+import '../models/table_occupancy_state.dart';
 
 class JoinApprovalPreviewController extends GetxController {
   static const String defaultRequesterId = 'member_youssef';
@@ -11,57 +14,228 @@ class JoinApprovalPreviewController extends GetxController {
   static const PreviewTableMember memberAhmed = PreviewTableMember(
     id: 'member_ahmed',
     name: 'Ahmed',
+    tableSessionId: defaultTableSessionId,
     isApproved: true,
+    isActive: true,
   );
 
   static const PreviewTableMember memberSara = PreviewTableMember(
     id: 'member_sara',
     name: 'Sara',
+    tableSessionId: defaultTableSessionId,
     isApproved: true,
+    isActive: true,
   );
 
   static const PreviewTableMember memberMostafa = PreviewTableMember(
     id: 'member_mostafa',
     name: 'Mostafa',
+    tableSessionId: defaultTableSessionId,
     isApproved: true,
+    isActive: true,
   );
 
   static const PreviewTableMember requesterAsMember = PreviewTableMember(
     id: defaultRequesterId,
     name: defaultRequesterName,
+    tableSessionId: defaultTableSessionId,
     isApproved: false,
+    isActive: true,
   );
 
   static const PreviewTableMember unapprovedGuest = PreviewTableMember(
     id: 'member_guest_unapproved',
     name: 'Tariq',
+    tableSessionId: defaultTableSessionId,
     isApproved: false,
+    isActive: true,
   );
 
-  final tableMembers = <PreviewTableMember>[
-    memberAhmed,
-    memberSara,
-    memberMostafa,
-  ].obs;
+  // TODO: Replace local empty-table state with backend session members when the real table-session backend is connected.
+  final tableMembers = <PreviewTableMember>[].obs;
 
   late final Rx<PreviewTableMember> actingMember =
       Rx<PreviewTableMember>(memberAhmed);
 
   late final Rx<PreviewJoinRequest> currentRequest = Rx<PreviewJoinRequest>(
     const PreviewJoinRequest(
-      id: 'req_join_101',
-      requesterId: defaultRequesterId,
-      requesterName: defaultRequesterName,
-      tableSessionId: defaultTableSessionId,
-      status: JoinRequestPreviewStatus.pending,
+      id: '',
+      requesterId: '',
+      requesterName: '',
+      tableSessionId: '',
+      status: JoinRequestPreviewStatus.cancelled,
     ),
   );
 
+  String currentTableSessionId = defaultTableSessionId;
+  String currentUserId = defaultRequesterId;
+  String? currentProfileAvatar;
+
+  final enteredName = ''.obs;
+  final tableOccupancyState = TableOccupancyState.empty.obs;
+  final isCheckingTable = false.obs;
+  final isSubmitting = false.obs;
+  final checkErrorMessage = Rxn<String>();
+
+  // Forced debug occupancy mode (null = dynamically computed from activeApprovedMembers)
+  final forcedDebugOccupancy = Rxn<TableOccupancyState>();
+
   JoinRequestPreviewStatus get status => currentRequest.value.status;
+
   List<PreviewTableMember> get approvedMembers =>
       tableMembers.where((m) => m.isApproved).toList();
 
-  bool get hasActiveApprovedMembers => approvedMembers.isNotEmpty;
+  /// Count only approved, active members belonging to the current table session.
+  List<PreviewTableMember> get activeApprovedMembers {
+    return tableMembers.where((member) {
+      return member.tableSessionId == currentTableSessionId &&
+          member.isApproved &&
+          member.isActive;
+    }).toList();
+  }
+
+  bool get isCurrentTableEmpty => activeApprovedMembers.isEmpty;
+
+  bool get hasActiveApprovedMembers => activeApprovedMembers.isNotEmpty;
+
+  TableOccupancyState computeOccupancy() {
+    if (forcedDebugOccupancy.value != null) {
+      return forcedDebugOccupancy.value!;
+    }
+    return isCurrentTableEmpty
+        ? TableOccupancyState.empty
+        : TableOccupancyState.occupied;
+  }
+
+  Future<TableOccupancyState> checkTableOccupancy({
+    required String tableNumber,
+    Duration simulationDelay = const Duration(milliseconds: 300),
+  }) async {
+    currentTableSessionId = 'table_$tableNumber';
+    isCheckingTable.value = true;
+    checkErrorMessage.value = null;
+
+    if (simulationDelay > Duration.zero) {
+      await Future.delayed(simulationDelay);
+    }
+
+    final state = computeOccupancy();
+    tableOccupancyState.value = state;
+    isCheckingTable.value = false;
+    return state;
+  }
+
+  Future<bool> continueAfterNameEntry({
+    required String name,
+    required String tableId,
+    required String tableNumber,
+    String? avatarPath,
+    Duration simulationDelay = const Duration(milliseconds: 300),
+    VoidCallback? onDirectJoin,
+    VoidCallback? onWaitingApproval,
+    void Function(String message)? onError,
+  }) async {
+    if (isCheckingTable.value || isSubmitting.value) {
+      return false;
+    }
+
+    final trimmedName = name.trim();
+    if (trimmedName.isEmpty) {
+      return false;
+    }
+
+    enteredName.value = trimmedName;
+    currentProfileAvatar = avatarPath;
+    isSubmitting.value = true;
+
+    try {
+      final occupancy = await checkTableOccupancy(
+        tableNumber: tableNumber,
+        simulationDelay: simulationDelay,
+      );
+
+      switch (occupancy) {
+        case TableOccupancyState.empty:
+          joinAsFirstMember(
+            name: trimmedName,
+            tableId: tableId,
+            tableNumber: tableNumber,
+            avatarPath: avatarPath,
+          );
+          onDirectJoin?.call();
+          return true;
+
+        case TableOccupancyState.occupied:
+          createLocalPendingRequest(
+            name: trimmedName,
+            tableNumber: tableNumber,
+            avatarPath: avatarPath,
+          );
+          onWaitingApproval?.call();
+          return true;
+
+        case TableOccupancyState.loading:
+          return false;
+
+        case TableOccupancyState.error:
+          final msg = checkErrorMessage.value ??
+              'Unable to check table status. Please try again.';
+          onError?.call(msg);
+          return false;
+      }
+    } finally {
+      isSubmitting.value = false;
+    }
+  }
+
+  bool joinAsFirstMember({
+    required String name,
+    required String tableId,
+    required String tableNumber,
+    String? avatarPath,
+  }) {
+    final sessionId = 'table_$tableNumber';
+    final alreadyExists = tableMembers.any((m) =>
+        m.id == currentUserId &&
+        m.tableSessionId == sessionId &&
+        m.isApproved &&
+        m.isActive);
+
+    if (!alreadyExists) {
+      final member = PreviewTableMember(
+        id: currentUserId,
+        name: name,
+        avatarPath: avatarPath,
+        tableSessionId: sessionId,
+        isApproved: true,
+        isActive: true,
+      );
+      tableMembers.add(member);
+    }
+
+    if (Get.isRegistered<TableSessionController>()) {
+      final sessionCtrl = Get.find<TableSessionController>();
+      sessionCtrl.startSingleMemberSession(
+        tableId: tableId,
+        tableNumber: tableNumber,
+        participantName: name,
+      );
+    }
+    return true;
+  }
+
+  void createLocalPendingRequest({
+    required String name,
+    required String tableNumber,
+    String? avatarPath,
+  }) {
+    initRequest(
+      tableNumber: tableNumber,
+      requesterName: name,
+      requesterId: currentUserId,
+      initialStatus: JoinRequestPreviewStatus.pending,
+    );
+  }
 
   void initRequest({
     String? tableNumber,
@@ -92,12 +266,22 @@ class JoinApprovalPreviewController extends GetxController {
       return false;
     }
 
-    // 2. Only already approved table members can approve
+    // 2. Only approved table members can approve
     if (!actingMember.isApproved) {
       return false;
     }
 
-    // 3. Only pending requests can be approved
+    // 3. Only active members can approve
+    if (!actingMember.isActive) {
+      return false;
+    }
+
+    // 4. Must belong to the same table session
+    if (actingMember.tableSessionId != request.tableSessionId) {
+      return false;
+    }
+
+    // 5. Only pending requests can be approved
     if (request.status != JoinRequestPreviewStatus.pending) {
       return false;
     }
@@ -119,7 +303,17 @@ class JoinApprovalPreviewController extends GetxController {
       return false;
     }
 
-    // 3. Only pending requests can be rejected
+    // 3. Only active members can reject
+    if (!actingMember.isActive) {
+      return false;
+    }
+
+    // 4. Must belong to the same table session
+    if (actingMember.tableSessionId != request.tableSessionId) {
+      return false;
+    }
+
+    // 5. Only pending requests can be rejected
     if (request.status != JoinRequestPreviewStatus.pending) {
       return false;
     }
@@ -141,6 +335,26 @@ class JoinApprovalPreviewController extends GetxController {
     currentRequest.value = request.copyWith(
       status: JoinRequestPreviewStatus.approved,
     );
+
+    // Add requester once to approved table members
+    final requesterExists = tableMembers.any((m) =>
+        m.id == request.requesterId &&
+        m.tableSessionId == request.tableSessionId &&
+        m.isApproved &&
+        m.isActive);
+
+    if (!requesterExists) {
+      tableMembers.add(
+        PreviewTableMember(
+          id: request.requesterId,
+          name: request.requesterName,
+          tableSessionId: request.tableSessionId,
+          isApproved: true,
+          isActive: true,
+        ),
+      );
+    }
+
     return true;
   }
 
@@ -183,15 +397,43 @@ class JoinApprovalPreviewController extends GetxController {
     actingMember.value = member;
   }
 
-  void setNoActiveMembers() {
-    tableMembers.clear();
-  }
-
-  void restoreDefaultMembers() {
+  void seedOccupiedTableForPreview() {
+    if (!kDebugMode) return;
+    forcedDebugOccupancy.value = null;
     tableMembers.assignAll([
       memberAhmed,
       memberSara,
       memberMostafa,
     ]);
+    tableOccupancyState.value = TableOccupancyState.occupied;
+  }
+
+  void clearPreviewTable() {
+    if (!kDebugMode) return;
+    forcedDebugOccupancy.value = null;
+    tableMembers.clear();
+    tableOccupancyState.value = TableOccupancyState.empty;
+  }
+
+  void setNoActiveMembers() {
+    tableMembers.clear();
+    tableOccupancyState.value = TableOccupancyState.empty;
+  }
+
+  void setForcedDebugOccupancy(TableOccupancyState? state) {
+    forcedDebugOccupancy.value = state;
+    if (state != null) {
+      tableOccupancyState.value = state;
+    }
+  }
+
+  void restoreDefaultMembers() {
+    forcedDebugOccupancy.value = null;
+    tableMembers.assignAll([
+      memberAhmed,
+      memberSara,
+      memberMostafa,
+    ]);
+    tableOccupancyState.value = TableOccupancyState.occupied;
   }
 }

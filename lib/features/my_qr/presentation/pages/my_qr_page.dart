@@ -19,8 +19,8 @@ class MyQrPage extends StatelessWidget {
     const qrData = 'BREWORA-LOYALTY-PASS-USER-89412';
 
     return Scaffold(
-      appBar: const AppAppBar(
-        title: 'Brewora Loyalty Pass',
+      appBar: AppAppBar(
+        title: 'loyalty_pass_title'.tr,
         centerTitle: true,
       ),
       body: SafeArea(
@@ -76,7 +76,10 @@ class MyQrPage extends StatelessWidget {
                                 const SizedBox(height: 2),
                                 Obx(
                                   () => Text(
-                                    '${profileController.user.value.rewardPoints} Rewards Points Available',
+                                    'reward_points_available'.trParams({
+                                      'points':
+                                          '${profileController.user.value.rewardPoints}'
+                                    }),
                                     style: const TextStyle(
                                       color: AppColors.caramel,
                                       fontWeight: FontWeight.w600,
@@ -92,11 +95,11 @@ class MyQrPage extends StatelessWidget {
                       const Divider(height: 32, thickness: 1),
 
                       // QR Code Presentation
-                      const Text(
-                        'Scan at any Brewora Barista to earn & redeem points',
+                      Text(
+                        'scan_pass_instruction'.tr,
                         textAlign: TextAlign.center,
-                        style:
-                            TextStyle(fontSize: 13, color: AppColors.textMuted),
+                        style: const TextStyle(
+                            fontSize: 13, color: AppColors.textMuted),
                       ),
                       const SizedBox(height: 20),
 
@@ -165,8 +168,8 @@ class MyQrPage extends StatelessWidget {
                                   const ClipboardData(text: 'CAFF-89412-PASS'),
                                 );
                                 Get.snackbar(
-                                  'Copied! 📋',
-                                  'Pass ID copied to clipboard.',
+                                  'copied'.tr,
+                                  'pass_id_copied'.tr,
                                   snackPosition: SnackPosition.BOTTOM,
                                   backgroundColor: AppColors.espressoDark,
                                   colorText: Colors.white,
@@ -196,8 +199,8 @@ class MyQrPage extends StatelessWidget {
                     child: OutlinedButton.icon(
                       onPressed: () {
                         Get.snackbar(
-                          'Loyalty Pass Shared ☕',
-                          'Your QR code pass is ready to share.',
+                          'loyalty_pass_title'.tr,
+                          'scan_pass_instruction'.tr,
                           snackPosition: SnackPosition.BOTTOM,
                           backgroundColor: AppColors.caramel,
                           colorText: AppColors.espressoDark,
@@ -211,7 +214,7 @@ class MyQrPage extends StatelessWidget {
                         ),
                       ),
                       icon: const Icon(Icons.share_rounded, size: 18),
-                      label: const Text('Share Pass'),
+                      label: Text('share_pass'.tr),
                     ),
                   ),
                   const SizedBox(width: 12),
@@ -219,8 +222,8 @@ class MyQrPage extends StatelessWidget {
                     child: ElevatedButton.icon(
                       onPressed: () {
                         Get.snackbar(
-                          'Pass Updated 🔄',
-                          'Loyalty security token refreshed.',
+                          'refresh_token'.tr,
+                          'pass_id_copied'.tr,
                           snackPosition: SnackPosition.BOTTOM,
                           backgroundColor: AppColors.espressoDark,
                           colorText: Colors.white,
@@ -236,7 +239,7 @@ class MyQrPage extends StatelessWidget {
                         ),
                       ),
                       icon: const Icon(Icons.refresh_rounded, size: 18),
-                      label: const Text('Refresh Token'),
+                      label: Text('refresh_token'.tr),
                     ),
                   ),
                 ],

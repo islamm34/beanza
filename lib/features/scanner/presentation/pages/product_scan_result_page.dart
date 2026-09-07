@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import '../../domain/entities/scan_result_entity.dart';
 
 class ProductScanResultPage extends StatelessWidget {
@@ -13,7 +14,7 @@ class ProductScanResultPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Product Barcode Scan'),
+        title: Text('product_scan_title'.tr),
       ),
       body: Center(
         child: Column(
@@ -21,11 +22,11 @@ class ProductScanResultPage extends StatelessWidget {
           children: [
             const Icon(Icons.local_cafe, size: 64),
             const SizedBox(height: 16),
-            Text('Product Code: ${scanResult.rawValue}'),
+            Text('${'raw_value_label'.tr}: ${scanResult.rawValue}'),
             const SizedBox(height: 24),
             ElevatedButton(
               onPressed: () => Navigator.pop(context, true),
-              child: const Text('Scan Again'),
+              child: Text('scan_again_btn'.tr),
             ),
           ],
         ),

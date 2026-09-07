@@ -40,30 +40,6 @@ class _ProductsPageState extends State<ProductsPage> {
     }
   }
 
-  String _getArabicName(String name) {
-    switch (name.toLowerCase()) {
-      case 'espresso':
-        return 'إسبريسو غني وطازج';
-      case 'double espresso':
-        return 'دبل إسبريسو نقي';
-      case 'americano':
-        return 'أمريكانو كلاسيك';
-      case 'cappuccino':
-        return 'كابتشينو برغوة كريمية';
-      case 'caffè latte':
-      case 'latte':
-        return 'كافيه لاتيه ناعم';
-      case 'caramel macchiato':
-        return 'كاراميل ماكياتو فاخر';
-      case 'mocha':
-        return 'موكا شوكولاتة غنية';
-      case 'flat white':
-        return 'فلات وايت مركز';
-      default:
-        return 'مشروب قهوة مختصة';
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final detailsController = Get.find<ProductDetailsController>();
@@ -164,9 +140,9 @@ class _ProductsPageState extends State<ProductsPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Product Name & Bilingual Header
+                  // Localized Product Name
                   Text(
-                    product.name,
+                    product.localizedName,
                     style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
@@ -175,9 +151,9 @@ class _ProductsPageState extends State<ProductsPage> {
                           : AppColors.lightTextPrimary,
                     ),
                   ),
-                  const SizedBox(height: 2),
+                  const SizedBox(height: 4),
                   Text(
-                    _getArabicName(product.name),
+                    product.localizedCategory,
                     style: TextStyle(
                       fontSize: 13,
                       color: goldColor,
@@ -186,7 +162,7 @@ class _ProductsPageState extends State<ProductsPage> {
                   ),
                   const SizedBox(height: 10),
                   Text(
-                    product.description,
+                    product.localizedDescription,
                     style: TextStyle(
                       color: isDark
                           ? AppColors.darkTextSecondary
@@ -202,10 +178,14 @@ class _ProductsPageState extends State<ProductsPage> {
                     spacing: 8,
                     runSpacing: 8,
                     children: [
-                      _buildNutriBadge(Icons.local_fire_department_rounded,
-                          '${product.calories} kcal', isDark),
-                      _buildNutriBadge(Icons.bolt_rounded,
-                          '${product.caffeine} mg Caffeine', isDark),
+                      _buildNutriBadge(
+                          Icons.local_fire_department_rounded,
+                          'calories_unit'.trParams({'count': product.calories.toString()}),
+                          isDark),
+                      _buildNutriBadge(
+                          Icons.bolt_rounded,
+                          'caffeine_unit'.trParams({'count': product.caffeine.toString()}),
+                          isDark),
                       _buildNutriBadge(
                           Icons.star_rounded,
                           '${product.rating} (${product.reviewsCount})',
@@ -221,7 +201,7 @@ class _ProductsPageState extends State<ProductsPage> {
 
                   // Group 1: Cup Size (S, M, L, XL)
                   Text(
-                    'Cup Size / الحجم',
+                    'choose_size_title'.tr,
                     style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
@@ -241,7 +221,7 @@ class _ProductsPageState extends State<ProductsPage> {
                           return Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 4),
                             child: CafeOptionChip(
-                              label: size.name,
+                              label: size.localizedName,
                               subtitle: size.volume,
                               isSelected: isSelected,
                               onTap: () => detailsController.selectSize(size),
@@ -255,7 +235,7 @@ class _ProductsPageState extends State<ProductsPage> {
 
                   // Group 2: Coffee Roast (Light, Medium, Dark)
                   Text(
-                    'Coffee Roast / درجة التحميص',
+                    'roast_title'.tr,
                     style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
@@ -266,16 +246,22 @@ class _ProductsPageState extends State<ProductsPage> {
                   ),
                   const SizedBox(height: 12),
                   Row(
-                    children: ['Light', 'Medium', 'Dark'].map((roast) {
-                      final isSelected = _selectedRoast == roast;
+                    children: [
+                      {'key': 'Light', 'label': 'light_roast'.tr},
+                      {'key': 'Medium', 'label': 'medium_roast'.tr},
+                      {'key': 'Dark', 'label': 'dark_roast'.tr},
+                    ].map((roastItem) {
+                      final roastKey = roastItem['key']!;
+                      final roastLabel = roastItem['label']!;
+                      final isSelected = _selectedRoast == roastKey;
                       return Expanded(
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 4),
                           child: CafeOptionChip(
-                            label: roast,
+                            label: roastLabel,
                             icon: Icons.coffee_rounded,
                             isSelected: isSelected,
-                            onTap: () => setState(() => _selectedRoast = roast),
+                            onTap: () => setState(() => _selectedRoast = roastKey),
                           ),
                         ),
                       );
@@ -285,7 +271,7 @@ class _ProductsPageState extends State<ProductsPage> {
 
                   // Group 3: Sugar Level Selector
                   Text(
-                    'Sugar Level / مستوى السكر: $_sugarPercentage%',
+                    '${'sugar_level_title'.tr}: $_sugarPercentage%',
                     style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
@@ -315,7 +301,7 @@ class _ProductsPageState extends State<ProductsPage> {
 
                   // Group 4: Choice of Milk
                   Text(
-                    'Choice of Milk / نوع الحليب',
+                    'milk_options_title'.tr,
                     style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
@@ -334,9 +320,9 @@ class _ProductsPageState extends State<ProductsPage> {
                             detailsController.selectedMilk.value.name ==
                                 milk.name;
                         return CafeOptionChip(
-                          label: milk.name,
+                          label: milk.localizedName,
                           trailing: milk.additionalPrice > 0
-                              ? '+${milk.additionalPrice.toStringAsFixed(0)} EGP'
+                              ? '+${milk.additionalPrice.toStringAsFixed(0)} ${'egp'.tr}'
                               : null,
                           isSelected: isSelected,
                           onTap: () => detailsController.selectMilk(milk),
@@ -348,7 +334,7 @@ class _ProductsPageState extends State<ProductsPage> {
 
                   // Group 5: Extra Add-ons
                   Text(
-                    'Extra Add-ons / إضافات مميزة',
+                    'extras_title'.tr,
                     style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
@@ -388,7 +374,7 @@ class _ProductsPageState extends State<ProductsPage> {
                             const SizedBox(width: 10),
                             Expanded(
                               child: Text(
-                                extra.name,
+                                extra.localizedName,
                                 style: TextStyle(
                                   color: isDark
                                       ? AppColors.darkTextPrimary
@@ -401,7 +387,7 @@ class _ProductsPageState extends State<ProductsPage> {
                             ),
                             const SizedBox(width: 8),
                             Text(
-                              '+${extra.price.toStringAsFixed(2)} EGP',
+                              '+${extra.price.toStringAsFixed(2)} ${'egp'.tr}',
                               style: TextStyle(
                                 color: goldColor,
                                 fontWeight: FontWeight.bold,
@@ -417,7 +403,7 @@ class _ProductsPageState extends State<ProductsPage> {
 
                   // Group 6: Assign To Person Card
                   Text(
-                    'Assign To / تخصيص الطلب لـ',
+                    'who_is_this_order_for'.tr,
                     style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
@@ -444,7 +430,7 @@ class _ProductsPageState extends State<ProductsPage> {
                         setState(() {
                           _assignedParticipantId = selectedId;
                           _assignedToName = p?.displayName ??
-                              (selectedId == 'guest' ? 'Guest' : 'Myself');
+                              (selectedId == 'guest' ? 'for_table_companion'.tr : 'for_myself'.tr);
                         });
                       }
                     },
@@ -472,7 +458,7 @@ class _ProductsPageState extends State<ProductsPage> {
                                 ),
                               ),
                               Text(
-                                'Tap to change table member',
+                                'for_table_companion'.tr,
                                 style: TextStyle(
                                   color: isDark
                                       ? AppColors.darkTextSecondary
@@ -579,8 +565,8 @@ class _ProductsPageState extends State<ProductsPage> {
                           quantity: detailsController.quantity.value,
                         );
                         Get.snackbar(
-                          'Added to Table Order',
-                          '${product.name} added to table session',
+                          'item_added_to_shared_cart'.trParams({'name': product.localizedName}),
+                          'item_added_to_shared_cart'.trParams({'name': product.localizedName}),
                           backgroundColor: isDark
                               ? AppColors.darkCardBg
                               : AppColors.lightCardBg,
@@ -591,6 +577,16 @@ class _ProductsPageState extends State<ProductsPage> {
                         Navigator.pop(context);
                       } else {
                         detailsController.addToCart();
+                        Get.snackbar(
+                          'item_added_to_cart'.trParams({'name': product.localizedName}),
+                          'item_added_to_cart'.trParams({'name': product.localizedName}),
+                          backgroundColor: isDark
+                              ? AppColors.darkCardBg
+                              : AppColors.lightCardBg,
+                          colorText: isDark
+                              ? AppColors.darkTextPrimary
+                              : AppColors.lightTextPrimary,
+                        );
                         Navigator.pop(context);
                       }
                     },
@@ -609,9 +605,13 @@ class _ProductsPageState extends State<ProductsPage> {
                           mainAxisSize: MainAxisSize.min,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Text(
-                              'Add to Cart ☕',
-                              style: TextStyle(
+                            Text(
+                              (Get.isRegistered<TableSessionController>() &&
+                                      Get.find<TableSessionController>()
+                                          .hasActiveSession)
+                                  ? 'add_to_shared_cart'.tr
+                                  : 'add_to_cart'.tr,
+                              style: const TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 13.5,
@@ -619,7 +619,7 @@ class _ProductsPageState extends State<ProductsPage> {
                             ),
                             const SizedBox(width: 6),
                             Text(
-                              '• ${detailsController.totalPrice.toStringAsFixed(2)} EGP',
+                              '• ${detailsController.totalPrice.toStringAsFixed(2)} ${'egp'.tr}',
                               style: const TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,

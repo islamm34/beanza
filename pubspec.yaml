@@ -30,6 +30,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
 
   # UI & Icons
   cupertino_icons: ^1.0.6
@@ -76,7 +78,7 @@ dependencies:
   cached_network_image: ^3.3.0
 
   # Localization / Formatting
-  intl: ^0.18.1
+  intl: ^0.20.2
 
   # Launcher / Splash
   flutter_native_splash: ^2.3.1

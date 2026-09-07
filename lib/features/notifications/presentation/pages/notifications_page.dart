@@ -15,13 +15,13 @@ class NotificationsPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppAppBar(
-        title: 'Notifications',
+        title: 'notifications_title'.tr,
         actions: [
           Obx(
             () => notificationsController.notifications.isNotEmpty
                 ? TextButton(
                     onPressed: () => notificationsController.clearAll(),
-                    child: const Text('Clear All'),
+                    child: Text('clear_all'.tr),
                   )
                 : const SizedBox.shrink(),
           ),
@@ -31,8 +31,8 @@ class NotificationsPage extends StatelessWidget {
         if (notificationsController.notifications.isEmpty) {
           return EmptyState(
             icon: Icons.notifications_off_outlined,
-            title: 'No Notifications',
-            message: 'You have no new notifications at this time.',
+            title: 'no_notifications'.tr,
+            message: 'no_notifications_subtitle'.tr,
           );
         }
 

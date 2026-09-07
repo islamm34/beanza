@@ -51,8 +51,9 @@ class _CheckoutPageState extends State<CheckoutPage> {
       backgroundColor: isDark ? AppColors.darkBg : AppColors.lightBg,
       appBar: AppAppBar(
         title: hasTable
-            ? 'Review Table ${tableCtrl.tableNumber} Order'
-            : 'Review Order',
+            ? 'review_table_order_title'
+                .trParams({'table': tableCtrl.tableNumber.toString()})
+            : 'review_order_title'.tr,
         showCartAction: false,
       ),
       body: SafeArea(
@@ -94,7 +95,8 @@ class _CheckoutPageState extends State<CheckoutPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Estimated Prep Time: 10 - 15 mins',
+                            'estimated_prep_time_val'
+                                .trParams({'time': '10 - 15'}),
                             style: TextStyle(
                               color: isDark
                                   ? AppColors.darkTextPrimary
@@ -104,7 +106,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                             ),
                           ),
                           Text(
-                            'وقت التحضير المتوقع • قهوة طازجة ومحضرة بعناية',
+                            'prep_time_subtitle'.tr,
                             style: TextStyle(
                               color: isDark
                                   ? AppColors.darkTextSecondary
@@ -122,7 +124,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
 
               // 2. Ordered Items Grouped by Person
               Text(
-                'Order Summary / ملخص الطلبات',
+                'order_summary_title'.tr,
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
@@ -139,7 +141,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                   final p = entry.value;
                   final items = tableCtrl!.participantItems(p.participantId);
                   final personSubtotal =
-                      tableCtrl.participantSubtotal(p.participantId);
+                  tableCtrl.participantSubtotal(p.participantId);
                   if (items.isEmpty) return const SizedBox.shrink();
 
                   return CafeCard(
@@ -182,7 +184,10 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                 ),
                                 const SizedBox(width: 6),
                                 Text(
-                                  '(${items.length} items)',
+                                  '(' +
+                                      'items_count'.trParams(
+                                          {'count': '${items.length}'}) +
+                                      ')',
                                   style: TextStyle(
                                     color: isDark
                                         ? AppColors.darkTextSecondary
@@ -193,7 +198,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                               ],
                             ),
                             Text(
-                              '${personSubtotal.toStringAsFixed(2)} EGP',
+                              '${personSubtotal.toStringAsFixed(2)} ${'egp'.tr}',
                               style: TextStyle(
                                 color: goldColor,
                                 fontWeight: FontWeight.bold,
@@ -215,7 +220,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                               children: [
                                 Expanded(
                                   child: Text(
-                                    '${item.quantity}x ${item.product.name} (${item.selectedSize.name})',
+                                    '${item.quantity}x ${item.product.localizedName} (${item.selectedSize.localizedName})',
                                     style: TextStyle(
                                       color: isDark
                                           ? AppColors.darkTextPrimary
@@ -225,7 +230,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                   ),
                                 ),
                                 Text(
-                                  '${item.totalPrice.toStringAsFixed(2)} EGP',
+                                  '${item.totalPrice.toStringAsFixed(2)} ${'egp'.tr}',
                                   style: TextStyle(
                                     color: isDark
                                         ? AppColors.darkTextSecondary
@@ -251,7 +256,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          '${item.quantity}x ${item.product.name} (${item.selectedSize.name})',
+                          '${item.quantity}x ${item.product.localizedName} (${item.selectedSize.localizedName})',
                           style: TextStyle(
                             color: isDark
                                 ? AppColors.darkTextPrimary
@@ -261,7 +266,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                           ),
                         ),
                         Text(
-                          '${item.totalPrice.toStringAsFixed(2)} EGP',
+                          '${item.totalPrice.toStringAsFixed(2)} ${'egp'.tr}',
                           style: TextStyle(
                             color: goldColor,
                             fontWeight: FontWeight.bold,
@@ -283,12 +288,12 @@ class _CheckoutPageState extends State<CheckoutPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Subtotal',
+                        Text('subtotal'.tr,
                             style: TextStyle(
                                 color: isDark
                                     ? AppColors.darkTextSecondary
                                     : AppColors.lightTextSecondary)),
-                        Text('${subtotal.toStringAsFixed(2)} EGP',
+                        Text('${subtotal.toStringAsFixed(2)} ${'egp'.tr}',
                             style: TextStyle(
                                 color: isDark
                                     ? AppColors.darkTextPrimary
@@ -299,12 +304,13 @@ class _CheckoutPageState extends State<CheckoutPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Discount',
+                        Text('discount'.tr,
                             style: TextStyle(
                                 color: isDark
                                     ? AppColors.darkTextSecondary
                                     : AppColors.lightTextSecondary)),
-                        Text('0.00 EGP', style: TextStyle(color: greenColor)),
+                        Text('0.00 ${'egp'.tr}',
+                            style: TextStyle(color: greenColor)),
                       ],
                     ),
                     const SizedBox(height: 10),
@@ -317,7 +323,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Grand Total / الإجمالي',
+                          'grand_total'.tr,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 16,
@@ -327,7 +333,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                           ),
                         ),
                         Text(
-                          '${grandTotal.toStringAsFixed(2)} EGP',
+                          '${grandTotal.toStringAsFixed(2)} ${'egp'.tr}',
                           style: TextStyle(
                             color: goldColor,
                             fontWeight: FontWeight.w900,
@@ -362,13 +368,13 @@ class _CheckoutPageState extends State<CheckoutPage> {
               Expanded(
                 child: OutlinedButton(
                   onPressed: () => Navigator.pop(context),
-                  child: const Text('Continue Editing'),
+                  child: Text('continue_editing'.tr),
                 ),
               ),
               const SizedBox(width: 12),
               Expanded(
                 child: PrimaryButton(
-                  label: hasTable ? 'Send Table Order ☕' : 'Send Order ☕',
+                  label: hasTable ? 'send_order_btn'.tr : 'place_order_btn'.tr,
                   onPressed: () async {
                     if (hasTable && tableCtrl != null) {
                       await tableCtrl.submitTableOrder();

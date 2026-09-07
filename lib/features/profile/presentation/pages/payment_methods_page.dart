@@ -19,13 +19,6 @@ class _PaymentMethodsPageState extends State<PaymentMethodsPage> {
       1; // 0: Equally, 1: By Person, 2: By Item, 3: Custom
   String _selectedPaymentMethod = 'Apple Pay';
 
-  final List<String> _splitOptions = [
-    'Equally',
-    'By Person',
-    'By Item',
-    'Custom'
-  ];
-
   static const List<Color> _avatarColors = [
     Color(0xFF31A93D),
     Color(0xFFD0932F),
@@ -48,10 +41,17 @@ class _PaymentMethodsPageState extends State<PaymentMethodsPage> {
     final participants = tableCtrl?.currentSession.value?.participants ?? [];
     final totalAmount = tableCtrl?.total ?? 185.00;
 
+    final List<String> splitOptionKeys = [
+      'split_equally',
+      'split_by_person',
+      'split_by_item',
+      'split_custom'
+    ];
+
     return Scaffold(
       backgroundColor: isDark ? AppColors.darkBg : AppColors.lightBg,
       appBar: AppAppBar(
-        title: 'Payment & Split • تقسيم الحساب',
+        title: 'payment_split_title'.tr,
         showCartAction: false,
       ),
       body: SafeArea(
@@ -63,7 +63,7 @@ class _PaymentMethodsPageState extends State<PaymentMethodsPage> {
             children: [
               // 1. Split Options at Top
               Text(
-                'Split Mode / طريقة التقسيم',
+                'split_mode_title'.tr,
                 style: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.bold,
@@ -74,8 +74,8 @@ class _PaymentMethodsPageState extends State<PaymentMethodsPage> {
               ),
               const SizedBox(height: 10),
               Row(
-                children: List.generate(_splitOptions.length, (idx) {
-                  final opt = _splitOptions[idx];
+                children: List.generate(splitOptionKeys.length, (idx) {
+                  final optKey = splitOptionKeys[idx];
                   final isSelected = _selectedSplitOption == idx;
                   return Expanded(
                     child: Padding(
@@ -104,7 +104,7 @@ class _PaymentMethodsPageState extends State<PaymentMethodsPage> {
                           ),
                           child: Center(
                             child: Text(
-                              opt,
+                              optKey.tr,
                               style: TextStyle(
                                 color: isSelected
                                     ? (isDark
@@ -130,7 +130,7 @@ class _PaymentMethodsPageState extends State<PaymentMethodsPage> {
 
               // 2. Member Breakdown List
               Text(
-                'Table Members Breakdown / حساب الأعضاء',
+                'members_breakdown_title'.tr,
                 style: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.bold,
@@ -191,7 +191,8 @@ class _PaymentMethodsPageState extends State<PaymentMethodsPage> {
                                 ),
                               ),
                               Text(
-                                '$percentage% of table total',
+                                'percentage_of_total'
+                                    .trParams({'pct': '$percentage'}),
                                 style: TextStyle(
                                   color: isDark
                                       ? AppColors.darkTextSecondary
@@ -206,7 +207,7 @@ class _PaymentMethodsPageState extends State<PaymentMethodsPage> {
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             Text(
-                              '${amount.toStringAsFixed(2)} EGP',
+                              '${amount.toStringAsFixed(2)} ${'egp'.tr}',
                               style: TextStyle(
                                 color: goldColor,
                                 fontWeight: FontWeight.bold,
@@ -226,7 +227,7 @@ class _PaymentMethodsPageState extends State<PaymentMethodsPage> {
                                 ),
                                 const SizedBox(width: 4),
                                 Text(
-                                  isPaid ? 'Paid' : 'Pending',
+                                  isPaid ? 'status_paid'.tr : 'status_pending'.tr,
                                   style: TextStyle(
                                     color: isPaid ? greenColor : goldColor,
                                     fontSize: 10.5,
@@ -247,9 +248,9 @@ class _PaymentMethodsPageState extends State<PaymentMethodsPage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text('Your Total Payment:',
-                          style: TextStyle(fontWeight: FontWeight.bold)),
-                      Text('${totalAmount.toStringAsFixed(2)} EGP',
+                      Text('your_total_payment'.tr,
+                          style: const TextStyle(fontWeight: FontWeight.bold)),
+                      Text('${totalAmount.toStringAsFixed(2)} ${'egp'.tr}',
                           style: TextStyle(
                               color: goldColor,
                               fontWeight: FontWeight.bold,
@@ -267,7 +268,7 @@ class _PaymentMethodsPageState extends State<PaymentMethodsPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Total Table Amount / الإجمالي',
+                      'table_bill_total'.tr,
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
@@ -277,7 +278,7 @@ class _PaymentMethodsPageState extends State<PaymentMethodsPage> {
                       ),
                     ),
                     Text(
-                      '${totalAmount.toStringAsFixed(2)} EGP',
+                      '${totalAmount.toStringAsFixed(2)} ${'egp'.tr}',
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w900,
@@ -291,7 +292,7 @@ class _PaymentMethodsPageState extends State<PaymentMethodsPage> {
 
               // 3. Payment Methods
               Text(
-                'Select Payment Method / وسيلة الدفع',
+                'select_payment_method'.tr,
                 style: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.bold,
@@ -304,18 +305,21 @@ class _PaymentMethodsPageState extends State<PaymentMethodsPage> {
               ...[
                 {
                   'name': 'Apple Pay',
+                  'titleKey': 'apple_pay',
                   'icon': Icons.contactless_rounded,
-                  'subtitle': 'Instant Biometric Checkout'
+                  'subtitleKey': 'instant_biometric_checkout'
                 },
                 {
                   'name': 'Credit / Debit Card',
+                  'titleKey': 'credit_card_payment',
                   'icon': Icons.credit_card_rounded,
-                  'subtitle': 'Visa, Mastercard, Meeza'
+                  'subtitleKey': 'visa_mastercard_meeza'
                 },
                 {
                   'name': 'Cash to Waiter',
+                  'titleKey': 'cash_payment',
                   'icon': Icons.payments_rounded,
-                  'subtitle': 'Pay directly at table'
+                  'subtitleKey': 'pay_at_table_desc'
                 },
               ].map((m) {
                 final isSelected = _selectedPaymentMethod == m['name'];
@@ -339,7 +343,7 @@ class _PaymentMethodsPageState extends State<PaymentMethodsPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              m['name'] as String,
+                              (m['titleKey'] as String).tr,
                               style: TextStyle(
                                 color: isDark
                                     ? AppColors.darkTextPrimary
@@ -349,7 +353,7 @@ class _PaymentMethodsPageState extends State<PaymentMethodsPage> {
                               ),
                             ),
                             Text(
-                              m['subtitle'] as String,
+                              (m['subtitleKey'] as String).tr,
                               style: TextStyle(
                                 color: isDark
                                     ? AppColors.darkTextSecondary
@@ -386,12 +390,15 @@ class _PaymentMethodsPageState extends State<PaymentMethodsPage> {
         ),
         child: SafeArea(
           child: PrimaryButton(
-            label:
-                'Pay Now (${totalAmount.toStringAsFixed(2)} EGP) • دفع الحساب',
+            label: 'pay_now_btn'.trParams({
+              'amount': totalAmount.toStringAsFixed(2),
+              'currency': 'egp'.tr,
+            }),
             onPressed: () {
               Get.snackbar(
-                'Payment Successful',
-                'Thank you! Your payment via $_selectedPaymentMethod has been approved.',
+                'payment_successful'.tr,
+                'payment_approved_msg'
+                    .trParams({'method': _selectedPaymentMethod}),
                 backgroundColor:
                     isDark ? AppColors.darkCardBg : AppColors.lightCardBg,
                 colorText: isDark

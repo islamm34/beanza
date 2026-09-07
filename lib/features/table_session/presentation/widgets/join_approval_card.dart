@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import '../models/join_request_preview_status.dart';
 import 'requester_avatar.dart';
 import 'waiting_approval_indicator.dart';
@@ -98,17 +99,16 @@ class JoinApprovalCard extends StatelessWidget {
             border: Border.all(color: greenColor, width: 2.5),
             boxShadow: [
               BoxShadow(
-                color: greenColor.withValues(alpha: isDark ? 0.30 : 0.15),
-                blurRadius: 16,
-                offset: const Offset(0, 4),
+                color: greenColor.withValues(alpha: 0.3),
+                blurRadius: 14,
               ),
             ],
           ),
-          child: Center(
+          child: const Center(
             child: Icon(
               Icons.check_rounded,
-              size: 46,
-              color: greenColor,
+              size: 48,
+              color: Colors.white,
             ),
           ),
         );
@@ -119,13 +119,12 @@ class JoinApprovalCard extends StatelessWidget {
           height: 90,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: redColor.withValues(alpha: isDark ? 0.18 : 0.12),
+            color: redColor.withValues(alpha: isDark ? 0.20 : 0.14),
             border: Border.all(color: redColor, width: 2.5),
             boxShadow: [
               BoxShadow(
-                color: redColor.withValues(alpha: isDark ? 0.25 : 0.12),
+                color: redColor.withValues(alpha: 0.3),
                 blurRadius: 14,
-                offset: const Offset(0, 4),
               ),
             ],
           ),
@@ -187,63 +186,49 @@ class JoinApprovalCard extends StatelessWidget {
     Color greenColor,
     Color redColor,
   ) {
-    String titleEn;
-    String titleAr;
-    String descEn;
-    String descAr;
+    String title;
+    String desc;
     Color? titleColor;
 
     switch (status) {
       case JoinRequestPreviewStatus.pending:
         if (currentMembers.isEmpty) {
-          titleEn = 'No active members';
-          titleAr = 'لا يوجد أعضاء حاليون';
-          descEn = 'No active member is available to approve this request.';
-          descAr = 'لا يوجد عضو حالي داخل الترابيزة للموافقة على الطلب.';
+          title = 'no_active_members_title'.tr;
+          desc = 'no_active_members_desc'.tr;
         } else {
-          titleEn = 'Waiting for someone at the table to approve you';
-          titleAr = 'في انتظار موافقة أحد الموجودين على الترابيزة';
-          descEn =
-              'Someone at the table needs to confirm that you are with them.';
-          descAr = 'يجب أن يؤكد أحد الموجودين على الترابيزة أنك معهم.';
+          title = 'waiting_for_approval_card_title'.tr;
+          desc = 'waiting_for_approval_card_desc'.tr;
         }
         break;
 
       case JoinRequestPreviewStatus.approved:
-        titleEn = "You’re approved!";
-        titleAr = 'تمت الموافقة عليك';
-        descEn = '$approverName confirmed that you are at Table $tableNumber.';
-        descAr = 'أكد $approverName أنك موجود على الترابيزة $tableNumber.';
+        title = 'youre_approved_title'.tr;
+        desc = 'approved_by_desc'
+            .trParams({'name': approverName, 'table': tableNumber});
         titleColor = greenColor;
         break;
 
       case JoinRequestPreviewStatus.rejected:
-        titleEn = 'Request not approved';
-        titleAr = 'لم تتم الموافقة على الطلب';
-        descEn = 'A table member could not confirm this request.';
-        descAr = 'لم يتمكن أحد أعضاء الترابيزة من تأكيد هذا الطلب.';
+        title = 'request_not_approved_title'.tr;
+        desc = 'request_not_approved_desc'.tr;
         titleColor = redColor;
         break;
 
       case JoinRequestPreviewStatus.expired:
-        titleEn = 'Request expired';
-        titleAr = 'انتهت صلاحية الطلب';
-        descEn = 'No table member responded to the request in time.';
-        descAr = 'لم يستجب أي من أعضاء الطاولة للطلب في الوقت المحدد.';
+        title = 'request_expired_title'.tr;
+        desc = 'request_expired_desc'.tr;
         break;
 
       case JoinRequestPreviewStatus.cancelled:
-        titleEn = 'Request cancelled';
-        titleAr = 'تم إلغاء الطلب';
-        descEn = 'You cancelled your request to join Table $tableNumber.';
-        descAr = 'قمت بإلغاء طلب الانضمام إلى الترابيزة $tableNumber.';
+        title = 'request_cancelled_title'.tr;
+        desc = 'request_cancelled_desc'.trParams({'table': tableNumber});
         break;
     }
 
     return Column(
       children: [
         Text(
-          titleEn,
+          title,
           textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: 20,
@@ -252,22 +237,11 @@ class JoinApprovalCard extends StatelessWidget {
             letterSpacing: 0.2,
           ),
         ),
-        const SizedBox(height: 2),
-        Text(
-          titleAr,
-          textAlign: TextAlign.center,
-          textDirection: TextDirection.rtl,
-          style: TextStyle(
-            fontSize: 16.5,
-            fontWeight: FontWeight.bold,
-            color: titleColor ?? primaryText,
-          ),
-        ),
         const SizedBox(height: 10),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8),
           child: Text(
-            '$descEn\n$descAr',
+            desc,
             textAlign: TextAlign.center,
             style: TextStyle(
               color: secondaryText,
@@ -311,7 +285,7 @@ class JoinApprovalCard extends StatelessWidget {
           ),
           const SizedBox(width: 8),
           Text(
-            'remaining',
+            'remaining'.tr,
             style: TextStyle(
               color: secondaryText,
               fontSize: 11,
@@ -344,7 +318,7 @@ class JoinApprovalCard extends StatelessWidget {
             Icon(Icons.people_outline_rounded, size: 28, color: goldColor),
             const SizedBox(height: 6),
             Text(
-              'No active member is available to approve this request.\nلا يوجد عضو حالي داخل الترابيزة للموافقة على الطلب.',
+              'no_active_member_available'.tr,
               textAlign: TextAlign.center,
               style: TextStyle(
                 color:
@@ -381,7 +355,7 @@ class JoinApprovalCard extends StatelessWidget {
             const SizedBox(width: 8),
             Flexible(
               child: Text(
-                'Waiting for someone at the table to approve you • في انتظار موافقة أحد الموجودين',
+                'waiting_for_table_approval_banner'.tr,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: isDark
@@ -454,7 +428,7 @@ class JoinApprovalCard extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                'Approved by $approverName',
+                'approved_by'.trParams({'name': approverName}),
                 style: TextStyle(
                   color: primaryText,
                   fontWeight: FontWeight.bold,
@@ -462,7 +436,7 @@ class JoinApprovalCard extends StatelessWidget {
                 ),
               ),
               Text(
-                'Approved just now • موافقة فورية',
+                'approved_just_now'.tr,
                 style: TextStyle(
                   color: greenColor,
                   fontSize: 11,

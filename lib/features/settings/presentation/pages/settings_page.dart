@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../../app/controllers/language_controller.dart';
 import '../../../../app/routes/app_routes.dart';
 import '../../../../app/theme/app_colors.dart';
 import '../../../../core/widgets/common/app_app_bar.dart';
@@ -16,7 +17,8 @@ class _SettingsPageState extends State<SettingsPage> {
   bool _emailNotifications = false;
   bool _locationServices = true;
   ThemeMode _selectedTheme = ThemeMode.system;
-  String _selectedLanguage = 'English (US)';
+
+  LanguageController get _languageController => Get.find<LanguageController>();
 
   void _showThemeDialog() {
     showDialog(
@@ -25,7 +27,7 @@ class _SettingsPageState extends State<SettingsPage> {
         return SimpleDialog(
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-          title: const Text('Choose Theme Mode'),
+          title: Text('choose_theme_mode'.tr),
           children: [
             SimpleDialogOption(
               onPressed: () {
@@ -33,11 +35,11 @@ class _SettingsPageState extends State<SettingsPage> {
                 Get.changeThemeMode(ThemeMode.system);
                 Navigator.pop(context);
               },
-              child: const Row(
+              child: Row(
                 children: [
-                  Icon(Icons.brightness_auto_rounded, color: AppColors.caramel),
-                  SizedBox(width: 12),
-                  Text('System Default'),
+                  const Icon(Icons.brightness_auto_rounded, color: AppColors.caramel),
+                  const SizedBox(width: 12),
+                  Text('theme_system'.tr),
                 ],
               ),
             ),
@@ -47,11 +49,11 @@ class _SettingsPageState extends State<SettingsPage> {
                 Get.changeThemeMode(ThemeMode.light);
                 Navigator.pop(context);
               },
-              child: const Row(
+              child: Row(
                 children: [
-                  Icon(Icons.light_mode_rounded, color: AppColors.caramel),
-                  SizedBox(width: 12),
-                  Text('Light Mode'),
+                  const Icon(Icons.light_mode_rounded, color: AppColors.caramel),
+                  const SizedBox(width: 12),
+                  Text('theme_light'.tr),
                 ],
               ),
             ),
@@ -61,11 +63,11 @@ class _SettingsPageState extends State<SettingsPage> {
                 Get.changeThemeMode(ThemeMode.dark);
                 Navigator.pop(context);
               },
-              child: const Row(
+              child: Row(
                 children: [
-                  Icon(Icons.dark_mode_rounded, color: AppColors.caramel),
-                  SizedBox(width: 12),
-                  Text('Dark Mode'),
+                  const Icon(Icons.dark_mode_rounded, color: AppColors.caramel),
+                  const SizedBox(width: 12),
+                  Text('theme_dark'.tr),
                 ],
               ),
             ),
@@ -82,23 +84,21 @@ class _SettingsPageState extends State<SettingsPage> {
         return SimpleDialog(
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-          title: const Text('Select Language'),
+          title: Text('select_language_title'.tr),
           children: [
             SimpleDialogOption(
               onPressed: () {
-                setState(() => _selectedLanguage = 'English (US)');
-                Get.updateLocale(const Locale('en', 'US'));
+                _languageController.changeLanguage('en');
                 Navigator.pop(context);
               },
-              child: const Text('English (US)'),
+              child: Text('english_language'.tr),
             ),
             SimpleDialogOption(
               onPressed: () {
-                setState(() => _selectedLanguage = 'العربية (Arabic)');
-                Get.updateLocale(const Locale('ar', 'SA'));
+                _languageController.changeLanguage('ar');
                 Navigator.pop(context);
               },
-              child: const Text('العربية (Arabic)'),
+              child: Text('arabic_language'.tr),
             ),
           ],
         );
@@ -113,14 +113,12 @@ class _SettingsPageState extends State<SettingsPage> {
         return AlertDialog(
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-          title: const Text('Logout from Brewora?'),
-          content: const Text(
-            'Are you sure you want to log out of your coffee account?',
-          ),
+          title: Text('logout_confirm_title'.tr),
+          content: Text('logout_confirm_content'.tr),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: const Text('Cancel'),
+              child: Text('cancel'.tr),
             ),
             ElevatedButton(
               onPressed: () {
@@ -131,7 +129,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 backgroundColor: AppColors.error,
                 foregroundColor: Colors.white,
               ),
-              child: const Text('Logout'),
+              child: Text('logout_button'.tr),
             ),
           ],
         );
@@ -142,62 +140,64 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const AppAppBar(
-        title: 'App Settings',
+      appBar: AppAppBar(
+        title: 'settings_title'.tr,
       ),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         padding: const EdgeInsets.only(bottom: 24),
         child: Column(
           children: [
-            _buildSectionTitle(context, 'Notifications'),
+            _buildSectionTitle(context, 'notifications_title'.tr),
             _buildSwitchTile(
-              'Push Notifications',
+              'push_notifications'.tr,
               'Receive order updates and coffee deals',
               _pushNotifications,
               (value) => setState(() => _pushNotifications = value),
             ),
             _buildSwitchTile(
-              'Email Receipts & Offers',
+              'email_notifications'.tr,
               'Get digital receipts and rewards in email',
               _emailNotifications,
               (value) => setState(() => _emailNotifications = value),
             ),
             const Divider(height: 24),
-            _buildSectionTitle(context, 'Preferences'),
+            _buildSectionTitle(context, 'settings_title'.tr),
             ListTile(
               leading: const Icon(Icons.brightness_auto_outlined,
                   color: AppColors.caramel),
-              title: const Text('App Theme Mode',
-                  style: TextStyle(fontWeight: FontWeight.bold)),
+              title: Text('theme_mode_title'.tr,
+                  style: const TextStyle(fontWeight: FontWeight.bold)),
               subtitle: Text(_getThemeName()),
               trailing: const Icon(Icons.arrow_forward_ios_rounded, size: 16),
               onTap: _showThemeDialog,
             ),
-            ListTile(
+            Obx(() => ListTile(
               leading:
                   const Icon(Icons.language_rounded, color: AppColors.caramel),
-              title: const Text('App Language',
-                  style: TextStyle(fontWeight: FontWeight.bold)),
-              subtitle: Text(_selectedLanguage),
+              title: Text('language_title'.tr,
+                  style: const TextStyle(fontWeight: FontWeight.bold)),
+              subtitle: Text(_languageController.isArabic
+                  ? 'arabic_language'.tr
+                  : 'english_language'.tr),
               trailing: const Icon(Icons.arrow_forward_ios_rounded, size: 16),
               onTap: _showLanguageDialog,
-            ),
+            )),
             _buildSwitchTile(
-              'Location Services',
+              'location_services'.tr,
               'Enable store locator & nearby cafe suggestions',
               _locationServices,
               (value) => setState(() => _locationServices = value),
             ),
             const Divider(height: 24),
-            _buildSectionTitle(context, 'About & Support'),
+            _buildSectionTitle(context, 'help_and_support'.tr),
             _buildSettingsTile(
               Icons.info_outline_rounded,
-              'About Brewora',
+              'about_app'.tr,
               'Version 1.0.0 (Build 102)',
               () {
                 Get.snackbar(
-                  'Brewora v1.0.0 ☕',
+                  'about_app'.tr,
                   'Artisan Coffee Platform built with Flutter & Glassmorphism.',
                   snackPosition: SnackPosition.BOTTOM,
                   backgroundColor: AppColors.espressoDark,
@@ -208,11 +208,11 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
             _buildSettingsTile(
               Icons.privacy_tip_outlined,
-              'Privacy Policy',
+              'privacy_policy'.tr,
               'Read how we handle your data',
               () {
                 Get.snackbar(
-                  'Privacy Policy 🔒',
+                  'privacy_policy'.tr,
                   'Your personal data is encrypted and safe with Brewora.',
                   snackPosition: SnackPosition.BOTTOM,
                   backgroundColor: AppColors.espressoDark,
@@ -223,7 +223,7 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
             _buildSettingsTile(
               Icons.description_outlined,
-              'Terms & Conditions',
+              'terms_of_service'.tr,
               'Read user terms of service',
               () {},
             ),
@@ -244,9 +244,9 @@ class _SettingsPageState extends State<SettingsPage> {
                     ),
                   ),
                   icon: const Icon(Icons.logout_rounded, size: 18),
-                  label: const Text(
-                    'Logout Account',
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                  label: Text(
+                    'logout_button'.tr,
+                    style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),
               ),
@@ -260,11 +260,11 @@ class _SettingsPageState extends State<SettingsPage> {
   String _getThemeName() {
     switch (_selectedTheme) {
       case ThemeMode.system:
-        return 'System Default';
+        return 'theme_system'.tr;
       case ThemeMode.light:
-        return 'Light Mode';
+        return 'theme_light'.tr;
       case ThemeMode.dark:
-        return 'Dark Mode';
+        return 'theme_dark'.tr;
     }
   }
 

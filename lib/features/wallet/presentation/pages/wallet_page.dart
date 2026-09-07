@@ -14,8 +14,8 @@ class WalletPage extends StatelessWidget {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
-      appBar: const AppAppBar(
-        title: 'Brewora Wallet',
+      appBar: AppAppBar(
+        title: 'wallet_title'.tr,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
@@ -35,7 +35,7 @@ class WalletPage extends StatelessWidget {
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: AppColors.espressoDark.withOpacity(0.3),
+                    color: AppColors.espressoDark.withValues(alpha: 0.3),
                     blurRadius: 12,
                     offset: const Offset(0, 4),
                   ),
@@ -46,22 +46,22 @@ class WalletPage extends StatelessWidget {
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
+                    children: [
                       Text(
-                        'Brewora Digital Card',
-                        style: TextStyle(
+                        'digital_card_label'.tr,
+                        style: const TextStyle(
                           color: AppColors.caramel,
                           fontWeight: FontWeight.bold,
                           fontSize: 13,
                         ),
                       ),
-                      Icon(Icons.wifi_rounded, color: Colors.white54),
+                      const Icon(Icons.wifi_rounded, color: Colors.white54),
                     ],
                   ),
                   const SizedBox(height: 16),
                   Obx(
                     () => Text(
-                      '\$${walletController.balance.value.toStringAsFixed(2)}',
+                      '${walletController.balance.value.toStringAsFixed(2)} ${'egp'.tr}',
                       style: const TextStyle(
                         color: Colors.white,
                         fontSize: 34,
@@ -85,9 +85,9 @@ class WalletPage extends StatelessWidget {
                         onPressed: () => walletController.topUp(20.00),
                         icon: const Icon(Icons.add_rounded,
                             size: 16, color: AppColors.espressoDark),
-                        label: const Text(
-                          'Top Up \$20',
-                          style: TextStyle(
+                        label: Text(
+                          'top_up_btn'.tr,
+                          style: const TextStyle(
                             color: AppColors.espressoDark,
                             fontWeight: FontWeight.bold,
                             fontSize: 12,
@@ -109,7 +109,7 @@ class WalletPage extends StatelessWidget {
 
             // Recent Transactions Section Title
             Text(
-              'Recent Transactions',
+              'recent_transactions_title'.tr,
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
@@ -184,7 +184,7 @@ class WalletPage extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          '${tx.isTopUp ? '+' : ''}\$${tx.amount.abs().toStringAsFixed(2)}',
+                          '${tx.isTopUp ? '+' : ''}${tx.amount.abs().toStringAsFixed(2)} ${'egp'.tr}',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 15,

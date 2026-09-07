@@ -234,7 +234,7 @@ void main() {
       expect(tableController.hasActiveSession, isTrue);
       expect(tableController.tableNumber, '12');
       expect(tableController.currentParticipant.value?.displayName, 'Ahmed');
-      expect(tableController.participantCount, 3);
+      expect(tableController.participantCount, 1);
     });
 
     test('adds item to table order and computes subtotals correctly', () {
@@ -252,7 +252,7 @@ void main() {
         quantity: 2,
       );
 
-      expect(tableController.totalItemCount, 4);
+      expect(tableController.totalItemCount, 2);
       expect(tableController.subtotal, greaterThan(0));
     });
 

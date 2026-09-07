@@ -17,27 +17,24 @@ class _OnboardingPageState extends State<OnboardingPage> {
   late PageController _pageController;
   int _currentPage = 0;
 
-  final List<_OnboardingItem> _slides = const [
+  List<_OnboardingItem> get _slides => [
     _OnboardingItem(
-      title: 'Welcome to Brewora',
-      subtitle:
-          'Discover hand-crafted coffee & local artisan roasters near you.',
+      title: 'onboarding_title_1'.tr,
+      subtitle: 'onboarding_subtitle_1'.tr,
       icon: Icons.local_cafe_rounded,
-      tag: 'PREMIUM COFFEE',
+      tag: 'onboarding_tag_1'.tr,
     ),
     _OnboardingItem(
-      title: 'Seamless Order & Track',
-      subtitle:
-          'Order ahead for pickup or track fresh delivery to your doorstep in real time.',
+      title: 'onboarding_title_2'.tr,
+      subtitle: 'onboarding_subtitle_2'.tr,
       icon: Icons.coffee_maker_rounded,
-      tag: 'QUICK ORDER',
+      tag: 'onboarding_tag_2'.tr,
     ),
     _OnboardingItem(
-      title: 'Exclusive Rewards & Pass',
-      subtitle:
-          'Earn coffee points on every cup and unlock VIP perks & loyalty discounts.',
+      title: 'onboarding_title_3'.tr,
+      subtitle: 'onboarding_subtitle_3'.tr,
       icon: Icons.workspace_premium_rounded,
-      tag: 'LOYALTY PERKS',
+      tag: 'onboarding_tag_3'.tr,
     ),
   ];
 
@@ -67,6 +64,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final slides = _slides;
 
     return Scaffold(
       body: Container(
@@ -84,14 +82,14 @@ class _OnboardingPageState extends State<OnboardingPage> {
             children: [
               // Top Skip Button
               Align(
-                alignment: Alignment.topRight,
+                alignment: AlignmentDirectional.topEnd,
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: TextButton(
                     onPressed: () => Get.offAllNamed(Routes.INITIAL),
-                    child: const Text(
-                      'Skip',
-                      style: TextStyle(
+                    child: Text(
+                      'onboarding_skip'.tr,
+                      style: const TextStyle(
                         color: Colors.white70,
                         fontWeight: FontWeight.bold,
                         fontSize: 15,
@@ -107,9 +105,9 @@ class _OnboardingPageState extends State<OnboardingPage> {
                   controller: _pageController,
                   onPageChanged: (index) =>
                       setState(() => _currentPage = index),
-                  itemCount: _slides.length,
+                  itemCount: slides.length,
                   itemBuilder: (context, index) {
-                    final item = _slides[index];
+                    final item = slides[index];
 
                     return Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -204,10 +202,10 @@ class _OnboardingPageState extends State<OnboardingPage> {
                     // Indicator Dots
                     Row(
                       children: List.generate(
-                        _slides.length,
+                        slides.length,
                         (index) => AnimatedContainer(
                           duration: const Duration(milliseconds: 250),
-                          margin: const EdgeInsets.only(right: 6),
+                          margin: const EdgeInsetsDirectional.only(end: 6),
                           width: index == _currentPage ? 24 : 8,
                           height: 8,
                           decoration: BoxDecoration(
@@ -237,9 +235,9 @@ class _OnboardingPageState extends State<OnboardingPage> {
                       child: Row(
                         children: [
                           Text(
-                            _currentPage == _slides.length - 1
-                                ? 'Get Started'
-                                : 'Next',
+                            _currentPage == slides.length - 1
+                                ? 'onboarding_get_started'.tr
+                                : 'onboarding_next'.tr,
                             style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 15,
@@ -260,6 +258,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
     );
   }
 }
+
 
 class _OnboardingItem {
   final String title;

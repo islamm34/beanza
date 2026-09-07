@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import '../models/join_request_preview_status.dart';
 
 class JoinRequestStatusBadge extends StatelessWidget {
@@ -18,8 +19,7 @@ class JoinRequestStatusBadge extends StatelessWidget {
     Color fgColor;
     Color bgColor;
     Color borderColor;
-    String labelEn;
-    String labelAr;
+    String label;
     IconData icon;
 
     switch (status) {
@@ -27,40 +27,35 @@ class JoinRequestStatusBadge extends StatelessWidget {
         fgColor = isDark ? const Color(0xFFF1B447) : const Color(0xFFB6781E);
         bgColor = fgColor.withValues(alpha: isDark ? 0.18 : 0.12);
         borderColor = fgColor.withValues(alpha: 0.5);
-        labelEn = 'Pending Approval';
-        labelAr = 'في انتظار الموافقة';
+        label = 'badge_pending_approval'.tr;
         icon = Icons.hourglass_top_rounded;
         break;
       case JoinRequestPreviewStatus.approved:
         fgColor = isDark ? const Color(0xFF55C948) : const Color(0xFF278C35);
         bgColor = fgColor.withValues(alpha: isDark ? 0.18 : 0.12);
         borderColor = fgColor.withValues(alpha: 0.5);
-        labelEn = 'Approved';
-        labelAr = 'تمت الموافقة';
+        label = 'badge_approved'.tr;
         icon = Icons.check_circle_outline_rounded;
         break;
       case JoinRequestPreviewStatus.rejected:
         fgColor = isDark ? const Color(0xFFD95656) : const Color(0xFFB94343);
         bgColor = fgColor.withValues(alpha: isDark ? 0.18 : 0.12);
         borderColor = fgColor.withValues(alpha: 0.5);
-        labelEn = 'Not Approved';
-        labelAr = 'لم تتم الموافقة';
+        label = 'badge_rejected'.tr;
         icon = Icons.cancel_outlined;
         break;
       case JoinRequestPreviewStatus.expired:
         fgColor = isDark ? const Color(0xFFA6A69F) : const Color(0xFF746B63);
         bgColor = fgColor.withValues(alpha: isDark ? 0.18 : 0.12);
         borderColor = fgColor.withValues(alpha: 0.5);
-        labelEn = 'Request Expired';
-        labelAr = 'انتهت الصلاحية';
+        label = 'badge_expired'.tr;
         icon = Icons.timer_off_outlined;
         break;
       case JoinRequestPreviewStatus.cancelled:
         fgColor = isDark ? const Color(0xFFA6A69F) : const Color(0xFF746B63);
         bgColor = fgColor.withValues(alpha: isDark ? 0.18 : 0.12);
         borderColor = fgColor.withValues(alpha: 0.5);
-        labelEn = 'Request Cancelled';
-        labelAr = 'تم إلغاء الطلب';
+        label = 'badge_cancelled'.tr;
         icon = Icons.remove_circle_outline_rounded;
         break;
     }
@@ -82,7 +77,7 @@ class JoinRequestStatusBadge extends StatelessWidget {
           const SizedBox(width: 5),
           Flexible(
             child: Text(
-              compact ? labelEn : '$labelEn • $labelAr',
+              label,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 color: fgColor,

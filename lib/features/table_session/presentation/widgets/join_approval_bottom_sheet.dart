@@ -109,8 +109,8 @@ class _JoinApprovalBottomSheetState extends State<JoinApprovalBottomSheet> {
     } else {
       // Show failure feedback if validation prevented self-approval
       Get.snackbar(
-        'Action Not Allowed / غير مسموح',
-        'You cannot approve your own request.',
+        'action_not_allowed'.tr,
+        'cannot_approve_own_request'.tr,
         snackPosition: SnackPosition.BOTTOM,
         backgroundColor: const Color(0xFFD95656),
         colorText: Colors.white,
@@ -130,8 +130,8 @@ class _JoinApprovalBottomSheetState extends State<JoinApprovalBottomSheet> {
       widget.onReject?.call();
     } else {
       Get.snackbar(
-        'Action Not Allowed / غير مسموح',
-        'You cannot reject your own request.',
+        'action_not_allowed'.tr,
+        'cannot_reject_own_request'.tr,
         snackPosition: SnackPosition.BOTTOM,
         backgroundColor: const Color(0xFFD95656),
         colorText: Colors.white,
@@ -202,7 +202,7 @@ class _JoinApprovalBottomSheetState extends State<JoinApprovalBottomSheet> {
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
-                      'Previewing as ${_actingMember.name} • معاينة ك${_actingMember.name}',
+                      'previewing_as'.trParams({'name': _actingMember.name}),
                       style: TextStyle(
                         color: isDark
                             ? const Color(0xFFF1B447)
@@ -221,7 +221,7 @@ class _JoinApprovalBottomSheetState extends State<JoinApprovalBottomSheet> {
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Text(
-                        'Approved Member',
+                        'approved_member_badge'.tr,
                         style: TextStyle(
                           color: greenColor,
                           fontSize: 10,
@@ -254,26 +254,13 @@ class _JoinApprovalBottomSheetState extends State<JoinApprovalBottomSheet> {
                 ),
                 const SizedBox(width: 14),
                 Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'New Join Request',
-                        style: TextStyle(
-                          fontSize: 17,
-                          fontWeight: FontWeight.bold,
-                          color: primaryText,
-                        ),
-                      ),
-                      Text(
-                        'طلب انضمام جديد',
-                        style: TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w600,
-                          color: goldColor,
-                        ),
-                      ),
-                    ],
+                  child: Text(
+                    'new_join_request_title'.tr,
+                    style: TextStyle(
+                      fontSize: 17,
+                      fontWeight: FontWeight.bold,
+                      color: primaryText,
+                    ),
                   ),
                 ),
                 IconButton(
@@ -330,7 +317,7 @@ class _JoinApprovalBottomSheetState extends State<JoinApprovalBottomSheet> {
                           spacing: 4,
                           children: [
                             Text(
-                              'Table ${widget.tableNumber}',
+                              'table_with_num'.trParams({'table': widget.tableNumber}),
                               style: TextStyle(
                                 fontSize: 12.5,
                                 fontWeight: FontWeight.w600,
@@ -338,7 +325,7 @@ class _JoinApprovalBottomSheetState extends State<JoinApprovalBottomSheet> {
                               ),
                             ),
                             Text(
-                              '• Just now',
+                              '• ${'just_now'.tr}',
                               style: TextStyle(
                                 fontSize: 11.5,
                                 color: secondaryText,
@@ -382,7 +369,7 @@ class _JoinApprovalBottomSheetState extends State<JoinApprovalBottomSheet> {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      'You cannot approve your own request',
+                      'cannot_approve_own_request_title'.tr,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 14.5,
@@ -390,20 +377,9 @@ class _JoinApprovalBottomSheetState extends State<JoinApprovalBottomSheet> {
                         color: redColor,
                       ),
                     ),
-                    const SizedBox(height: 2),
-                    Text(
-                      'لا يمكنك الموافقة على طلبك بنفسك',
-                      textAlign: TextAlign.center,
-                      textDirection: TextDirection.rtl,
-                      style: TextStyle(
-                        fontSize: 13.5,
-                        fontWeight: FontWeight.bold,
-                        color: redColor,
-                      ),
-                    ),
                     const SizedBox(height: 6),
                     Text(
-                      'Another approved table member must confirm this request.\nيجب على عضو معتمد آخر تأكيد هذا الطلب.',
+                      'another_member_must_approve_desc'.tr,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 11.5,
@@ -436,23 +412,12 @@ class _JoinApprovalBottomSheetState extends State<JoinApprovalBottomSheet> {
                     ),
                     const SizedBox(height: 6),
                     Text(
-                      'Only approved table members can approve requests',
+                      'only_approved_members_can_approve'.tr,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
                         color: primaryText,
-                      ),
-                    ),
-                    const SizedBox(height: 2),
-                    Text(
-                      'فقط الأعضاء المعتمدون يمكنهم الموافقة على الطلبات',
-                      textAlign: TextAlign.center,
-                      textDirection: TextDirection.rtl,
-                      style: TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.bold,
-                        color: goldColor,
                       ),
                     ),
                   ],
@@ -473,7 +438,7 @@ class _JoinApprovalBottomSheetState extends State<JoinApprovalBottomSheet> {
                 child: Column(
                   children: [
                     Text(
-                      'Is ${_request.requesterName} with you?',
+                      'is_requester_with_you'.trParams({'name': _request.requesterName}),
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 14.5,
@@ -481,20 +446,9 @@ class _JoinApprovalBottomSheetState extends State<JoinApprovalBottomSheet> {
                         color: primaryText,
                       ),
                     ),
-                    const SizedBox(height: 2),
-                    Text(
-                      'هل ${_request.requesterName} موجود معكم على الترابيزة؟',
-                      textAlign: TextAlign.center,
-                      textDirection: TextDirection.rtl,
-                      style: TextStyle(
-                        fontSize: 13.5,
-                        fontWeight: FontWeight.bold,
-                        color: goldColor,
-                      ),
-                    ),
                     const SizedBox(height: 6),
                     Text(
-                      'Only approve if you recognize this person.\nوافق فقط إذا كنت تعرف هذا الشخص.',
+                      'only_approve_recognized_person'.tr,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 11.5,
@@ -529,16 +483,16 @@ class _JoinApprovalBottomSheetState extends State<JoinApprovalBottomSheet> {
                             borderRadius: BorderRadius.circular(16),
                           ),
                         ),
-                        child: const FittedBox(
+                        child: FittedBox(
                           fit: BoxFit.scaleDown,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(Icons.close_rounded, size: 18),
-                              SizedBox(width: 6),
+                              const Icon(Icons.close_rounded, size: 18),
+                              const SizedBox(width: 6),
                               Text(
-                                'Reject / رفض',
-                                style: TextStyle(
+                                'reject_btn'.tr,
+                                style: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 13.5,
                                 ),
@@ -565,17 +519,17 @@ class _JoinApprovalBottomSheetState extends State<JoinApprovalBottomSheet> {
                             borderRadius: BorderRadius.circular(16),
                           ),
                         ),
-                        child: const FittedBox(
+                        child: FittedBox(
                           fit: BoxFit.scaleDown,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(Icons.check_circle_outline_rounded,
+                              const Icon(Icons.check_circle_outline_rounded,
                                   size: 20),
-                              SizedBox(width: 8),
+                              const SizedBox(width: 8),
                               Text(
-                                'Approve / موافقة',
-                                style: TextStyle(
+                                'approve_btn'.tr,
+                                style: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 15,
                                 ),

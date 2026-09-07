@@ -19,8 +19,8 @@ class RewardsPage extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: isDark ? AppColors.darkBg : AppColors.lightBg,
-      appBar: const AppAppBar(
-        title: 'Loyalty & Coffee Club',
+      appBar: AppAppBar(
+        title: 'rewards_title'.tr,
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -63,7 +63,7 @@ class RewardsPage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'SILVER MEMBER • عضو فضي',
+                              'silver_member_badge'.tr,
                               style: TextStyle(
                                 color: goldColor,
                                 fontWeight: FontWeight.w800,
@@ -89,7 +89,7 @@ class RewardsPage extends StatelessWidget {
                                   ),
                                   const SizedBox(width: 6),
                                   Text(
-                                    'Beans / نقطة',
+                                    'beans_unit'.tr,
                                     style: TextStyle(
                                       color: goldColor,
                                       fontWeight: FontWeight.bold,
@@ -140,7 +140,7 @@ class RewardsPage extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'Next: Gold VIP Tier',
+                                'next_tier_label'.tr,
                                 style: TextStyle(
                                   color: isDark
                                       ? AppColors.darkTextSecondary
@@ -149,7 +149,8 @@ class RewardsPage extends StatelessWidget {
                                 ),
                               ),
                               Text(
-                                '$remaining beans to level up',
+                                'beans_to_level_up'
+                                    .trParams({'count': '$remaining'}),
                                 style: TextStyle(
                                   color: goldColor,
                                   fontWeight: FontWeight.bold,
@@ -168,7 +169,7 @@ class RewardsPage extends StatelessWidget {
 
               // 2. Redeemable Rewards (Horizontal Row of Small Cards)
               Text(
-                'Available Rewards / المكافآت المتاحة',
+                'available_rewards_title'.tr,
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
@@ -185,7 +186,7 @@ class RewardsPage extends StatelessWidget {
                   physics: const BouncingScrollPhysics(),
                   children: [
                     _buildRewardCard(
-                      title: 'Free Artisan Espresso',
+                      title: 'reward_free_espresso'.tr,
                       points: 150,
                       icon: Icons.coffee_rounded,
                       isDark: isDark,
@@ -193,7 +194,7 @@ class RewardsPage extends StatelessWidget {
                       greenColor: greenColor,
                     ),
                     _buildRewardCard(
-                      title: 'Butter Croissant',
+                      title: 'reward_croissant'.tr,
                       points: 200,
                       icon: Icons.bakery_dining_rounded,
                       isDark: isDark,
@@ -201,7 +202,7 @@ class RewardsPage extends StatelessWidget {
                       greenColor: greenColor,
                     ),
                     _buildRewardCard(
-                      title: 'Free Signature Latte',
+                      title: 'reward_free_latte'.tr,
                       points: 300,
                       icon: Icons.local_cafe_rounded,
                       isDark: isDark,
@@ -209,7 +210,7 @@ class RewardsPage extends StatelessWidget {
                       greenColor: greenColor,
                     ),
                     _buildRewardCard(
-                      title: 'Artisan Cheesecake Slice',
+                      title: 'reward_cheesecake'.tr,
                       points: 450,
                       icon: Icons.cake_rounded,
                       isDark: isDark,
@@ -223,7 +224,7 @@ class RewardsPage extends StatelessWidget {
 
               // 3. Achievements Section
               Text(
-                'Achievements / الإنجازات والجوائز',
+                'achievements_title'.tr,
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
@@ -235,22 +236,21 @@ class RewardsPage extends StatelessWidget {
               const SizedBox(height: 12),
               ...[
                 {
-                  'title': 'Coffee Connoisseur',
-                  'subtitle': 'Ordered 10 specialty single-origin coffees',
-                  'badge': 'GOLD TIER',
+                  'title': 'ach_connoisseur_title'.tr,
+                  'subtitle': 'ach_connoisseur_desc'.tr,
+                  'badge': 'gold_tier_badge'.tr,
                   'icon': Icons.emoji_events_rounded,
                 },
                 {
-                  'title': 'Table Host Champion',
-                  'subtitle': 'Hosted 5 group table sessions with friends',
-                  'badge': 'UNLOCKED',
+                  'title': 'ach_table_host_title'.tr,
+                  'subtitle': 'ach_table_host_desc'.tr,
+                  'badge': 'badge_unlocked'.tr,
                   'icon': Icons.groups_rounded,
                 },
                 {
-                  'title': 'Morning Early Bird',
-                  'subtitle':
-                      'Placed an order before 8:00 AM on 3 consecutive days',
-                  'badge': 'COMPLETED',
+                  'title': 'ach_early_bird_title'.tr,
+                  'subtitle': 'ach_early_bird_desc'.tr,
+                  'badge': 'badge_completed'.tr,
                   'icon': Icons.wb_sunny_rounded,
                 },
               ].map((ach) {
@@ -367,7 +367,7 @@ class RewardsPage extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  '$points pts',
+                  '$points ${'pts_unit'.tr}',
                   style: TextStyle(
                     color: goldColor,
                     fontWeight: FontWeight.bold,
@@ -382,8 +382,8 @@ class RewardsPage extends StatelessWidget {
                     color: greenColor,
                     borderRadius: BorderRadius.circular(6),
                   ),
-                  child: const Text('Redeem',
-                      style: TextStyle(
+                  child: Text('redeem_btn'.tr,
+                      style: const TextStyle(
                           color: Colors.white,
                           fontSize: 10,
                           fontWeight: FontWeight.bold)),

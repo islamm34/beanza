@@ -98,7 +98,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   ),
                 ),
                 Text(
-                  'Change Profile Photo / تغيير الصورة',
+                  'change_photo'.tr,
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
@@ -115,7 +115,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     child: Icon(Icons.photo_library_rounded, color: goldColor),
                   ),
                   title: Text(
-                    'Choose From Gallery / اختيار من المعرض',
+                    'choose_from_gallery'.tr,
                     style: TextStyle(
                       color: isDark
                           ? AppColors.darkTextPrimary
@@ -135,7 +135,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     child: Icon(Icons.camera_alt_rounded, color: goldColor),
                   ),
                   title: Text(
-                    'Take a Photo / التقاط صورة',
+                    'take_a_photo'.tr,
                     style: TextStyle(
                       color: isDark
                           ? AppColors.darkTextPrimary
@@ -155,7 +155,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     child: Icon(Icons.face_rounded, color: goldColor),
                   ),
                   title: Text(
-                    'Choose Preset Avatar / اختيار شخصية قهوة',
+                    'choose_preset_avatar'.tr,
                     style: TextStyle(
                       color: isDark
                           ? AppColors.darkTextPrimary
@@ -176,9 +176,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       child: const Icon(Icons.delete_outline_rounded,
                           color: AppColors.error),
                     ),
-                    title: const Text(
-                      'Remove Current Photo / حذف الصورة',
-                      style: TextStyle(
+                    title: Text(
+                      'remove_photo'.tr,
+                      style: const TextStyle(
                         color: AppColors.error,
                         fontWeight: FontWeight.w600,
                       ),
@@ -192,7 +192,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 TextButton(
                   onPressed: () => Navigator.pop(ctx),
                   child: Text(
-                    'Cancel / إلغاء',
+                    'cancel'.tr,
                     style: TextStyle(
                       color: isDark
                           ? AppColors.darkTextSecondary
@@ -267,7 +267,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'Select a Café Avatar / اختر شخصيتك',
+                  'choose_preset_avatar'.tr,
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
@@ -336,7 +336,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 TextButton(
                   onPressed: () => Navigator.pop(ctx),
                   child: Text(
-                    'Cancel / إلغاء',
+                    'cancel'.tr,
                     style: TextStyle(
                       color: isDark
                           ? AppColors.darkTextSecondary
@@ -364,7 +364,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           title: Text(
-            'Remove Profile Photo?',
+            'remove_photo_confirm_title'.tr,
             style: TextStyle(
               color: isDark
                   ? AppColors.darkTextPrimary
@@ -373,7 +373,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
             ),
           ),
           content: Text(
-            'Are you sure you want to remove your profile photo and use the default avatar?',
+            'remove_photo_confirm_msg'.tr,
             style: TextStyle(
               color: isDark
                   ? AppColors.darkTextSecondary
@@ -383,7 +383,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: const Text('Cancel'),
+              child: Text('cancel'.tr),
             ),
             ElevatedButton(
               key: const Key('confirm_remove_avatar'),
@@ -398,7 +398,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 backgroundColor: AppColors.error,
                 foregroundColor: Colors.white,
               ),
-              child: const Text('Remove'),
+              child: Text('delete'.tr),
             ),
           ],
         );
@@ -422,8 +422,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
     if (success) {
       Get.snackbar(
-        'Profile Updated',
-        'Your profile changes have been saved successfully.',
+        'profile_updated_success'.tr,
+        'profile_updated_success'.tr,
         snackPosition: SnackPosition.BOTTOM,
         backgroundColor: AppColors.primaryGreen,
         colorText: Colors.white,
@@ -432,8 +432,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
       Get.back();
     } else {
       Get.snackbar(
-        'Could Not Save Profile',
-        'Please check your network and try again.',
+        'error'.tr,
+        'something_went_wrong'.tr,
         snackPosition: SnackPosition.BOTTOM,
         backgroundColor: AppColors.error,
         colorText: Colors.white,
@@ -450,8 +450,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
     return Scaffold(
       backgroundColor: isDark ? AppColors.darkBg : AppColors.lightBg,
-      appBar: const AppAppBar(
-        title: 'Edit Profile / تعديل الحساب',
+      appBar: AppAppBar(
+        title: 'edit_profile_title'.tr,
         showCartAction: false,
       ),
       body: SafeArea(
@@ -511,7 +511,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   onPressed: _showPhotoOptionsSheet,
                   icon: Icon(Icons.edit_rounded, size: 16, color: goldColor),
                   label: Text(
-                    'Change Photo / تغيير الصورة',
+                    'change_photo'.tr,
                     style: TextStyle(
                       color: goldColor,
                       fontWeight: FontWeight.bold,
@@ -525,15 +525,15 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 _buildInputField(
                   fieldKey: const Key('name_field'),
                   controller: _nameController,
-                  label: 'Full Name / الاسم الكامل',
+                  label: 'full_name_label'.tr,
                   hint: 'e.g. Alex Johnson',
                   icon: Icons.person_outline_rounded,
                   validator: (value) {
                     if (value == null || value.trim().isEmpty) {
-                      return 'Name cannot be empty';
+                      return 'name_required_error'.tr;
                     }
                     if (value.trim().length < 2) {
-                      return 'Name must be at least 2 characters';
+                      return 'name_min_chars_error'.tr;
                     }
                     return null;
                   },
@@ -546,7 +546,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 _buildInputField(
                   fieldKey: const Key('phone_field'),
                   controller: _phoneController,
-                  label: 'Phone Number / رقم الهاتف',
+                  label: 'phone_label'.tr,
                   hint: 'e.g. +1 (555) 234-5678',
                   icon: Icons.phone_outlined,
                   keyboardType: TextInputType.phone,
@@ -565,7 +565,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 _buildInputField(
                   fieldKey: const Key('email_field'),
                   controller: _emailController,
-                  label: 'Email Address / البريد الإلكتروني',
+                  label: 'email_label'.tr,
                   hint: 'e.g. alex@brewora.co',
                   icon: Icons.email_outlined,
                   keyboardType: TextInputType.emailAddress,
@@ -602,17 +602,17 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                 color: Colors.white,
                               ),
                             )
-                          : const FittedBox(
+                          : FittedBox(
                               fit: BoxFit.scaleDown,
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Icon(Icons.check_circle_outline_rounded,
+                                  const Icon(Icons.check_circle_outline_rounded,
                                       size: 20),
-                                  SizedBox(width: 8),
+                                  const SizedBox(width: 8),
                                   Text(
-                                    'Save Changes / حفظ التغييرات',
-                                    style: TextStyle(
+                                    'save_changes'.tr,
+                                    style: const TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.bold,
                                     ),

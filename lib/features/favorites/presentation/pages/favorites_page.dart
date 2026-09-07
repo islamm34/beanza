@@ -15,8 +15,8 @@ class FavoritesPage extends StatelessWidget {
     final favoritesController = Get.find<FavoritesController>();
 
     return Scaffold(
-      appBar: const AppAppBar(
-        title: 'Favorites',
+      appBar: AppAppBar(
+        title: 'favorites_title'.tr,
       ),
       body: Obx(() {
         final products = favoritesController.favoriteProducts;
@@ -24,9 +24,9 @@ class FavoritesPage extends StatelessWidget {
         if (products.isEmpty) {
           return EmptyState(
             icon: Icons.favorite_border_rounded,
-            title: 'No Favorites Saved',
-            message: 'Tap the heart icon on any coffee item to save it here!',
-            actionLabel: 'Explore Coffee Menu',
+            title: 'no_favorites_title'.tr,
+            message: 'no_favorites_message'.tr,
+            actionLabel: 'start_ordering'.tr,
             onAction: () => Get.toNamed('/home'),
           );
         }
@@ -46,8 +46,8 @@ class FavoritesPage extends StatelessWidget {
             return ProductCard(
               productId: product.id,
               imageUrl: product.image,
-              name: product.name,
-              category: product.category,
+              name: product.localizedName,
+              category: product.localizedCategory,
               price: product.basePrice,
               rating: product.rating,
               reviewCount: product.reviewsCount,

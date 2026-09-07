@@ -53,14 +53,14 @@ class _AddressesPageState extends State<AddressesPage> {
         return AlertDialog(
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-          title: const Text('Add New Address'),
+          title: Text('add_new_address'.tr),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               TextField(
                 controller: labelCtrl,
                 decoration: InputDecoration(
-                  labelText: 'Label (e.g. Home, Work)',
+                  labelText: 'label_hint'.tr,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
@@ -71,7 +71,7 @@ class _AddressesPageState extends State<AddressesPage> {
                 controller: addressCtrl,
                 maxLines: 2,
                 decoration: InputDecoration(
-                  labelText: 'Full Delivery Address',
+                  labelText: 'address_hint'.tr,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
@@ -82,7 +82,7 @@ class _AddressesPageState extends State<AddressesPage> {
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: const Text('Cancel'),
+              child: Text('cancel'.tr),
             ),
             ElevatedButton(
               onPressed: () {
@@ -99,8 +99,8 @@ class _AddressesPageState extends State<AddressesPage> {
                 });
                 Navigator.pop(context);
                 Get.snackbar(
-                  'Address Added 📍',
-                  'New delivery address saved.',
+                  'address_added_title'.tr,
+                  'address_added_msg'.tr,
                   snackPosition: SnackPosition.BOTTOM,
                   backgroundColor: AppColors.espressoDark,
                   colorText: Colors.white,
@@ -110,7 +110,7 @@ class _AddressesPageState extends State<AddressesPage> {
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.espressoDark,
               ),
-              child: const Text('Save Address'),
+              child: Text('save_address'.tr),
             ),
           ],
         );
@@ -123,8 +123,8 @@ class _AddressesPageState extends State<AddressesPage> {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
-      appBar: const AppAppBar(
-        title: 'Saved Addresses',
+      appBar: AppAppBar(
+        title: 'addresses_title'.tr,
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -134,14 +134,14 @@ class _AddressesPageState extends State<AddressesPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Delivery Locations',
+                'delivery_locations_title'.tr,
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
               ),
               const SizedBox(height: 4),
               Text(
-                'Manage addresses for quick coffee delivery checkout',
+                'delivery_locations_subtitle'.tr,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       color: AppColors.getTextMutedColor(
                         Theme.of(context).brightness,
@@ -176,7 +176,7 @@ class _AddressesPageState extends State<AddressesPage> {
                             ),
                             child: Icon(
                               item.label.toLowerCase() == 'home'
-                                  ? Icons.home_rounded
+                                    ? Icons.home_rounded
                                   : Icons.work_rounded,
                               color: AppColors.caramel,
                               size: 22,
@@ -208,9 +208,9 @@ class _AddressesPageState extends State<AddressesPage> {
                                           borderRadius:
                                               BorderRadius.circular(6),
                                         ),
-                                        child: const Text(
-                                          'DEFAULT',
-                                          style: TextStyle(
+                                        child: Text(
+                                          'default_badge'.tr,
+                                          style: const TextStyle(
                                             fontSize: 10,
                                             fontWeight: FontWeight.bold,
                                             color: AppColors.espressoDark,
@@ -254,13 +254,13 @@ class _AddressesPageState extends State<AddressesPage> {
                               }
                             },
                             itemBuilder: (context) => [
-                              const PopupMenuItem(
+                              PopupMenuItem(
                                 value: 'default',
-                                child: Text('Set as Default'),
+                                child: Text('set_as_default'.tr),
                               ),
-                              const PopupMenuItem(
+                              PopupMenuItem(
                                 value: 'delete',
-                                child: Text('Delete Address'),
+                                child: Text('delete_address'.tr),
                               ),
                             ],
                           ),
@@ -285,9 +285,9 @@ class _AddressesPageState extends State<AddressesPage> {
                   ),
                   icon: const Icon(Icons.add_location_alt_rounded,
                       color: AppColors.caramel),
-                  label: const Text(
-                    'Add New Address',
-                    style: TextStyle(
+                  label: Text(
+                    'add_new_address'.tr,
+                    style: const TextStyle(
                       color: AppColors.caramel,
                       fontWeight: FontWeight.bold,
                       fontSize: 15,

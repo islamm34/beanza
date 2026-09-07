@@ -114,7 +114,7 @@ class _SplashPageState extends State<SplashPage>
       child: SvgPicture.asset(
         'assets/premium_cafe_3d_logo.svg',
         fit: BoxFit.contain,
-        semanticsLabel: 'Cafe logo',
+        semanticsLabel: 'cafe_logo_label'.tr,
       ),
     );
 

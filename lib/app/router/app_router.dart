@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 
 import '../../features/explore/presentation/pages/explore_page.dart';
 import '../../features/home/presentation/pages/home_page.dart';
@@ -22,28 +23,28 @@ class _AppRouterState extends State<AppRouter> {
   final List<_NavSvgItem> _items = const [
     _NavSvgItem(
       svgPath: 'assets/images/icons/home.svg',
-      label: 'Home',
-      semanticsLabel: 'Home',
+      labelKey: 'nav_home',
+      semanticsKey: 'nav_home',
     ),
     _NavSvgItem(
       svgPath: 'assets/images/icons/explore.svg',
-      label: 'Explore',
-      semanticsLabel: 'Explore',
+      labelKey: 'nav_explore',
+      semanticsKey: 'nav_explore',
     ),
     _NavSvgItem(
       svgPath: 'assets/images/icons/scan.svg',
-      label: 'Scan',
-      semanticsLabel: 'Scan',
+      labelKey: 'nav_scan',
+      semanticsKey: 'nav_scan',
     ),
     _NavSvgItem(
       svgPath: 'assets/images/icons/orders.svg',
-      label: 'Orders',
-      semanticsLabel: 'Orders',
+      labelKey: 'nav_orders',
+      semanticsKey: 'nav_orders',
     ),
     _NavSvgItem(
       svgPath: 'assets/images/icons/profile.svg',
-      label: 'Profile',
-      semanticsLabel: 'Profile',
+      labelKey: 'nav_profile',
+      semanticsKey: 'nav_profile',
     ),
   ];
 
@@ -145,11 +146,11 @@ class _AppRouterState extends State<AppRouter> {
                                     isSelected ? Colors.white : inactiveColor,
                                     BlendMode.srcIn,
                                   ),
-                                  semanticsLabel: item.semanticsLabel,
+                                  semanticsLabel: item.semanticsKey.tr,
                                 ),
                                 const SizedBox(height: 3),
                                 Text(
-                                  item.label,
+                                  item.labelKey.tr,
                                   style: TextStyle(
                                     color: isSelected
                                         ? Colors.white
@@ -196,12 +197,12 @@ class _AppRouterState extends State<AppRouter> {
 
 class _NavSvgItem {
   final String svgPath;
-  final String label;
-  final String semanticsLabel;
+  final String labelKey;
+  final String semanticsKey;
 
   const _NavSvgItem({
     required this.svgPath,
-    required this.label,
-    required this.semanticsLabel,
+    required this.labelKey,
+    required this.semanticsKey,
   });
 }

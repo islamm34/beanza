@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:glassy/glassy_card.dart';
 import 'package:glassy/glassy_config.dart';
 
@@ -176,7 +177,7 @@ class ProductCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
-                        '${price.toStringAsFixed(2)} EGP',
+                        '${price.toStringAsFixed(2)} ${'egp'.tr}',
                         style: TextStyle(
                           fontWeight: FontWeight.w700,
                           color: isDark

@@ -28,50 +28,42 @@ class HospitalityHubPage extends StatelessWidget {
 
     final services = [
       {
-        'title': 'Call Waiter',
-        'arabic': 'استدعاء النادل',
+        'key': 'service_call_waiter',
         'icon': Icons.room_service_rounded,
         'color': goldColor
       },
       {
-        'title': 'Request Tissues',
-        'arabic': 'طلب مناديل',
+        'key': 'service_request_tissues',
         'icon': Icons.clean_hands_rounded,
         'color': greenColor
       },
       {
-        'title': 'Need Water',
-        'arabic': 'طلب ماء نقي',
+        'key': 'service_need_water',
         'icon': Icons.water_drop_rounded,
         'color': const Color(0xFF29B6F6)
       },
       {
-        'title': 'Need Cutlery',
-        'arabic': 'طلب أدوات مائدة',
+        'key': 'service_need_cutlery',
         'icon': Icons.restaurant_rounded,
         'color': goldColor
       },
       {
-        'title': 'Coal Change',
-        'arabic': 'تبديل الفحم',
+        'key': 'service_coal_change',
         'icon': Icons.fireplace_rounded,
         'color': const Color(0xFFFF7043)
       },
       {
-        'title': 'Birthday Surprise',
-        'arabic': 'مفاجأة عيد ميلاد',
+        'key': 'service_birthday_surprise',
         'icon': Icons.cake_rounded,
         'color': const Color(0xFFAB47BC)
       },
       {
-        'title': 'Call Manager',
-        'arabic': 'استدعاء المدير',
+        'key': 'service_call_manager',
         'icon': Icons.support_agent_rounded,
         'color': goldColor
       },
       {
-        'title': 'Feedback',
-        'arabic': 'تقييم وملاحظات',
+        'key': 'service_feedback',
         'icon': Icons.rate_review_rounded,
         'color': greenColor
       },
@@ -80,7 +72,7 @@ class HospitalityHubPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: isDark ? AppColors.darkBg : AppColors.lightBg,
       appBar: AppAppBar(
-        title: 'Hospitality Hub • Table $tableNum',
+        title: 'hospitality_hub_table_title'.trParams({'table': tableNum}),
         showCartAction: false,
       ),
       body: SafeArea(
@@ -100,13 +92,18 @@ class HospitalityHubPage extends StatelessWidget {
                 itemBuilder: (context, index) {
                   final s = services[index];
                   final iconColor = s['color'] as Color;
+                  final serviceKey = s['key'] as String;
+                  final serviceTitle = serviceKey.tr;
 
                   return CafeCard(
                     padding: const EdgeInsets.all(14),
                     onTap: () {
                       Get.snackbar(
-                        'Request Sent',
-                        '${s['title']} requested for Table $tableNum. Staff on the way!',
+                        'service_requested_title'.tr,
+                        'service_requested_for_table'.trParams({
+                          'service': serviceTitle,
+                          'table': tableNum,
+                        }),
                         backgroundColor: isDark
                             ? AppColors.darkCardBg
                             : AppColors.lightCardBg,
@@ -131,27 +128,16 @@ class HospitalityHubPage extends StatelessWidget {
                             size: 26,
                           ),
                         ),
-                        const SizedBox(height: 8),
+                        const SizedBox(height: 10),
                         Text(
-                          s['title'] as String,
+                          serviceTitle,
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: isDark
                                 ? AppColors.darkTextPrimary
                                 : AppColors.lightTextPrimary,
                             fontWeight: FontWeight.bold,
-                            fontSize: 13.5,
-                          ),
-                        ),
-                        const SizedBox(height: 2),
-                        Text(
-                          s['arabic'] as String,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: isDark
-                                ? AppColors.darkTextSecondary
-                                : AppColors.lightTextSecondary,
-                            fontSize: 11,
+                            fontSize: 14,
                           ),
                         ),
                       ],
@@ -170,8 +156,8 @@ class HospitalityHubPage extends StatelessWidget {
                 child: ElevatedButton.icon(
                   onPressed: () {
                     Get.snackbar(
-                      'Bill Requested',
-                      'The bill for Table $tableNum is on its way.',
+                      'bill_requested_title'.tr,
+                      'bill_requested_for_table'.trParams({'table': tableNum}),
                       backgroundColor:
                           isDark ? AppColors.darkCardBg : AppColors.lightCardBg,
                       colorText: isDark
@@ -181,9 +167,9 @@ class HospitalityHubPage extends StatelessWidget {
                   },
                   icon: const Icon(Icons.receipt_long_rounded,
                       color: Colors.white, size: 20),
-                  label: const Text(
-                    'Request Table Bill • طلب الحساب',
-                    style: TextStyle(
+                  label: Text(
+                    'request_table_bill_btn'.tr,
+                    style: const TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                       fontSize: 15,

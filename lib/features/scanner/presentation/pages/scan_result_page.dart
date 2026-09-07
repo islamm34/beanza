@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import '../../../../app/theme/app_colors.dart';
 import '../../domain/entities/scan_result_entity.dart';
 
@@ -16,7 +17,7 @@ class ScanResultPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Scan Result'),
+        title: Text('scan_result_title'.tr),
         elevation: 0,
       ),
       body: Padding(
@@ -29,7 +30,7 @@ class ScanResultPage extends StatelessWidget {
               child: Container(
                 padding: const EdgeInsets.all(24),
                 decoration: BoxDecoration(
-                  color: AppColors.caramel.withOpacity(0.15),
+                  color: AppColors.caramel.withValues(alpha: 0.15),
                   shape: BoxShape.circle,
                 ),
                 child: Icon(
@@ -44,8 +45,8 @@ class ScanResultPage extends StatelessWidget {
             const SizedBox(height: 24),
             Text(
               scanResult.scanType == ScanType.qr
-                  ? 'QR Code Detected'
-                  : 'Barcode Detected',
+                  ? 'qr_detected'.tr
+                  : 'barcode_detected'.tr,
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
                     fontWeight: FontWeight.bold,
@@ -65,16 +66,17 @@ class ScanResultPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _buildDetailRow(context, 'Format', scanResult.barcodeFormat),
-                  const Divider(height: 24),
                   _buildDetailRow(
-                      context, 'Type', scanResult.scanType.name.toUpperCase()),
+                      context, 'format_label'.tr, scanResult.barcodeFormat),
                   const Divider(height: 24),
-                  _buildDetailRow(context, 'Scanned At',
+                  _buildDetailRow(context, 'type_label'.tr,
+                      scanResult.scanType.name.toUpperCase()),
+                  const Divider(height: 24),
+                  _buildDetailRow(context, 'scanned_at_label'.tr,
                       _formatTimestamp(scanResult.timestamp)),
                   const Divider(height: 24),
                   Text(
-                    'Raw Value',
+                    'raw_value_label'.tr,
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
                           color: AppColors.getTextMutedColor(
                               Theme.of(context).brightness),
@@ -99,7 +101,7 @@ class ScanResultPage extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(vertical: 16),
               ),
-              child: const Text('Scan Again'),
+              child: Text('scan_again_btn'.tr),
             ),
             const SizedBox(height: 12),
             OutlinedButton(
@@ -109,7 +111,7 @@ class ScanResultPage extends StatelessWidget {
               style: OutlinedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(vertical: 16),
               ),
-              child: const Text('Continue'),
+              child: Text('continue_button'.tr),
             ),
             const SizedBox(height: 16),
           ],

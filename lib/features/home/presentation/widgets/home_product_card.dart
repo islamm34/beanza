@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../../../app/theme/app_colors.dart';
 import '../../../../core/models/product_model.dart';
@@ -25,7 +26,7 @@ class HomeProductCard extends StatefulWidget {
 }
 
 class _HomeProductCardState extends State<HomeProductCard>
-    with SingleTickerProviderStateMixin {
+  with SingleTickerProviderStateMixin {
   late AnimationController _pressController;
   late Animation<double> _scaleAnimation;
 
@@ -61,48 +62,6 @@ class _HomeProductCardState extends State<HomeProductCard>
 
   void _onTapCancel() {
     _pressController.reverse();
-  }
-
-  String _getArabicName(String name) {
-    switch (name.toLowerCase()) {
-      case 'espresso':
-        return 'إسبريسو';
-      case 'double espresso':
-        return 'دبل إسبريسو';
-      case 'americano':
-        return 'أمريكانو';
-      case 'cappuccino':
-        return 'كابتشينو';
-      case 'caffè latte':
-      case 'latte':
-        return 'كافيه لاتيه';
-      case 'caramel macchiato':
-        return 'كاراميل ماكياتو';
-      case 'mocha':
-        return 'موكا كلاسيك';
-      case 'flat white':
-        return 'فلات وايت';
-      case 'iced latte':
-        return 'لاتيه مثلج';
-      case 'iced americano':
-        return 'أمريكانو مثلج';
-      case 'cold brew':
-        return 'كولد برو منقوع';
-      case 'iced caramel macchiato':
-        return 'كاراميل ماكياتو مثلج';
-      case 'iced mocha':
-        return 'موكا مثلجة';
-      case 'croissant':
-        return 'كرواسون فرنسي';
-      case 'chocolate muffin':
-        return 'مافن الشوكولاتة';
-      case 'tiramisu':
-        return 'تيراميسو إيطالي';
-      case 'cheesecake':
-        return 'تشيز كيك نيويورك';
-      default:
-        return 'قهوة مميزة';
-    }
   }
 
   @override
@@ -185,7 +144,9 @@ class _HomeProductCardState extends State<HomeProductCard>
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Text(
-                        widget.product.isNew ? 'NEW' : 'POPULAR',
+                        widget.product.isNew
+                            ? 'badge_new'.tr
+                            : 'badge_popular'.tr,
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 9,
@@ -223,9 +184,9 @@ class _HomeProductCardState extends State<HomeProductCard>
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      // English Product Name
+                      // Localized Product Name
                       Text(
-                        widget.product.name,
+                        widget.product.localizedName,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
@@ -237,16 +198,16 @@ class _HomeProductCardState extends State<HomeProductCard>
                         ),
                       ),
                       const SizedBox(height: 1.5),
-                      // Arabic Product Name Subtitle
+                      // Localized Product Category / Description
                       Text(
-                        _getArabicName(widget.product.name),
+                        widget.product.localizedCategory,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           color: isDark
                               ? AppColors.darkTextSecondary
                               : AppColors.lightTextSecondary,
-                          fontSize: 10.5,
+                          fontSize: 11,
                         ),
                       ),
                     ],
@@ -259,7 +220,7 @@ class _HomeProductCardState extends State<HomeProductCard>
                     children: [
                       // Gold Price
                       Text(
-                        '${widget.product.basePrice.toStringAsFixed(2)} EGP',
+                        '${widget.product.basePrice.toStringAsFixed(2)} ${'egp'.tr}',
                         style: TextStyle(
                           color: isDark ? AppColors.goldBright : goldColor,
                           fontWeight: FontWeight.bold,

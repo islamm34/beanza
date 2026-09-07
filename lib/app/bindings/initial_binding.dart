@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import '../../core/services/notification_service.dart';
 import '../controllers/cart_controller.dart';
+import '../controllers/language_controller.dart';
 import '../controllers/table_session_controller.dart';
 import '../controllers/favorites_controller.dart';
 import '../controllers/notifications_controller.dart';
@@ -15,6 +16,7 @@ import '../controllers/wallet_controller.dart';
 class InitialBinding extends Bindings {
   @override
   void dependencies() {
+    Get.put<LanguageController>(LanguageController(), permanent: true);
     Get.putAsync<NotificationService>(() => NotificationService().init(),
         permanent: true);
 

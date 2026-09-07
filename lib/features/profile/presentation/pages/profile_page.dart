@@ -43,7 +43,7 @@ class ProfilePage extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  'Help & Support / المساعدة والدعم',
+                  'help_and_support'.tr,
                   style: TextStyle(
                     fontSize: 17,
                     fontWeight: FontWeight.bold,
@@ -58,13 +58,13 @@ class ProfilePage extends StatelessWidget {
                     backgroundColor: goldColor.withValues(alpha: 0.15),
                     child: Icon(Icons.email_outlined, color: goldColor),
                   ),
-                  title: const Text('Email Support'),
+                  title: Text('email_support'.tr),
                   subtitle: const Text('support@brewora.co'),
                   onTap: () {
                     Navigator.pop(ctx);
                     Get.snackbar(
-                      'Support Email',
-                      'Support team will reach out at support@brewora.co',
+                      'email_support'.tr,
+                      'support@brewora.co',
                       snackPosition: SnackPosition.BOTTOM,
                       backgroundColor: goldColor,
                       colorText: AppColors.espressoDark,
@@ -77,8 +77,8 @@ class ProfilePage extends StatelessWidget {
                     child: Icon(Icons.chat_bubble_outline_rounded,
                         color: goldColor),
                   ),
-                  title: const Text('Live Café Concierge'),
-                  subtitle: const Text('Available 8:00 AM - 11:00 PM'),
+                  title: Text('live_cafe_concierge'.tr),
+                  subtitle: Text('available_hours'.tr),
                   onTap: () {
                     Navigator.pop(ctx);
                     Get.toNamed(Routes.HOSPITALITY_HUB);
@@ -89,13 +89,13 @@ class ProfilePage extends StatelessWidget {
                     backgroundColor: goldColor.withValues(alpha: 0.15),
                     child: Icon(Icons.menu_book_rounded, color: goldColor),
                   ),
-                  title: const Text('FAQ & Ordering Guide'),
-                  subtitle: const Text('Learn about tables, rounds & rewards'),
+                  title: Text('faq_ordering_guide'.tr),
+                  subtitle: Text('learn_about_tables_rounds'.tr),
                   onTap: () {
                     Navigator.pop(ctx);
                     Get.snackbar(
-                      'Brewora Guide',
-                      'Scan a table QR to start a session and invite friends!',
+                      'faq_ordering_guide'.tr,
+                      'learn_about_tables_rounds'.tr,
                       snackPosition: SnackPosition.BOTTOM,
                       backgroundColor: goldColor,
                       colorText: AppColors.espressoDark,
@@ -108,7 +108,7 @@ class ProfilePage extends StatelessWidget {
                     key: const Key('close_help_support_button'),
                     onPressed: () => Navigator.pop(ctx),
                     child: Text(
-                      'Close / إغلاق',
+                      'close'.tr,
                       style: TextStyle(
                         color: isDark
                             ? AppColors.darkTextSecondary
@@ -140,7 +140,7 @@ class ProfilePage extends StatelessWidget {
                 color: isDark ? AppColors.darkBorder : AppColors.lightBorder),
           ),
           title: Text(
-            'Logout from Brewora?',
+            'logout_confirm_title'.tr,
             style: TextStyle(
               color: isDark
                   ? AppColors.darkTextPrimary
@@ -149,7 +149,7 @@ class ProfilePage extends StatelessWidget {
             ),
           ),
           content: Text(
-            'Are you sure you want to log out of your coffee account?',
+            'logout_confirm_content'.tr,
             style: TextStyle(
               color: isDark
                   ? AppColors.darkTextSecondary
@@ -159,7 +159,7 @@ class ProfilePage extends StatelessWidget {
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: const Text('Cancel'),
+              child: Text('cancel'.tr),
             ),
             ElevatedButton(
               onPressed: () {
@@ -170,7 +170,7 @@ class ProfilePage extends StatelessWidget {
                 backgroundColor: AppColors.error,
                 foregroundColor: Colors.white,
               ),
-              child: const Text('Logout'),
+              child: Text('logout_button'.tr),
             ),
           ],
         );
@@ -187,7 +187,7 @@ class ProfilePage extends StatelessWidget {
     return Scaffold(
       backgroundColor: isDark ? AppColors.darkBg : AppColors.lightBg,
       appBar: AppAppBar(
-        title: 'Profile & Settings',
+        title: 'profile_and_settings'.tr,
         actions: [
           IconButton(
             icon: Icon(Icons.qr_code_rounded, color: goldColor),
@@ -251,7 +251,7 @@ class ProfilePage extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(8),
                                 ),
                                 child: Text(
-                                  'Silver Tier Member',
+                                  'silver_tier_member'.tr,
                                   style: TextStyle(
                                     color: isDark
                                         ? AppColors.goldBright
@@ -269,7 +269,7 @@ class ProfilePage extends StatelessWidget {
                         key: const Key('edit_profile_button'),
                         icon: Icon(Icons.edit_outlined,
                             size: 20, color: goldColor),
-                        tooltip: 'Edit Profile',
+                        tooltip: 'edit_profile_title'.tr,
                         onPressed: () => Get.toNamed(Routes.EDIT_PROFILE),
                       ),
                     ],
@@ -286,7 +286,7 @@ class ProfilePage extends StatelessWidget {
                     _buildMenuItem(
                       context,
                       icon: Icons.receipt_long_rounded,
-                      title: 'My Orders / طلباتي',
+                      title: 'order_history_title'.tr,
                       onTap: () => Get.toNamed(Routes.ORDERS),
                       isDark: isDark,
                       goldColor: goldColor,
@@ -295,7 +295,7 @@ class ProfilePage extends StatelessWidget {
                     _buildMenuItem(
                       context,
                       icon: Icons.favorite_rounded,
-                      title: 'Saved Drinks / المفضلة',
+                      title: 'favorites_title'.tr,
                       onTap: () => Get.toNamed(Routes.FAVORITES),
                       isDark: isDark,
                       goldColor: goldColor,
@@ -304,7 +304,7 @@ class ProfilePage extends StatelessWidget {
                     _buildMenuItem(
                       context,
                       icon: Icons.payment_rounded,
-                      title: 'Payment Methods & Split / الدفع',
+                      title: 'payment_methods_title'.tr,
                       onTap: () => Get.toNamed(Routes.PAYMENT_METHODS),
                       isDark: isDark,
                       goldColor: goldColor,
@@ -313,7 +313,7 @@ class ProfilePage extends StatelessWidget {
                     _buildMenuItem(
                       context,
                       icon: Icons.location_on_rounded,
-                      title: 'Addresses & Branches / العناوين',
+                      title: 'addresses_title'.tr,
                       onTap: () => Get.toNamed(Routes.ADDRESSES),
                       isDark: isDark,
                       goldColor: goldColor,
@@ -322,7 +322,7 @@ class ProfilePage extends StatelessWidget {
                     _buildMenuItem(
                       context,
                       icon: Icons.notifications_none_rounded,
-                      title: 'Notifications / الإشعارات',
+                      title: 'notifications_title'.tr,
                       onTap: () => Get.toNamed(Routes.NOTIFICATIONS),
                       isDark: isDark,
                       goldColor: goldColor,
@@ -331,7 +331,7 @@ class ProfilePage extends StatelessWidget {
                     _buildMenuItem(
                       context,
                       icon: Icons.settings_rounded,
-                      title: 'Settings & Theme / الإعدادات',
+                      title: 'settings_title'.tr,
                       onTap: () => Get.toNamed(Routes.SETTINGS),
                       isDark: isDark,
                       goldColor: goldColor,
@@ -341,7 +341,7 @@ class ProfilePage extends StatelessWidget {
                       context,
                       itemKey: const Key('help_support_tile'),
                       icon: Icons.help_outline_rounded,
-                      title: 'Help & Support / المساعدة والدعم',
+                      title: 'help_and_support'.tr,
                       onTap: () => _showHelpSupportSheet(context),
                       isDark: isDark,
                       goldColor: goldColor,
@@ -359,9 +359,9 @@ class ProfilePage extends StatelessWidget {
                   onPressed: () => _showLogoutDialog(context),
                   icon: const Icon(Icons.logout_rounded,
                       color: AppColors.error, size: 20),
-                  label: const Text(
-                    'Log Out / تسجيل الخروج',
-                    style: TextStyle(
+                  label: Text(
+                    'logout_button'.tr,
+                    style: const TextStyle(
                       color: AppColors.error,
                       fontWeight: FontWeight.bold,
                       fontSize: 14.5,

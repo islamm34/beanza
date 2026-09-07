@@ -133,6 +133,42 @@ class TableSessionController extends GetxController {
     }
   }
 
+  void startSingleMemberSession({
+    required String tableId,
+    required String tableNumber,
+    required String participantName,
+  }) {
+    final now = DateTime.now();
+    final pId = 'p_${now.millisecondsSinceEpoch}';
+
+    final me = TableParticipant(
+      participantId: pId,
+      displayName: participantName,
+      joinedAt: now,
+      isCurrentUser: true,
+      isHost: true,
+      avatarColor: const Color(0xFF6F4E37),
+      status: 'editing',
+    );
+
+    orderItems.clear();
+
+    final session = TableSession(
+      sessionId: 'sess_${now.millisecondsSinceEpoch}',
+      tableId: tableId,
+      tableNumber: tableNumber,
+      status: 'collecting',
+      participants: [me],
+      orderItems: orderItems,
+      createdAt: now,
+    );
+
+    currentParticipant.value = me;
+    currentSession.value = session;
+
+    _syncWithCartController();
+  }
+
   void joinTableSession({
     required String tableId,
     required String tableNumber,
@@ -151,93 +187,16 @@ class TableSessionController extends GetxController {
       status: 'editing',
     );
 
-    // Companion Sara (Marked Done with Cappuccino)
-    final companionSara = TableParticipant(
-      participantId: 'p_sara_101',
-      displayName: 'Sara',
-      joinedAt: now.subtract(const Duration(minutes: 5)),
-      isCurrentUser: false,
-      avatarColor: const Color(0xFFD4A574),
-      status: 'done',
-    );
+    orderItems.clear();
 
-    // Companion Omar (Marked Done with Latte)
-    final companionOmar = TableParticipant(
-      participantId: 'p_omar_102',
-      displayName: 'Omar',
-      joinedAt: now.subtract(const Duration(minutes: 3)),
-      isCurrentUser: false,
-      avatarColor: const Color(0xFF8B6F47),
-      status: 'done',
-    );
-
-    // Initial companion items
-    final companionItems = [
-      CartItem(
-        id: 'c_item_1',
-        product: const Product(
-          id: 'p_cappuccino',
-          name: 'Classic Cappuccino',
-          category: 'Espresso',
-          basePrice: 4.50,
-          image: 'assets/images/coffee/cappuccino.png',
-          description: 'Espresso topped with steamed milk foam.',
-          rating: 4.8,
-          reviewsCount: 120,
-          calories: 140,
-          caffeine: 150,
-          sizes: [
-            ProductSize(name: 'Medium', volume: '12 oz', priceMultiplier: 1.0),
-          ],
-          milkOptions: [
-            MilkOption(name: 'Whole Milk', additionalPrice: 0.0),
-          ],
-        ),
-        selectedSize: const ProductSize(
-            name: 'Medium', volume: '12 oz', priceMultiplier: 1.0),
-        selectedMilk:
-            const MilkOption(name: 'Whole Milk', additionalPrice: 0.0),
-        quantity: 1,
-        participantId: 'p_sara_101',
-        participantName: 'Sara',
-      ),
-      CartItem(
-        id: 'c_item_2',
-        product: const Product(
-          id: 'p_latte',
-          name: 'Caffè Latte',
-          category: 'Espresso',
-          basePrice: 5.00,
-          image: 'assets/images/coffee/latte.png',
-          description: 'Rich espresso mixed with steamed milk.',
-          rating: 4.9,
-          reviewsCount: 210,
-          calories: 190,
-          caffeine: 150,
-          sizes: [
-            ProductSize(name: 'Large', volume: '16 oz', priceMultiplier: 1.25),
-          ],
-          milkOptions: [
-            MilkOption(name: 'Oat Milk', additionalPrice: 0.75),
-          ],
-        ),
-        selectedSize: const ProductSize(
-            name: 'Large', volume: '16 oz', priceMultiplier: 1.25),
-        selectedMilk: const MilkOption(name: 'Oat Milk', additionalPrice: 0.75),
-        quantity: 1,
-        participantId: 'p_omar_102',
-        participantName: 'Omar',
-      ),
-    ];
-
-    orderItems.assignAll(companionItems);
-
+    // TODO: Replace local empty-table state with backend session members
+    // when the real table-session backend is connected.
     final session = TableSession(
       sessionId: 'sess_${now.millisecondsSinceEpoch}',
       tableId: tableId,
       tableNumber: tableNumber,
       status: 'collecting',
-      participants: [me, companionSara, companionOmar],
+      participants: [me],
       orderItems: orderItems,
       createdAt: now,
     );

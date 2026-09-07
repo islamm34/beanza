@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import '../../../../app/theme/app_colors.dart';
 import '../../../../core/widgets/buttons/cart_badge_icon_button.dart';
 import '../../../../core/widgets/common/profile_avatar.dart';
@@ -24,20 +25,11 @@ class HomeProfileHeader extends StatelessWidget {
   String get _timeBasedGreeting {
     final hour = DateTime.now().hour;
     if (hour < 12) {
-      return 'Good morning,';
+      return 'good_morning'.tr;
     } else if (hour < 17) {
-      return 'Good afternoon,';
+      return 'good_afternoon'.tr;
     } else {
-      return 'Good evening,';
-    }
-  }
-
-  String get _timeBasedGreetingAr {
-    final hour = DateTime.now().hour;
-    if (hour < 12) {
-      return 'صباح الخير،';
-    } else {
-      return 'مساء الخير،';
+      return 'good_evening'.tr;
     }
   }
 
@@ -111,7 +103,7 @@ class HomeProfileHeader extends StatelessWidget {
                               const SizedBox(width: 5),
                               Flexible(
                                 child: Text(
-                                  'Table $tableNumber • طاولة $tableNumber',
+                                  'table_with_num'.trParams({'table': tableNumber!}),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
@@ -134,7 +126,7 @@ class HomeProfileHeader extends StatelessWidget {
                               const SizedBox(width: 4),
                               Flexible(
                                 child: Text(
-                                  'Brewora Artisan Café • Branch 1',
+                                  'branch_location_subtitle'.tr,
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
